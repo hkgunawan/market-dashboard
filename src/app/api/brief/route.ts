@@ -8,7 +8,7 @@ export async function GET(req: NextRequest) {
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) return NextResponse.json({ available: false });
 
-  const symbols = (req.nextUrl.searchParams.get("symbols") ?? "GC=F,BTC-USD,^NDX")
+  const symbols = (req.nextUrl.searchParams.get("symbols") ?? "PAXG-USD,BTC-USD,QQQ")
     .split(",")
     .map((s) => s.trim())
     .filter(Boolean)

@@ -11,9 +11,9 @@ interface WatchItem {
 }
 
 const DEFAULT_WATCHLIST: WatchItem[] = [
-  { symbol: "GC=F", label: "Gold" },
+  { symbol: "PAXG-USD", label: "Gold (PAXG)" },
   { symbol: "BTC-USD", label: "Bitcoin" },
-  { symbol: "^NDX", label: "Nasdaq 100" },
+  { symbol: "QQQ", label: "Nasdaq 100 (QQQ)" },
 ];
 
 const RANGES: { value: Range; label: string }[] = [
@@ -37,7 +37,8 @@ interface HistoryPayload {
 export default function Dashboard() {
   const [watchlist, setWatchlist] = useState<WatchItem[]>(DEFAULT_WATCHLIST);
   const [quotes, setQuotes] = useState<Record<string, Quote>>({});
-  const [selected, setSelected] = useState("GC=F");
+  const [unavailable, setUnavailable] = useState<string[]>([]);
+  const [selected, setSelected] = useState("PAXG-USD");
   const [range, setRange] = useState<Range>("6mo");
   const [history, setHistory] = useState<HistoryPayload | null>(null);
   const [historyError, setHistoryError] = useState<string | null>(null);
@@ -70,13 +71,14 @@ export default function Dashboard() {
     const load = async () => {
       const res = await fetch(`/api/quotes?symbols=${encodeURIComponent(symbolsKey)}`);
       if (!res.ok || cancelled) return;
-      const data: { quotes: Quote[] } = await res.json();
+      const data: { quotes: Quote[]; failed: string[] } = await res.json();
       if (cancelled) return;
       setQuotes((prev) => {
         const next = { ...prev };
         for (const q of data.quotes) next[q.symbol] = q;
         return next;
       });
+      setUnavailable(data.failed ?? []);
     };
     load();
     const id = setInterval(load, 60_000);
@@ -163,6 +165,22 @@ export default function Dashboard() {
                 DEFAULT_WATCHLIST.some((d) => d.symbol === item.symbol) ? undefined : () => removeTicker(item.symbol)
               }
             />
+          ) : unavailable.includes(item.symbol) ? (
+            <div key={item.symbol} className="rounded-lg border border-[#30363d] bg-[#0d1117] p-4">
+              <div className="flex items-baseline justify-between gap-2">
+                <span className="font-mono text-xs text-[#8b949e]">{item.label ?? item.symbol}</span>
+                <button
+                  onClick={() => removeTicker(item.symbol)}
+                  className="text-xs text-[#8b949e] hover:text-[#f85149]"
+                  aria-label={`Remove ${item.symbol}`}
+                >
+                  ✕
+                </button>
+              </div>
+              <p className="mt-2 font-mono text-xs text-[#d29922]">
+                source unavailable — needs TWELVEDATA_API_KEY (free) for stocks/ETFs
+              </p>
+            </div>
           ) : (
             <div key={item.symbol} className="animate-pulse rounded-lg border border-[#30363d] bg-[#0d1117] p-4">
               <div className="h-3 w-16 rounded bg-[#21262d]" />
