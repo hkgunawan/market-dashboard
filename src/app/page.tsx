@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
+import Link from "next/link";
 import type { Candle, Quote, Range } from "@/lib/yahoo";
 import PriceChart from "@/components/price-chart";
 import QuoteCard from "@/components/quote-card";
@@ -148,7 +149,12 @@ export default function Dashboard() {
         <h1 className="font-mono text-lg text-[#e6edf3]">
           <span className="text-[#3fb950]">$</span> market-dashboard
         </h1>
-        <span className="font-mono text-xs text-[#8b949e]">data: Yahoo Finance · refresh 60s</span>
+        <nav className="flex items-center gap-4 font-mono text-xs text-[#8b949e]">
+          <Link href="/smart-money" className="text-[#d29922] hover:text-[#e6edf3]">
+            smart-money →
+          </Link>
+          <span>refresh 60s</span>
+        </nav>
       </header>
 
       <section className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
