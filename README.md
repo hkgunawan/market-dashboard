@@ -1,36 +1,36 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Market Dashboard
 
-## Getting Started
+Personal watchlist dashboard for the markets I follow — gold, Bitcoin, the Nasdaq 100, and any stock or crypto ticker I add. Built with Next.js 16, React 19, TypeScript and Tailwind CSS.
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- **Watchlist** — gold futures (GC=F), BTC-USD and ^NDX by default; add/remove any Yahoo Finance or Binance symbol, persisted in localStorage
+- **Live quotes** — price, day change, auto-refresh every 60s
+- **Candlestick charts** — [lightweight-charts](https://github.com/tradingview/lightweight-charts) (TradingView's open-source library) with 1D/1W/1M/6M/1Y/5Y ranges
+- **Indicators** — SMA 50/200 overlays and RSI(14), computed server-side
+- **AI daily brief** *(optional)* — a neutral 3–4 sentence summary of the watchlist via the Anthropic API; activates only when `ANTHROPIC_API_KEY` is set
+- **Multi-provider data layer** — crypto is served by the Binance public API, everything else by Yahoo Finance's chart API, behind a TTL cache with stale-on-error fallback and 429 backoff
+
+## Architecture
+
+```
+Browser ──> /api/quotes ──┐
+        ──> /api/history ─┼─> lib/market.ts (provider facade + TTL cache)
+        ──> /api/brief  ──┘        ├─> lib/binance.ts  (crypto: X-USD → XUSDT)
+                                   └─> lib/yahoo.ts    (stocks, indices, futures)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Data calls never leave the server — the browser only talks to the app's own API routes, which cache aggressively so UI polling can't burst the upstream rate limits.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Run it
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm install
+npm run dev
+```
 
-## Learn More
+Optional AI brief: create `.env.local` with `ANTHROPIC_API_KEY=sk-ant-...`
 
-To learn more about Next.js, take a look at the following resources:
+## Disclaimers
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Unofficial data sources, personal use only, **not financial advice** — this is a viewing tool, it does not predict anything.
