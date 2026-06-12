@@ -150,6 +150,9 @@ export default function Dashboard() {
           <span className="text-[#3fb950]">$</span> market-dashboard
         </h1>
         <nav className="flex items-center gap-4 font-mono text-xs text-[#8b949e]">
+          <Link href="/insiders" className="text-[#58a6ff] hover:text-[#e6edf3]">
+            insider-buys →
+          </Link>
           <Link href="/smart-money" className="text-[#d29922] hover:text-[#e6edf3]">
             smart-money →
           </Link>

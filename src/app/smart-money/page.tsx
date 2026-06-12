@@ -50,9 +50,12 @@ export default function SmartMoney() {
         <h1 className="font-mono text-lg text-[#e6edf3]">
           <span className="text-[#3fb950]">$</span> smart-money
         </h1>
-        <nav className="font-mono text-xs text-[#8b949e]">
+        <nav className="flex gap-4 font-mono text-xs text-[#8b949e]">
           <Link href="/" className="hover:text-[#e6edf3]">
             ← markets
+          </Link>
+          <Link href="/insiders" className="text-[#58a6ff] hover:text-[#e6edf3]">
+            insider-buys
           </Link>
         </nav>
       </header>
