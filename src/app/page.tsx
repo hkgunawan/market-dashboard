@@ -14,7 +14,7 @@ interface WatchItem {
 const DEFAULT_WATCHLIST: WatchItem[] = [
   { symbol: "PAXG-USD", label: "Gold (PAXG)" },
   { symbol: "BTC-USD", label: "Bitcoin" },
-  { symbol: "QQQ", label: "Nasdaq 100 (QQQ)" },
+  { symbol: "ETH-USD", label: "Ethereum" },
 ];
 
 const RANGES: { value: Range; label: string }[] = [
@@ -265,7 +265,7 @@ export default function Dashboard() {
       )}
 
       <footer className="mt-8 text-center font-mono text-xs text-[#484f58]">
-        unofficial Yahoo Finance data · for personal use · not financial advice
+        unofficial market data (Binance · Twelve Data) · for personal use · not financial advice
       </footer>
     </main>
   );
