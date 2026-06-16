@@ -31,7 +31,7 @@ function decode(s: string): string {
 }
 
 // The ticker cell contains tooltip JS before the anchor text — keep what follows the last '>'.
-function cleanTicker(raw: string): string {
+export function cleanTicker(raw: string): string {
   const stripped = raw.replace(/<[^>]+>/g, "").trim();
   const parts = stripped.split(">");
   return parts[parts.length - 1].trim();

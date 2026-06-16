@@ -13,8 +13,8 @@ interface WatchItem {
 
 const DEFAULT_WATCHLIST: WatchItem[] = [
   { symbol: "PAXG-USD", label: "Gold (PAXG)" },
+  { symbol: "QQQ", label: "Nasdaq 100 (QQQ)" },
   { symbol: "BTC-USD", label: "Bitcoin" },
-  { symbol: "ETH-USD", label: "Ethereum" },
 ];
 
 const RANGES: { value: Range; label: string }[] = [
@@ -26,7 +26,7 @@ const RANGES: { value: Range; label: string }[] = [
   { value: "5y", label: "5Y" },
 ];
 
-const STORAGE_KEY = "md.watchlist.v1";
+const STORAGE_KEY = "md.watchlist.v2";
 
 interface HistoryPayload {
   candles: Candle[];
@@ -47,14 +47,23 @@ export default function Dashboard() {
   const [addError, setAddError] = useState<string | null>(null);
   const [brief, setBrief] = useState<{ available: boolean; brief?: string } | null>(null);
 
-  // hydrate watchlist from localStorage
+  // localStorage and the URL are client-only, so hydrate after mount (SSR renders the defaults first).
+  // Honors a ?symbol= deep-link, e.g. a ticker clicked on the insider-buys page.
   useEffect(() => {
+    let items: WatchItem[] = DEFAULT_WATCHLIST;
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
-      if (raw) setWatchlist(JSON.parse(raw));
+      if (raw) items = JSON.parse(raw);
     } catch {
       /* keep defaults */
     }
+    const param = new URLSearchParams(window.location.search).get("symbol")?.trim().toUpperCase();
+    if (param && !items.some((w) => w.symbol === param)) items = [...items, { symbol: param }];
+
+    /* eslint-disable react-hooks/set-state-in-effect */
+    setWatchlist(items);
+    if (param) setSelected(param);
+    /* eslint-enable react-hooks/set-state-in-effect */
   }, []);
 
   const persist = useCallback((items: WatchItem[]) => {
@@ -92,8 +101,11 @@ export default function Dashboard() {
   // history for selected symbol/range
   useEffect(() => {
     let cancelled = false;
+    // clear the previous symbol/range view while the new one loads
+    /* eslint-disable react-hooks/set-state-in-effect */
     setHistory(null);
     setHistoryError(null);
+    /* eslint-enable react-hooks/set-state-in-effect */
     fetch(`/api/history?symbol=${encodeURIComponent(selected)}&range=${range}`)
       .then(async (res) => {
         const data = await res.json();
@@ -127,7 +139,7 @@ export default function Dashboard() {
     const res = await fetch(`/api/quotes?symbols=${encodeURIComponent(symbol)}`);
     const data: { quotes: Quote[] } = await res.json();
     if (!res.ok || data.quotes.length === 0) {
-      setAddError(`"${symbol}" not found on Yahoo Finance`);
+      setAddError(`couldn't load "${symbol}" — US stocks/ETFs need a free Twelve Data key; crypto like ETH-USD works without one`);
       return;
     }
     persist([...watchlist, { symbol }]);

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import type { InsiderBuy, InsiderReport } from "@/lib/openinsider";
+import { useTableSort, SortTh } from "@/components/sortable";
 
 function parsePrice(s: string): number | null {
   const n = parseFloat(s.replace(/[^0-9.]/g, ""));
@@ -33,25 +34,79 @@ function BuyTable({
   whoLabel: string;
   prices: Record<string, number>;
 }) {
+  const num = (s: string) => {
+    const n = parseFloat(s.replace(/[^0-9.-]/g, ""));
+    return Number.isFinite(n) ? n : null;
+  };
+  const { sorted, sort, toggle } = useTableSort<InsiderBuy>(
+    rows,
+    {
+      filingDate: (r) => r.filingDate,
+      ticker: (r) => r.ticker,
+      company: (r) => r.company,
+      who: (r) => {
+        const n = parseInt(r.insiders, 10);
+        return Number.isFinite(n) ? n : r.insiders;
+      },
+      price: (r) => num(r.price),
+      now: (r) => prices[r.ticker] ?? null,
+      vsnow: (r) => {
+        const buy = parsePrice(r.price);
+        const now = prices[r.ticker];
+        return buy != null && now != null ? ((now - buy) / buy) * 100 : null;
+      },
+      deltaOwn: (r) => num(r.deltaOwn),
+      value: (r) => num(r.value),
+    },
+    { key: "value", dir: "desc" }
+  );
+
   return (
     <table className="w-full text-left">
       <thead>
         <tr className="border-b border-[#21262d] font-mono text-[11px] uppercase text-[#484f58]">
-          <th className="py-2 pr-3">Filed</th>
-          <th className="py-2 pr-3">Ticker</th>
-          <th className="py-2 pr-3">Company</th>
-          <th className="py-2 pr-3">{whoLabel}</th>
-          <th className="py-2 pr-3 text-right">Paid</th>
-          <th className="py-2 pr-3 text-right" title="current price vs what the insider paid">vs now</th>
-          <th className="py-2 pr-3 text-right">ΔOwn</th>
-          <th className="py-2 text-right">Value</th>
+          <SortTh label="Filed" sortKey="filingDate" sort={sort} onSort={toggle} className="py-2 pr-3" />
+          <SortTh label="Ticker" sortKey="ticker" sort={sort} onSort={toggle} className="py-2 pr-3" />
+          <SortTh label="Company" sortKey="company" sort={sort} onSort={toggle} className="py-2 pr-3" />
+          <SortTh label={whoLabel} sortKey="who" sort={sort} onSort={toggle} className="py-2 pr-3" />
+          <SortTh label="Paid" sortKey="price" sort={sort} onSort={toggle} className="py-2 pr-3 text-right" />
+          <SortTh label="Now" sortKey="now" sort={sort} onSort={toggle} title="current price now" className="py-2 pr-3 text-right" />
+          <SortTh
+            label="vs now"
+            sortKey="vsnow"
+            sort={sort}
+            onSort={toggle}
+            title="current price vs what the insider paid"
+            className="py-2 pr-3 text-right"
+          />
+          <SortTh
+            label="ΔOwn"
+            sortKey="deltaOwn"
+            sort={sort}
+            onSort={toggle}
+            title="ΔOwn = how much this buy changed the insider's stake (e.g. +50% = grew their holding by half)"
+            className="py-2 pr-3 text-right"
+          />
+          <SortTh label="Value" sortKey="value" sort={sort} onSort={toggle} className="py-2 text-right" />
         </tr>
       </thead>
       <tbody>
-        {rows.map((r, i) => (
+        {sorted.map((r, i) => (
           <tr key={i} className="border-b border-[#161b22]">
             <td className="py-2 pr-3 font-mono text-xs text-[#8b949e]">{r.filingDate}</td>
-            <td className="py-2 pr-3 font-mono text-sm text-[#58a6ff]">{r.ticker}</td>
+            <td className="py-2 pr-3 font-mono text-sm">
+              {r.ticker ? (
+                <Link
+                  href={`/?symbol=${encodeURIComponent(r.ticker)}`}
+                  className="text-[#58a6ff] hover:underline"
+                  title={`chart ${r.ticker}`}
+                >
+                  {r.ticker}
+                </Link>
+              ) : (
+                <span className="text-[#58a6ff]">{r.ticker}</span>
+              )}
+            </td>
             <td className="max-w-[14rem] truncate py-2 pr-3 text-sm text-[#e6edf3]" title={r.company}>
               {r.company}
             </td>
@@ -60,6 +115,9 @@ function BuyTable({
               {r.title && <span className="text-[#484f58]"> · {r.title}</span>}
             </td>
             <td className="py-2 pr-3 text-right font-mono text-xs text-[#e6edf3]">{r.price}</td>
+            <td className="py-2 pr-3 text-right font-mono text-xs text-[#e6edf3]">
+              {prices[r.ticker] != null ? `$${prices[r.ticker].toFixed(2)}` : "—"}
+            </td>
             <td className="py-2 pr-3 text-right">
               <VsNow buy={parsePrice(r.price)} now={prices[r.ticker]} />
             </td>
@@ -118,13 +176,20 @@ export default function Insiders() {
         </nav>
       </header>
 
-      <p className="mb-6 font-mono text-xs leading-relaxed text-[#8b949e]">
+      <p className="mb-3 font-mono text-xs leading-relaxed text-[#8b949e]">
         Open-market purchases by company insiders (CEOs, CFOs, directors) from SEC Form 4 filings — filed within{" "}
         <span className="text-[#e6edf3]">2 business days</span> of the trade, so this feed is near-real-time.{" "}
         Insiders sell for many reasons, but buy with their own money for only one. The{" "}
         <span className="text-[#e6edf3]">vs now</span> column shows the current price against what the insider paid —
         green means you&apos;d buy near their entry, red means the move already happened.{" "}
         <span className="text-[#d29922]">A signal to research, not a buy list. Not financial advice.</span>
+      </p>
+
+      <p className="mb-6 font-mono text-[11px] leading-relaxed text-[#484f58]">
+        Column key — <span className="text-[#8b949e]">Paid</span>: price the insider paid ·{" "}
+        <span className="text-[#8b949e]">vs now</span>: today&apos;s price vs that ·{" "}
+        <span className="text-[#8b949e]">ΔOwn</span>: how much this trade changed their stake (e.g. +50% = grew their
+        holding by half) · <span className="text-[#8b949e]">Value</span>: total dollars bought
       </p>
 
       {error && <p className="py-12 text-center font-mono text-sm text-[#f85149]">{error}</p>}

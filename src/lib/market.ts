@@ -17,13 +17,19 @@ async function useBinance(symbol: string): Promise<boolean> {
 }
 
 export async function getQuote(symbol: string): Promise<Quote> {
-  return cached(`quote:${symbol}`, 45_000, async () => {
+  // crypto (Binance, no limit) stays fresh; stocks/ETFs cache longer to respect Twelve Data's 8 req/min free tier
+  const ttl = toBinancePair(symbol) ? 45_000 : 10 * 60_000;
+  return cached(`quote:${symbol}`, ttl, async () => {
     if (await useBinance(symbol)) return getBinanceQuote(symbol);
     if (hasTwelveData()) {
       try {
         return await getTdQuote(symbol);
-      } catch {
-        /* fall through to Yahoo */
+      } catch (e) {
+        try {
+          return await yahooQuote(symbol);
+        } catch {
+          throw e; // surface the Twelve Data error (e.g. rate limit), not Yahoo's 429
+        }
       }
     }
     return yahooQuote(symbol);
@@ -31,13 +37,19 @@ export async function getQuote(symbol: string): Promise<Quote> {
 }
 
 export async function getHistory(symbol: string, range: Range): Promise<Candle[]> {
-  return cached(`history:${symbol}:${range}`, 90_000, async () => {
+  // stocks/ETFs: cache 30 min (daily candles barely move intraday) to stay inside the free-tier quota
+  const ttl = toBinancePair(symbol) ? 90_000 : 30 * 60_000;
+  return cached(`history:${symbol}:${range}`, ttl, async () => {
     if (await useBinance(symbol)) return getBinanceHistory(symbol, range);
     if (hasTwelveData()) {
       try {
         return await getTdHistory(symbol, range);
-      } catch {
-        /* fall through to Yahoo */
+      } catch (e) {
+        try {
+          return await yahooHistory(symbol, range);
+        } catch {
+          throw e; // surface the Twelve Data error (e.g. rate limit), not Yahoo's 429
+        }
       }
     }
     return yahooHistory(symbol, range);

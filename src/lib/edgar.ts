@@ -24,7 +24,7 @@ export const FUNDS = [
   { cik: 1167483, name: "Tiger Global", manager: "Chase Coleman" },
 ] as const;
 
-interface Holding {
+export interface Holding {
   name: string;
   cusip: string;
   shares: number;
@@ -44,6 +44,8 @@ export interface FundMove {
 export interface IssuerSignal {
   name: string;
   cusip: string;
+  ticker: string | null; // resolved from CUSIP via OpenFIGI; null if unresolved
+  priceAtPeriod: number | null; // value-weighted 13F market price at quarter-end (value / shares)
   buyers: FundMove[];
   sellers: FundMove[];
   score: number;
@@ -119,8 +121,8 @@ async function getHoldings(cik: number, acc: string): Promise<Map<string, Holdin
   return holdings;
 }
 
-function diffFund(
-  fund: (typeof FUNDS)[number],
+export function diffFund(
+  fund: { name: string; manager: string },
   now: Map<string, Holding>,
   prev: Map<string, Holding>
 ): { cusip: string; name: string; move: FundMove }[] {
@@ -168,15 +170,47 @@ function diffFund(
 
 const MIN_DOLLARS = 20_000_000; // ignore moves below $20M — noise for funds this size
 
-function scoreMove(m: FundMove): number {
+export function scoreMove(m: FundMove): number {
   if (m.type === "NEW") return 2;
   if (m.type === "ADD") return m.pctChange !== null && m.pctChange >= 25 ? 1.5 : 1;
   if (m.type === "TRIM") return m.pctChange !== null && m.pctChange <= -50 ? -1 : -0.5;
   return -1.5; // EXIT
 }
 
+// Resolve CUSIP → ticker via OpenFIGI (keyless: <=10 jobs/request, <=25 requests/min).
+// Runs inside the 12h-cached report, so it's hit at most twice a day. Unresolved CUSIPs stay tickerless.
+async function resolveTickers(cusips: string[]): Promise<Map<string, string>> {
+  const out = new Map<string, string>();
+  const unique = [...new Set(cusips)];
+  for (let i = 0; i < unique.length; i += 10) {
+    const batch = unique.slice(i, i + 10);
+    try {
+      const res = await fetch("https://api.openfigi.com/v3/mapping", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(batch.map((c) => ({ idType: "ID_CUSIP", idValue: c, exchCode: "US" }))),
+        cache: "no-store",
+      });
+      if (!res.ok) {
+        await sleep(1000);
+        continue;
+      }
+      const rows = (await res.json()) as { data?: { ticker?: string; marketSector?: string }[] }[];
+      rows.forEach((row, j) => {
+        const match = row.data?.find((d) => d.ticker && d.marketSector === "Equity") ?? row.data?.[0];
+        if (match?.ticker) out.set(batch[j], match.ticker);
+      });
+      await sleep(300);
+    } catch {
+      /* leave this batch's CUSIPs unresolved */
+    }
+  }
+  return out;
+}
+
 async function buildReport(): Promise<SmartMoneyReport> {
   const issuers = new Map<string, IssuerSignal>();
+  const qEnd = new Map<string, { value: number; shares: number }>(); // value-weighted quarter-end price per CUSIP
   const fundMeta: SmartMoneyReport["funds"] = [];
   let asOfPeriod = "";
   let comparedTo = "";
@@ -187,6 +221,15 @@ async function buildReport(): Promise<SmartMoneyReport> {
       if (filings.length < 2) throw new Error("fewer than two 13F filings");
       const [latest, previous] = filings;
       const [now, prev] = [await getHoldings(fund.cik, latest.acc), await getHoldings(fund.cik, previous.acc)];
+      for (const h of now.values()) {
+        const e = qEnd.get(h.cusip);
+        if (e) {
+          e.value += h.value;
+          e.shares += h.shares;
+        } else {
+          qEnd.set(h.cusip, { value: h.value, shares: h.shares });
+        }
+      }
       if (latest.period > asOfPeriod) {
         asOfPeriod = latest.period;
         comparedTo = previous.period;
@@ -197,7 +240,7 @@ async function buildReport(): Promise<SmartMoneyReport> {
         if (move.estDollarsMoved < MIN_DOLLARS) continue;
         let sig = issuers.get(cusip);
         if (!sig) {
-          sig = { name, cusip, buyers: [], sellers: [], score: 0, estDollarsAdded: 0 };
+          sig = { name, cusip, ticker: null, priceAtPeriod: null, buyers: [], sellers: [], score: 0, estDollarsAdded: 0 };
           issuers.set(cusip, sig);
         }
         (move.type === "NEW" || move.type === "ADD" ? sig.buyers : sig.sellers).push(move);
@@ -218,6 +261,15 @@ async function buildReport(): Promise<SmartMoneyReport> {
     .filter((s) => s.buyers.some((b) => b.type === "NEW"))
     .sort((a, b) => b.estDollarsAdded - a.estDollarsAdded)
     .slice(0, 15);
+
+  // attach the quarter-end price level + resolve tickers, only for the issuers we actually show
+  const shown = [...new Set([...topAccumulated, ...topNewPositions])];
+  for (const s of shown) {
+    const e = qEnd.get(s.cusip);
+    s.priceAtPeriod = e && e.shares > 0 ? e.value / e.shares : null;
+  }
+  const tickers = await resolveTickers(shown.map((s) => s.cusip));
+  for (const s of shown) s.ticker = tickers.get(s.cusip) ?? null;
 
   return {
     asOfPeriod,
