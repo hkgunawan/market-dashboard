@@ -5,22 +5,36 @@
 // All results go through the TTL cache so UI polling never bursts the upstreams.
 
 import { cached } from "./cache";
-import { getBinanceHistory, getBinanceQuote, isOnBinance, toBinancePair } from "./binance";
+import { getBinanceHistory, getBinanceQuote, toBinancePair } from "./binance";
 import { getTdHistory, getTdQuote, hasTwelveData } from "./twelvedata";
 import { getHistory as yahooHistory, getQuote as yahooQuote, type Candle, type Quote, type Range } from "./yahoo";
 
 export type { Candle, Quote, Range };
 
-async function useBinance(symbol: string): Promise<boolean> {
-  if (!toBinancePair(symbol)) return false;
-  return cached(`binance:has:${symbol}`, 86_400_000, () => isOnBinance(symbol));
+// Crypto symbol in Twelve Data's notation: BTC-USD -> BTC/USD (used as the
+// fallback when Binance blocks the caller — e.g. it rejects datacenter IPs,
+// so Binance works in local dev but not from Vercel's serverless region).
+function toTdCrypto(symbol: string): string {
+  return symbol.toUpperCase().replace(/-USD$/, "/USD");
 }
 
 export async function getQuote(symbol: string): Promise<Quote> {
+  const isCrypto = Boolean(toBinancePair(symbol));
   // crypto (Binance, no limit) stays fresh; stocks/ETFs cache longer to respect Twelve Data's 8 req/min free tier
-  const ttl = toBinancePair(symbol) ? 45_000 : 10 * 60_000;
+  const ttl = isCrypto ? 45_000 : 10 * 60_000;
   return cached(`quote:${symbol}`, ttl, async () => {
-    if (await useBinance(symbol)) return getBinanceQuote(symbol);
+    if (isCrypto) {
+      try {
+        return await getBinanceQuote(symbol);
+      } catch (e) {
+        // Binance is blocked from some hosts (e.g. Vercel) — fall back to Twelve Data
+        if (hasTwelveData()) {
+          const q = await getTdQuote(toTdCrypto(symbol));
+          return { ...q, symbol: symbol.toUpperCase() }; // normalize BTC/USD back to BTC-USD
+        }
+        throw e;
+      }
+    }
     if (hasTwelveData()) {
       try {
         return await getTdQuote(symbol);
@@ -37,10 +51,19 @@ export async function getQuote(symbol: string): Promise<Quote> {
 }
 
 export async function getHistory(symbol: string, range: Range): Promise<Candle[]> {
+  const isCrypto = Boolean(toBinancePair(symbol));
   // stocks/ETFs: cache 30 min (daily candles barely move intraday) to stay inside the free-tier quota
-  const ttl = toBinancePair(symbol) ? 90_000 : 30 * 60_000;
+  const ttl = isCrypto ? 90_000 : 30 * 60_000;
   return cached(`history:${symbol}:${range}`, ttl, async () => {
-    if (await useBinance(symbol)) return getBinanceHistory(symbol, range);
+    if (isCrypto) {
+      try {
+        return await getBinanceHistory(symbol, range);
+      } catch (e) {
+        // Binance is blocked from some hosts (e.g. Vercel) — fall back to Twelve Data
+        if (hasTwelveData()) return await getTdHistory(toTdCrypto(symbol), range);
+        throw e;
+      }
+    }
     if (hasTwelveData()) {
       try {
         return await getTdHistory(symbol, range);
