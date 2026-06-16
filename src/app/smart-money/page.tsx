@@ -59,12 +59,12 @@ export default function SmartMoney() {
       .catch(() => setError("failed to load"));
   }, []);
 
-  // current prices for the resolved tickers → "Now" / "vs" columns (US equities need a Twelve Data key)
+  // current prices for the resolved tickers → "Now" / "vs" columns (bulk, fast — fills every row)
   useEffect(() => {
     if (!report) return;
     const tickers = [...new Set(report.topAccumulated.map((s) => s.ticker))].filter((t): t is string => !!t);
     if (tickers.length === 0) return;
-    fetch(`/api/quotes?symbols=${encodeURIComponent(tickers.slice(0, 20).join(","))}`)
+    fetch(`/api/prices?symbols=${encodeURIComponent(tickers.join(","))}`)
       .then((res) => res.json())
       .then((data: { quotes?: { symbol: string; price: number }[] }) => {
         const map: Record<string, number> = {};

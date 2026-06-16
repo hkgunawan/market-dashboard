@@ -7,6 +7,7 @@
 import { cached } from "./cache";
 import { getBinanceHistory, getBinanceQuote, toBinancePair } from "./binance";
 import { getTdHistory, getTdQuote, hasTwelveData } from "./twelvedata";
+import { getFinnhubQuote, hasFinnhub } from "./finnhub";
 import { getHistory as yahooHistory, getQuote as yahooQuote, type Candle, type Quote, type Range } from "./yahoo";
 
 export type { Candle, Quote, Range };
@@ -90,5 +91,33 @@ export async function getQuotes(symbols: string[]): Promise<{ quotes: Quote[]; f
       failed.push(symbol);
     }
   }
+  return { quotes, failed };
+}
+
+// Run an async fn over items with bounded concurrency (fast, but not an unbounded burst).
+async function mapPool<T, R>(items: T[], limit: number, fn: (item: T) => Promise<R>): Promise<R[]> {
+  const out: R[] = new Array(items.length);
+  let next = 0;
+  const worker = async () => {
+    while (next < items.length) {
+      const i = next++;
+      out[i] = await fn(items[i]);
+    }
+  };
+  await Promise.all(Array.from({ length: Math.min(limit, items.length) }, worker));
+  return out;
+}
+
+// Bulk current prices for the insider-buys / smart-money tables — fills all rows
+// fast. Uses Finnhub (60/min) in parallel when available; otherwise falls back to
+// the sequential, rate-limited path. Each symbol is cached 10 min.
+export async function getBulkPrices(symbols: string[]): Promise<{ quotes: Quote[]; failed: string[] }> {
+  if (!hasFinnhub()) return getQuotes(symbols);
+  const results = await mapPool(symbols, 12, (symbol) =>
+    cached(`finnhub:${symbol}`, 10 * 60_000, () => getFinnhubQuote(symbol)).catch(() => null)
+  );
+  const quotes: Quote[] = [];
+  const failed: string[] = [];
+  results.forEach((q, i) => (q ? quotes.push(q) : failed.push(symbols[i])));
   return { quotes, failed };
 }

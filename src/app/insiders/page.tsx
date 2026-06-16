@@ -150,7 +150,7 @@ export default function Insiders() {
     if (!report) return;
     const tickers = [...new Set([...report.clusterBuys, ...report.bigBuys].map((r) => r.ticker))].filter(Boolean);
     if (tickers.length === 0) return;
-    fetch(`/api/quotes?symbols=${encodeURIComponent(tickers.join(","))}`)
+    fetch(`/api/prices?symbols=${encodeURIComponent(tickers.join(","))}`)
       .then((res) => res.json())
       .then((data: { quotes?: { symbol: string; price: number }[] }) => {
         const map: Record<string, number> = {};
