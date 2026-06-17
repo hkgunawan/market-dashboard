@@ -254,6 +254,14 @@ export default function Dashboard() {
               </span>
             )}
             <span className="ml-3 text-xs text-[#484f58]">Supertrend(10,3) · Ultimate MACD(12,26,9)</span>
+            {candleType === "ha" && (
+              <span
+                className="ml-3 text-xs text-[#d29922]"
+                title="Heikin Ashi candles are smoothed averages — the plotted close differs from the live price in the card above"
+              >
+                · HA (smoothed prices)
+              </span>
+            )}
           </div>
           <div className="flex items-center gap-3">
             <div className="flex gap-1 rounded border border-[#30363d] p-0.5">

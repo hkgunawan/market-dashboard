@@ -51,36 +51,51 @@ function cleanCompanyName(name: string): string {
     .trim();
 }
 
-async function searchOnce(q: string): Promise<string | null> {
+interface SearchHit {
+  symbol: string;
+  type?: string;
+  description?: string;
+}
+
+async function searchCandidates(q: string): Promise<SearchHit[]> {
   const token = process.env.FINNHUB_API_KEY;
-  if (!token || !q) return null;
+  if (!token || !q) return [];
   try {
     const res = await fetch(`${BASE}/search?q=${encodeURIComponent(q)}&token=${token}`, {
       next: { revalidate: 86_400 },
     });
-    if (!res.ok) return null;
-    const data = (await res.json()) as { result?: { symbol: string; type?: string }[] };
-    const results = data.result ?? [];
-    // a US listing has a bare symbol (no "."); foreign listings carry a suffix
-    const us = results.filter((r) => r.symbol && !r.symbol.includes("."));
-    const stock = us.find((r) => /stock|shrs|share/i.test(r.type ?? ""));
-    return (stock ?? us[0])?.symbol ?? null;
+    if (!res.ok) return [];
+    const data = (await res.json()) as { result?: SearchHit[] };
+    return data.result ?? [];
   } catch {
-    return null;
+    return [];
   }
 }
 
 // Resolve a company name → US ticker via Finnhub symbol search (free tier).
 // Fallback for CUSIPs that OpenFIGI can't map. Tries the cleaned name, then
-// progressively shorter forms, since 13F names carry abbreviations.
+// progressively shorter forms, since 13F names carry abbreviations. Accepts a
+// hit only if its description shares a word with the company name — guards
+// against a shortened query grabbing an unrelated ticker.
 export async function searchSymbol(name: string): Promise<string | null> {
   if (!process.env.FINNHUB_API_KEY) return null;
   const cleaned = cleanCompanyName(name);
   const words = cleaned.split(" ").filter(Boolean);
+  const wantTokens = words.filter((w) => w.length >= 3).map((w) => w.toLowerCase());
+  const matches = (hit: SearchHit) => {
+    if (!wantTokens.length) return true; // nothing meaningful to check against
+    const desc = (hit.description ?? "").toLowerCase();
+    return wantTokens.some((t) => desc.includes(t));
+  };
+
   const queries = [...new Set([cleaned, words.slice(0, 2).join(" "), words[0]])].filter(Boolean);
   for (const q of queries) {
-    const sym = await searchOnce(q);
-    if (sym) return sym;
+    const cands = await searchCandidates(q);
+    // a US listing has a bare symbol (no "."); foreign listings carry a suffix
+    const us = cands.filter((r) => r.symbol && !r.symbol.includes(".") && matches(r));
+    const stock = us.find((r) => /stock|shrs|share/i.test(r.type ?? ""));
+    const pick = (stock ?? us[0])?.symbol;
+    if (pick) return pick;
   }
   return null;
 }
