@@ -39,14 +39,23 @@ export async function getFinnhubQuote(symbol: string): Promise<Quote> {
   };
 }
 
-// Resolve a company name → US ticker via Finnhub symbol search (free tier).
-// Fallback for CUSIPs that OpenFIGI can't map. Prefers a plain US symbol (no
-// foreign-exchange suffix like .AS/.TO) and a stock-like instrument type.
-export async function searchSymbol(name: string): Promise<string | null> {
+// Strip corporate-form noise that breaks Finnhub's search ("ASML HLDG NV" → "ASML").
+function cleanCompanyName(name: string): string {
+  return name
+    .replace(/[^A-Za-z0-9 ]/g, " ")
+    .replace(
+      /\b(HLDGS?|HOLDINGS?|INC|CORP|CORPORATION|COMPANY|CO|LTD|LP|LLC|PLC|NV|SA|AG|SE|GROUP|GRP|CL|CLASS|DEL|COM|THE|TR|TRUST)\b/gi,
+      " "
+    )
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+async function searchOnce(q: string): Promise<string | null> {
   const token = process.env.FINNHUB_API_KEY;
-  if (!token) return null;
+  if (!token || !q) return null;
   try {
-    const res = await fetch(`${BASE}/search?q=${encodeURIComponent(name)}&token=${token}`, {
+    const res = await fetch(`${BASE}/search?q=${encodeURIComponent(q)}&token=${token}`, {
       next: { revalidate: 86_400 },
     });
     if (!res.ok) return null;
@@ -59,4 +68,19 @@ export async function searchSymbol(name: string): Promise<string | null> {
   } catch {
     return null;
   }
+}
+
+// Resolve a company name → US ticker via Finnhub symbol search (free tier).
+// Fallback for CUSIPs that OpenFIGI can't map. Tries the cleaned name, then
+// progressively shorter forms, since 13F names carry abbreviations.
+export async function searchSymbol(name: string): Promise<string | null> {
+  if (!process.env.FINNHUB_API_KEY) return null;
+  const cleaned = cleanCompanyName(name);
+  const words = cleaned.split(" ").filter(Boolean);
+  const queries = [...new Set([cleaned, words.slice(0, 2).join(" "), words[0]])].filter(Boolean);
+  for (const q of queries) {
+    const sym = await searchOnce(q);
+    if (sym) return sym;
+  }
+  return null;
 }
