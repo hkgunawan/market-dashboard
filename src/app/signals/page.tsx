@@ -39,7 +39,7 @@ const last = <T,>(arr: (T | null)[]): T | null => {
 };
 
 function readLabel(r: Row): { text: string; cls: string } {
-  if (r.trend == null || r.momentum == null) return { text: "—", cls: "text-[#484f58]" };
+  if (r.trend == null || r.momentum == null) return { text: "—", cls: "text-[#7d8590]" };
   const up = r.trend === 1 && r.momentum >= 0;
   const down = r.trend === -1 && r.momentum < 0;
   if (up) return { text: "Bullish", cls: "text-[#3fb950]" };
@@ -160,7 +160,7 @@ export default function Signals() {
         Edit the watchlist on the <Link href="/" className="text-[#58a6ff] hover:underline">markets</Link> page.{" "}
         <span className="text-[#d29922]">A research overview, not a buy list. Not financial advice.</span>
       </p>
-      <p className="mb-6 font-mono text-[11px] leading-relaxed text-[#484f58]">
+      <p className="mb-6 font-mono text-[11px] leading-relaxed text-[#7d8590]">
         Column key — <span className="text-[#8b949e]">Trend</span>: Supertrend up/down ·{" "}
         <span className="text-[#8b949e]">Momentum</span>: MACD histogram (＋ bullish / − bearish) ·{" "}
         <span className="text-[#8b949e]">Insiders</span>: appears on the insider-buys feed ·{" "}
@@ -173,7 +173,7 @@ export default function Signals() {
       <section className="overflow-x-auto rounded-lg border border-[#30363d] bg-[#0d1117]">
         <table className="w-full text-left">
           <thead>
-            <tr className="border-b border-[#21262d] font-mono text-[11px] uppercase text-[#484f58]">
+            <tr className="border-b border-[#21262d] font-mono text-[11px] uppercase text-[#7d8590]">
               <th className="py-2 pl-3 pr-3">Ticker</th>
               <th className="py-2 pr-3 text-right">Price</th>
               <th className="py-2 pr-3 text-right">Chg</th>
@@ -193,21 +193,21 @@ export default function Signals() {
                     <Link href={`/?symbol=${encodeURIComponent(r.symbol)}`} className="font-mono text-sm text-[#58a6ff] hover:underline">
                       {r.symbol}
                     </Link>
-                    <div className="font-mono text-[10px] text-[#484f58]">{r.label}</div>
+                    <div className="font-mono text-[10px] text-[#7d8590]">{r.label}</div>
                   </td>
                   <td className="py-2.5 pr-3 text-right font-mono text-xs text-[#e6edf3]">
                     {r.price != null ? `$${r.price.toLocaleString(undefined, { maximumFractionDigits: 2 })}` : r.loading ? "…" : "—"}
                   </td>
                   <td
                     className={`py-2.5 pr-3 text-right font-mono text-xs ${
-                      r.changePct == null ? "text-[#484f58]" : r.changePct >= 0 ? "text-[#3fb950]" : "text-[#f85149]"
+                      r.changePct == null ? "text-[#7d8590]" : r.changePct >= 0 ? "text-[#3fb950]" : "text-[#f85149]"
                     }`}
                   >
                     {r.changePct != null ? `${r.changePct >= 0 ? "+" : ""}${r.changePct.toFixed(2)}%` : "—"}
                   </td>
                   <td className="py-2.5 pr-3 font-mono text-xs">
                     {r.trend == null ? (
-                      <span className="text-[#484f58]">{r.loading ? "…" : "—"}</span>
+                      <span className="text-[#7d8590]">{r.loading ? "…" : "—"}</span>
                     ) : r.trend === 1 ? (
                       <span className="text-[#3fb950]">▲ up</span>
                     ) : (
@@ -216,7 +216,7 @@ export default function Signals() {
                   </td>
                   <td className="py-2.5 pr-3 font-mono text-xs">
                     {r.momentum == null ? (
-                      <span className="text-[#484f58]">{r.loading ? "…" : "—"}</span>
+                      <span className="text-[#7d8590]">{r.loading ? "…" : "—"}</span>
                     ) : (
                       <span className={r.momentum >= 0 ? "text-[#3fb950]" : "text-[#f85149]"}>
                         {r.momentum >= 0 ? "＋" : "−"}
@@ -224,10 +224,10 @@ export default function Signals() {
                     )}
                   </td>
                   <td className="py-2.5 pr-3 font-mono text-xs">
-                    {r.insiders ? <span className="text-[#3fb950]">● buying</span> : <span className="text-[#484f58]">—</span>}
+                    {r.insiders ? <span className="text-[#3fb950]">● buying</span> : <span className="text-[#7d8590]">—</span>}
                   </td>
                   <td className="py-2.5 pr-3 font-mono text-xs">
-                    {r.funds ? <span className="text-[#d29922]">● accum.</span> : <span className="text-[#484f58]">—</span>}
+                    {r.funds ? <span className="text-[#d29922]">● accum.</span> : <span className="text-[#7d8590]">—</span>}
                   </td>
                   <td className={`py-2.5 pr-3 font-mono text-xs font-semibold ${read.cls}`}>{read.text}</td>
                 </tr>
@@ -235,7 +235,7 @@ export default function Signals() {
             })}
             {rows.length === 0 && !error && (
               <tr>
-                <td colSpan={8} className="py-16 text-center font-mono text-sm text-[#484f58]">
+                <td colSpan={8} className="py-16 text-center font-mono text-sm text-[#7d8590]">
                   loading watchlist…
                 </td>
               </tr>
@@ -244,7 +244,7 @@ export default function Signals() {
         </table>
       </section>
 
-      <footer className="mt-8 text-center font-mono text-xs text-[#484f58]">
+      <footer className="mt-8 text-center font-mono text-xs text-[#7d8590]">
         synthesizes the chart indicators · insider-buys · smart-money · not financial advice
       </footer>
     </main>

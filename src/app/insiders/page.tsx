@@ -13,8 +13,8 @@ function parsePrice(s: string): number | null {
 // "Am I too late?" — current price vs what the insider actually paid.
 // Lower = you'd pay near their entry; high = the move already happened (you'd be chasing).
 function VsNow({ buy, now }: { buy: number | null; now: number | undefined }) {
-  if (buy == null) return <span className="font-mono text-xs text-[#484f58]">—</span>;
-  if (now == null) return <span className="font-mono text-xs text-[#484f58]" title="needs TWELVEDATA_API_KEY for US stock prices">—</span>;
+  if (buy == null) return <span className="font-mono text-xs text-[#7d8590]">—</span>;
+  if (now == null) return <span className="font-mono text-xs text-[#7d8590]" title="needs TWELVEDATA_API_KEY for US stock prices">—</span>;
   const pct = ((now - buy) / buy) * 100;
   const color = pct <= 10 ? "text-[#3fb950]" : pct <= 40 ? "text-[#d29922]" : "text-[#f85149]";
   return (
@@ -67,7 +67,7 @@ function BuyTable({
     <div className="overflow-x-auto">
     <table className="w-full text-left">
       <thead>
-        <tr className="border-b border-[#21262d] font-mono text-[11px] uppercase text-[#484f58]">
+        <tr className="border-b border-[#21262d] font-mono text-[11px] uppercase text-[#7d8590]">
           <SortTh label="Filed" sortKey="filingDate" sort={sort} onSort={toggle} className="py-2 pr-3" />
           <SortTh label="Ticker" sortKey="ticker" sort={sort} onSort={toggle} className="py-2 pr-3" />
           <SortTh label="Company" sortKey="company" sort={sort} onSort={toggle} className="py-2 pr-3" />
@@ -145,7 +145,7 @@ function BuyTable({
                     )}
                   </span>
                   {r.title && (
-                    <span className="rounded border border-[#21262d] px-1 py-0.5 text-[10px] text-[#484f58]">
+                    <span className="rounded border border-[#21262d] px-1 py-0.5 text-[10px] text-[#7d8590]">
                       {r.title}
                     </span>
                   )}
@@ -153,7 +153,7 @@ function BuyTable({
               ) : (
                 <span className="truncate">
                   {r.insiders}
-                  {r.title && <span className="text-[#484f58]"> · {r.title}</span>}
+                  {r.title && <span className="text-[#7d8590]"> · {r.title}</span>}
                 </span>
               )}
             </td>
@@ -232,7 +232,7 @@ export default function Insiders() {
         <span className="text-[#d29922]">A signal to research, not a buy list. Not financial advice.</span>
       </p>
 
-      <p className="mb-6 font-mono text-[11px] leading-relaxed text-[#484f58]">
+      <p className="mb-6 font-mono text-[11px] leading-relaxed text-[#7d8590]">
         Column key — <span className="text-[#8b949e]">Paid</span>: price the insider paid ·{" "}
         <span className="text-[#8b949e]">vs now</span>: today&apos;s price vs that ·{" "}
         <span className="text-[#8b949e]">ΔOwn</span>: how much this trade changed their stake (e.g. +50% = grew their
@@ -253,7 +253,7 @@ export default function Insiders() {
             <h2 className="mb-1 font-mono text-xs uppercase tracking-wider text-[#8b949e]">
               Cluster buys — multiple insiders buying the same stock
             </h2>
-            <p className="mb-3 font-mono text-[11px] text-[#484f58]">
+            <p className="mb-3 font-mono text-[11px] text-[#7d8590]">
               the strongest insider signal: several people with inside knowledge independently reaching for their wallets
             </p>
             <BuyTable rows={report.clusterBuys} whoLabel="Insiders" prices={prices} isCluster />
@@ -268,7 +268,7 @@ export default function Insiders() {
         </>
       )}
 
-      <footer className="mt-8 text-center font-mono text-xs text-[#484f58]">
+      <footer className="mt-8 text-center font-mono text-xs text-[#7d8590]">
         source: SEC Form 4 via openinsider.com · refreshed every 30 min · not financial advice
       </footer>
     </main>

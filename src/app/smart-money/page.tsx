@@ -33,7 +33,7 @@ function MoveChip({ m }: { m: FundMove }) {
 
 // Current price vs the quarter-end price level — "did it already run up since they filed?"
 function VsLevel({ held, now }: { held: number | null; now: number | undefined }) {
-  if (held == null || now == null) return <span className="font-mono text-xs text-[#484f58]">—</span>;
+  if (held == null || now == null) return <span className="font-mono text-xs text-[#7d8590]">—</span>;
   const pct = ((now - held) / held) * 100;
   const color = pct <= 10 ? "text-[#3fb950]" : pct <= 40 ? "text-[#d29922]" : "text-[#f85149]";
   return (
@@ -120,7 +120,7 @@ export default function SmartMoney() {
       )}
 
       {report && (
-        <p className="mb-6 font-mono text-[11px] leading-relaxed text-[#484f58]">
+        <p className="mb-6 font-mono text-[11px] leading-relaxed text-[#7d8590]">
           Column key — <span className="text-[#8b949e]">Held @</span>: the share price implied by their 13F at
           quarter-end (a reference level, not actual cost) · <span className="text-[#8b949e]">Now</span>: current price ·{" "}
           <span className="text-[#8b949e]">vs</span>: how far it&apos;s moved since — green means you&apos;d still buy
@@ -147,7 +147,7 @@ export default function SmartMoney() {
             <div className="overflow-x-auto">
               <table className="w-full text-left">
                 <thead>
-                  <tr className="border-b border-[#21262d] font-mono text-[11px] uppercase text-[#484f58]">
+                  <tr className="border-b border-[#21262d] font-mono text-[11px] uppercase text-[#7d8590]">
                     <th className="py-2 pr-2">#</th>
                     <SortTh label="Company" sortKey="name" sort={sort} onSort={toggle} className="py-2 pr-4" />
                     <SortTh label="Funds buying" sortKey="buyers" sort={sort} onSort={toggle} className="py-2 pr-4" />
@@ -188,7 +188,7 @@ export default function SmartMoney() {
                 <tbody>
                   {sorted.map((s, i) => (
                     <tr key={s.cusip} className="border-b border-[#161b22] align-top">
-                      <td className="py-2.5 pr-2 font-mono text-xs text-[#484f58]">{i + 1}</td>
+                      <td className="py-2.5 pr-2 font-mono text-xs text-[#7d8590]">{i + 1}</td>
                       <td className="py-2.5 pr-4 text-sm text-[#e6edf3]">
                         {s.name}
                         {s.ticker && (
@@ -280,7 +280,7 @@ export default function SmartMoney() {
         </>
       )}
 
-      <footer className="mt-8 text-center font-mono text-xs text-[#484f58]">
+      <footer className="mt-8 text-center font-mono text-xs text-[#7d8590]">
         source: SEC EDGAR 13F-HR filings · quarterly, lagged data · not financial advice
       </footer>
     </main>

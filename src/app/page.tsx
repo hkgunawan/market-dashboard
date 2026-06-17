@@ -1,12 +1,19 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import type { Candle, Quote, Range } from "@/lib/yahoo";
 import type { Supertrend, MacdResult } from "@/lib/indicators";
 import type { CompanyProfile } from "@/lib/finnhub";
-import PriceChart from "@/components/price-chart";
 import QuoteCard from "@/components/quote-card";
+
+// lightweight-charts is the heaviest dependency and only renders client-side —
+// defer it out of the initial bundle so first paint (watchlist) is fast.
+const PriceChart = dynamic(() => import("@/components/price-chart"), {
+  ssr: false,
+  loading: () => <div className="h-[420px] animate-pulse rounded bg-[#161b22]" />,
+});
 
 interface WatchItem {
   symbol: string;
@@ -230,7 +237,7 @@ export default function Dashboard() {
                 GitHub. Free-tier only.
               </li>
             </ul>
-            <p className="mt-3 text-[#484f58]">
+            <p className="mt-3 text-[#7d8590]">
               Source:{" "}
               <a
                 href="https://github.com/hkgunawan/market-dashboard"
@@ -324,7 +331,7 @@ export default function Dashboard() {
                 </span>
               </span>
             )}
-            <span className="ml-3 text-xs text-[#484f58]">Supertrend(10,3) · Ultimate MACD(12,26,9)</span>
+            <span className="ml-3 text-xs text-[#7d8590]">Supertrend(10,3) · Ultimate MACD(12,26,9)</span>
             {candleType === "ha" && (
               <span
                 className="ml-3 text-xs text-[#d29922]"
@@ -384,7 +391,7 @@ export default function Dashboard() {
         </section>
       )}
 
-      <footer className="mt-8 text-center font-mono text-xs text-[#484f58]">
+      <footer className="mt-8 text-center font-mono text-xs text-[#7d8590]">
         unofficial market data (Binance · Twelve Data) · for personal use · not financial advice
       </footer>
     </main>
@@ -400,7 +407,7 @@ function fmtCap(millions: number): string {
 function CompanySnapshot({ p }: { p: CompanyProfile }) {
   const stat = (label: string, value: string) => (
     <span className="whitespace-nowrap">
-      <span className="text-[#484f58]">{label} </span>
+      <span className="text-[#7d8590]">{label} </span>
       <span className="text-[#e6edf3]">{value}</span>
     </span>
   );
