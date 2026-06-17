@@ -110,7 +110,7 @@ function BuyTable({
                     href={`http://openinsider.com/screener?s=${encodeURIComponent(r.ticker)}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[10px] text-[#484f58] hover:text-[#58a6ff]"
+                    className="text-xs text-[#58a6ff] hover:underline"
                     title="see the individual filers on openinsider"
                   >
                     ↗
@@ -129,7 +129,20 @@ function BuyTable({
             >
               {isCluster ? (
                 <div className="flex flex-col items-start gap-0.5">
-                  <span>{r.insiders}</span>
+                  <span>
+                    {r.insiders}
+                    {r.ticker && (
+                      <a
+                        href={`http://openinsider.com/screener?s=${encodeURIComponent(r.ticker)}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="ml-1.5 text-[#58a6ff] hover:underline"
+                        title="see who the insiders are on openinsider"
+                      >
+                        who? ↗
+                      </a>
+                    )}
+                  </span>
                   {r.title && (
                     <span className="rounded border border-[#21262d] px-1 py-0.5 text-[10px] text-[#484f58]">
                       {r.title}
