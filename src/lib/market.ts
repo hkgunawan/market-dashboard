@@ -7,7 +7,7 @@
 import { cached } from "./cache";
 import { getBinanceHistory, getBinanceQuote, toBinancePair } from "./binance";
 import { getTdHistory, getTdQuote, hasTwelveData } from "./twelvedata";
-import { getFinnhubQuote, hasFinnhub } from "./finnhub";
+import { getEarnings, getFinnhubQuote, hasFinnhub, type EarningsInfo } from "./finnhub";
 import { getHistory as yahooHistory, getQuote as yahooQuote, type Candle, type Quote, type Range } from "./yahoo";
 
 export type { Candle, Quote, Range };
@@ -132,4 +132,15 @@ export async function getBulkPrices(symbols: string[]): Promise<{ quotes: Quote[
   const quotes = symbols.filter((s) => bySymbol.has(s)).map((s) => bySymbol.get(s)!);
   const failed = symbols.filter((s) => !bySymbol.has(s));
   return { quotes, failed };
+}
+
+// Next earnings date + recent surprises for a set of symbols (Finnhub only).
+// Non-equities (crypto, ETFs) resolve to null and are dropped. Each cached 6h —
+// earnings dates barely change intraday.
+export async function getBulkEarnings(symbols: string[]): Promise<EarningsInfo[]> {
+  if (!hasFinnhub()) return [];
+  const fetchOne = (symbol: string) =>
+    cached(`earnings:${symbol}`, 6 * 60 * 60_000, () => getEarnings(symbol)).catch(() => null);
+  const results = await mapPool(symbols, 6, fetchOne);
+  return results.filter((e): e is EarningsInfo => e != null);
 }

@@ -105,7 +105,10 @@ export default function SmartMoney() {
             signals →
           </Link>
           <Link href="/insiders" className="text-[#58a6ff] hover:text-[#e6edf3]">
-            insider-buys
+            insider-buys →
+          </Link>
+          <Link href="/earnings" className="text-[#a371f7] hover:text-[#e6edf3]">
+            earnings →
           </Link>
         </nav>
       </header>

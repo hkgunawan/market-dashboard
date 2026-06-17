@@ -151,6 +151,9 @@ export default function Signals() {
           <Link href="/smart-money" className="text-[#d29922] hover:text-[#e6edf3]">
             smart-money →
           </Link>
+          <Link href="/earnings" className="text-[#a371f7] hover:text-[#e6edf3]">
+            earnings →
+          </Link>
         </nav>
       </header>
 

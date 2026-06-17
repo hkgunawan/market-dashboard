@@ -85,6 +85,67 @@ export async function getCompanyProfile(symbol: string): Promise<CompanyProfile 
   }
 }
 
+export interface EarningsSurprise {
+  period: string; // fiscal period end, e.g. "2026-03-31"
+  actual: number | null;
+  estimate: number | null;
+  surprisePercent: number | null; // EPS beat/miss vs estimate, %
+}
+
+export interface EarningsInfo {
+  symbol: string;
+  nextDate: string | null; // next report date, e.g. "2026-07-29"
+  nextHour: string | null; // "bmo" (before open) | "amc" (after close) | "dmh" | ""
+  epsEstimate: number | null;
+  revenueEstimate: number | null;
+  history: EarningsSurprise[]; // most recent first, up to 4 quarters
+}
+
+// Next earnings date + recent EPS surprise history for an equity (free tier:
+// /calendar/earnings + /stock/earnings). Returns null for anything without
+// earnings — crypto, ETFs, unknown symbols — so the UI can omit it.
+export async function getEarnings(symbol: string): Promise<EarningsInfo | null> {
+  const token = process.env.FINNHUB_API_KEY;
+  if (!token) return null;
+  const sym = toFinnhubSymbol(symbol);
+  const from = new Date().toISOString().slice(0, 10);
+  const to = new Date(Date.now() + 180 * 86_400_000).toISOString().slice(0, 10);
+  try {
+    const [calRes, histRes] = await Promise.all([
+      fetch(`${BASE}/calendar/earnings?from=${from}&to=${to}&symbol=${encodeURIComponent(sym)}&token=${token}`, {
+        next: { revalidate: 21_600 },
+      }),
+      fetch(`${BASE}/stock/earnings?symbol=${encodeURIComponent(sym)}&token=${token}`, { next: { revalidate: 21_600 } }),
+    ]);
+    const cal = calRes.ok ? await calRes.json() : null;
+    const hist = histRes.ok ? await histRes.json() : null;
+    type CalRow = { date?: string; hour?: string; epsEstimate?: number | null; revenueEstimate?: number | null };
+    const upcoming = ((cal?.earningsCalendar ?? []) as CalRow[])
+      .filter((e) => e.date && e.date >= from)
+      .sort((a, b) => a.date!.localeCompare(b.date!))[0];
+    type HistRow = { period: string; actual: number | null; estimate: number | null; surprisePercent: number | null };
+    const history: EarningsSurprise[] = Array.isArray(hist)
+      ? (hist as HistRow[]).slice(0, 4).map((h) => ({
+          period: h.period,
+          actual: h.actual ?? null,
+          estimate: h.estimate ?? null,
+          surprisePercent: h.surprisePercent ?? null,
+        }))
+      : [];
+    if (!upcoming && history.length === 0) return null; // no earnings → not an equity we track here
+    return {
+      symbol: symbol.toUpperCase(),
+      nextDate: upcoming?.date ?? null,
+      nextHour: upcoming?.hour || null,
+      epsEstimate: upcoming?.epsEstimate ?? null,
+      revenueEstimate: upcoming?.revenueEstimate ?? null,
+      history,
+    };
+  } catch {
+    return null;
+  }
+}
+
 // Strip corporate-form noise that breaks Finnhub's search ("ASML HLDG NV" → "ASML").
 function cleanCompanyName(name: string): string {
   return name
