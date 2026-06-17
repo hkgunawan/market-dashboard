@@ -5,6 +5,7 @@
 // and cache for 12h (13F data only changes quarterly).
 
 import { cached } from "./cache";
+import { searchSymbol } from "./finnhub";
 
 const UA = "market-dashboard personal project hendrakg94@gmail.com";
 
@@ -177,11 +178,14 @@ export function scoreMove(m: FundMove): number {
   return -1.5; // EXIT
 }
 
-// Resolve CUSIP → ticker via OpenFIGI (keyless: <=10 jobs/request, <=25 requests/min).
-// Runs inside the 12h-cached report, so it's hit at most twice a day. Unresolved CUSIPs stay tickerless.
-async function resolveTickers(cusips: string[]): Promise<Map<string, string>> {
+// Resolve CUSIP → ticker via OpenFIGI (keyless: <=10 jobs/request, <=25 requests/min),
+// then fall back to a Finnhub name search for any CUSIPs OpenFIGI can't map (it
+// misses some US issuers and most foreign ADRs, e.g. ASML, LINDE, NextEra).
+// Runs inside the 12h-cached report, so it's hit at most twice a day.
+async function resolveTickers(issuers: { cusip: string; name: string }[]): Promise<Map<string, string>> {
   const out = new Map<string, string>();
-  const unique = [...new Set(cusips)];
+  const byCusip = new Map(issuers.map((s) => [s.cusip, s.name]));
+  const unique = [...byCusip.keys()];
   for (let i = 0; i < unique.length; i += 10) {
     const batch = unique.slice(i, i + 10);
     try {
@@ -204,6 +208,14 @@ async function resolveTickers(cusips: string[]): Promise<Map<string, string>> {
     } catch {
       /* leave this batch's CUSIPs unresolved */
     }
+  }
+  // Finnhub name-search fallback for whatever OpenFIGI missed
+  for (const cusip of unique) {
+    if (out.has(cusip)) continue;
+    const name = byCusip.get(cusip);
+    if (!name) continue;
+    const sym = await searchSymbol(name);
+    if (sym) out.set(cusip, sym);
   }
   return out;
 }
@@ -268,7 +280,7 @@ async function buildReport(): Promise<SmartMoneyReport> {
     const e = qEnd.get(s.cusip);
     s.priceAtPeriod = e && e.shares > 0 ? e.value / e.shares : null;
   }
-  const tickers = await resolveTickers(shown.map((s) => s.cusip));
+  const tickers = await resolveTickers(shown.map((s) => ({ cusip: s.cusip, name: s.name })));
   for (const s of shown) s.ticker = tickers.get(s.cusip) ?? null;
 
   return {
