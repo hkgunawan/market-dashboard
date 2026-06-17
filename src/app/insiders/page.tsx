@@ -64,6 +64,7 @@ function BuyTable({
   );
 
   return (
+    <div className="overflow-x-auto">
     <table className="w-full text-left">
       <thead>
         <tr className="border-b border-[#21262d] font-mono text-[11px] uppercase text-[#484f58]">
@@ -169,6 +170,7 @@ function BuyTable({
         ))}
       </tbody>
     </table>
+    </div>
   );
 }
 
