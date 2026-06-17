@@ -34,7 +34,7 @@ export default function QuoteCard({ quote, label, selected, onSelect, onRemove }
         <button
           onClick={onRemove}
           aria-label={`Remove ${quote.symbol}`}
-          className="absolute right-3 top-3 text-xs text-[#8b949e] opacity-0 transition-opacity hover:text-[#f85149] focus-visible:opacity-100 group-hover:opacity-100"
+          className="absolute right-3 top-3 text-xs text-[#8b949e] opacity-100 transition-opacity hover:text-[#f85149] focus-visible:opacity-100 sm:opacity-0 sm:group-hover:opacity-100"
         >
           ✕
         </button>

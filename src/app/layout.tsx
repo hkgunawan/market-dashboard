@@ -13,7 +13,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Market Dashboard",
+  metadataBase: new URL("https://markets.hendragunawan.com"),
+  title: {
+    default: "Market Dashboard",
+    template: "%s · Market Dashboard",
+  },
   description: "Personal watchlist dashboard — gold, crypto, indices and stocks with charts and indicators.",
 };
 
