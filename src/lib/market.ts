@@ -113,11 +113,23 @@ async function mapPool<T, R>(items: T[], limit: number, fn: (item: T) => Promise
 // the sequential, rate-limited path. Each symbol is cached 10 min.
 export async function getBulkPrices(symbols: string[]): Promise<{ quotes: Quote[]; failed: string[] }> {
   if (!hasFinnhub()) return getQuotes(symbols);
-  const results = await mapPool(symbols, 12, (symbol) =>
-    cached(`finnhub:${symbol}`, 10 * 60_000, () => getFinnhubQuote(symbol)).catch(() => null)
-  );
-  const quotes: Quote[] = [];
-  const failed: string[] = [];
-  results.forEach((q, i) => (q ? quotes.push(q) : failed.push(symbols[i])));
+  const fetchOne = (symbol: string) =>
+    cached(`finnhub:${symbol}`, 10 * 60_000, () => getFinnhubQuote(symbol)).catch(() => null);
+
+  // First pass (modest concurrency to avoid bursting past Finnhub's rate limit)…
+  const bySymbol = new Map<string, Quote>();
+  const first = await mapPool(symbols, 8, fetchOne);
+  first.forEach((q, i) => q && bySymbol.set(symbols[i], q));
+
+  // …then a gentler retry for the few that came back null (transient 429/timeout),
+  // so a couple of dropped calls don't leave permanent gaps in the table.
+  const missing = symbols.filter((s) => !bySymbol.has(s));
+  if (missing.length) {
+    const retried = await mapPool(missing, 4, fetchOne);
+    retried.forEach((q, i) => q && bySymbol.set(missing[i], q));
+  }
+
+  const quotes = symbols.filter((s) => bySymbol.has(s)).map((s) => bySymbol.get(s)!);
+  const failed = symbols.filter((s) => !bySymbol.has(s));
   return { quotes, failed };
 }

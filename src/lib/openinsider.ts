@@ -30,6 +30,18 @@ function decode(s: string): string {
     .trim();
 }
 
+// A Form 4 open-market buy must be filed within 2 business days of the trade.
+// Rows where the filing lags the trade by weeks are late/amended/foreign filings
+// (e.g. a TSM ADR row priced at $86.85 vs a $425 quote → a nonsensical "+390%").
+// Drop them so the feed stays the near-real-time signal it claims to be.
+const MAX_FILING_LAG_DAYS = 14;
+export function filingLagOk(filing: string, trade: string): boolean {
+  const f = Date.parse(filing.slice(0, 10));
+  const t = Date.parse(trade.slice(0, 10));
+  if (Number.isNaN(f) || Number.isNaN(t)) return true; // can't tell → keep
+  return (f - t) / 86_400_000 <= MAX_FILING_LAG_DAYS;
+}
+
 // The ticker cell contains tooltip JS before the anchor text — keep what follows the last '>'.
 export function cleanTicker(raw: string): string {
   const stripped = raw.replace(/<[^>]+>/g, "").trim();
@@ -65,7 +77,7 @@ async function buildReport(): Promise<InsiderReport> {
 
   // cluster: [X, filing, trade, ticker, company, industry, insCount, type, price, qty, owned, dOwn, value, ...]
   const clusterBuys: InsiderBuy[] = cluster
-    .filter((c) => c.length >= 13)
+    .filter((c) => c.length >= 13 && filingLagOk(decode(c[1]), decode(c[2])))
     .slice(0, 25)
     .map((c) => ({
       filingDate: decode(c[1]).slice(0, 10),
@@ -82,7 +94,7 @@ async function buildReport(): Promise<InsiderReport> {
 
   // purchases: [X, filing, trade, ticker, company, insiderName, title, type, price, qty, owned, dOwn, value, ...]
   const bigBuys: InsiderBuy[] = buys
-    .filter((c) => c.length >= 13)
+    .filter((c) => c.length >= 13 && filingLagOk(decode(c[1]), decode(c[2])))
     .slice(0, 25)
     .map((c) => ({
       filingDate: decode(c[1]).slice(0, 10),
