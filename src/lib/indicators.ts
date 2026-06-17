@@ -39,63 +39,51 @@ export interface Supertrend {
   direction: (Trend | null)[]; // trend at each bar
 }
 
-// Supertrend (ATR-banded trend follower). The line sits below price in an
-// uptrend and above it in a downtrend, flipping on close breaks.
+// Supertrend — a faithful port of Kıvanç Özbilgiç's popular TradingView Pine
+// script (the widely-used "Supertrend" by KivancOzbilgic). hl2 ± multiplier·ATR,
+// with the support/resistance bands ratcheting on close[1] and the trend flip
+// tested against the *previous* bands:
+//
+//   up = hl2 − mult·atr ;  up := close[1] > up1 ? max(up, up1) : up
+//   dn = hl2 + mult·atr ;  dn := close[1] < dn1 ? min(dn, dn1) : dn
+//   trend := trend==-1 and close > dn1 ? 1 : trend==1 and close < up1 ? -1 : trend
+//   line  = trend==1 ? up : dn
+//
+// ATR uses Wilder smoothing (Pine's default atr(), changeATR=true). The line sits
+// below price in an uptrend (trend 1) and above it in a downtrend (trend -1).
 export function supertrend(bars: OHLC[], period = 10, multiplier = 3): Supertrend {
   const n = bars.length;
   const value: (number | null)[] = new Array(n).fill(null);
   const direction: (Trend | null)[] = new Array(n).fill(null);
   const a = atr(bars, period);
 
-  let finalUpper = 0;
-  let finalLower = 0;
-  let prevSt = 0;
-  let started = false;
+  let upPrev: number | null = null;
+  let dnPrev: number | null = null;
+  let trend: Trend = 1;
 
   for (let i = 0; i < n; i++) {
     if (a[i] == null) continue;
-    const mid = (bars[i].high + bars[i].low) / 2;
-    const basicUpper = mid + multiplier * a[i]!;
-    const basicLower = mid - multiplier * a[i]!;
+    const hl2 = (bars[i].high + bars[i].low) / 2;
+    let up = hl2 - multiplier * a[i]!;
+    let dn = hl2 + multiplier * a[i]!;
+
+    // nz(up[1], up) / nz(dn[1], dn) — fall back to the current band on the first bar
+    const up1 = upPrev ?? up;
+    const dn1 = dnPrev ?? dn;
+
+    // ratchet the bands using the previous close
     const prevClose = bars[i - 1].close;
+    if (prevClose > up1) up = Math.max(up, up1);
+    if (prevClose < dn1) dn = Math.min(dn, dn1);
 
-    const newUpper =
-      !started || basicUpper < finalUpper || prevClose > finalUpper ? basicUpper : finalUpper;
-    const newLower =
-      !started || basicLower > finalLower || prevClose < finalLower ? basicLower : finalLower;
+    // flip the trend against the previous bands (Kıvanç's exact condition)
+    if (trend === -1 && bars[i].close > dn1) trend = 1;
+    else if (trend === 1 && bars[i].close < up1) trend = -1;
 
-    let st: number;
-    let trend: Trend;
-    if (!started) {
-      // seed: pick the side the close sits on
-      trend = bars[i].close >= newLower ? 1 : -1;
-      st = trend === 1 ? newLower : newUpper;
-      started = true;
-    } else if (prevSt === finalUpper) {
-      // was in downtrend
-      if (bars[i].close > newUpper) {
-        trend = 1;
-        st = newLower;
-      } else {
-        trend = -1;
-        st = newUpper;
-      }
-    } else {
-      // was in uptrend
-      if (bars[i].close < newLower) {
-        trend = -1;
-        st = newUpper;
-      } else {
-        trend = 1;
-        st = newLower;
-      }
-    }
-
-    finalUpper = newUpper;
-    finalLower = newLower;
-    prevSt = st;
-    value[i] = st;
+    value[i] = trend === 1 ? up : dn;
     direction[i] = trend;
+    upPrev = up;
+    dnPrev = dn;
   }
 
   return { value, direction };
