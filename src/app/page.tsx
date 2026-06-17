@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import type { Candle, Quote, Range } from "@/lib/yahoo";
 import type { Supertrend, MacdResult } from "@/lib/indicators";
+import type { CompanyProfile } from "@/lib/finnhub";
 import PriceChart from "@/components/price-chart";
 import QuoteCard from "@/components/quote-card";
 
@@ -43,6 +44,7 @@ export default function Dashboard() {
   const [range, setRange] = useState<Range>("6mo");
   const [candleType, setCandleType] = useState<"candles" | "ha">("ha");
   const [showBuild, setShowBuild] = useState(false);
+  const [profile, setProfile] = useState<CompanyProfile | null>(null);
   const [history, setHistory] = useState<HistoryPayload | null>(null);
   const [historyError, setHistoryError] = useState<string | null>(null);
   const [newTicker, setNewTicker] = useState("");
@@ -120,6 +122,20 @@ export default function Dashboard() {
       cancelled = true;
     };
   }, [selected, range, candleType]);
+
+  // fundamentals snapshot for the selected symbol (equities only; crypto → null)
+  useEffect(() => {
+    let cancelled = false;
+    /* eslint-disable-next-line react-hooks/set-state-in-effect */
+    setProfile(null);
+    fetch(`/api/profile?symbol=${encodeURIComponent(selected)}`)
+      .then((res) => res.json())
+      .then((data: { profile?: CompanyProfile | null }) => !cancelled && setProfile(data.profile ?? null))
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, [selected]);
 
   // AI brief (section only renders if the server has an API key)
   useEffect(() => {
@@ -351,6 +367,7 @@ export default function Dashboard() {
             </div>
           </div>
         </div>
+        {profile && <CompanySnapshot p={profile} />}
         {historyError ? (
           <p className="py-24 text-center font-mono text-sm text-[#f85149]">{historyError}</p>
         ) : history ? (
@@ -371,5 +388,36 @@ export default function Dashboard() {
         unofficial market data (Binance · Twelve Data) · for personal use · not financial advice
       </footer>
     </main>
+  );
+}
+
+function fmtCap(millions: number): string {
+  if (millions >= 1_000_000) return `$${(millions / 1_000_000).toFixed(2)}T`;
+  if (millions >= 1_000) return `$${(millions / 1_000).toFixed(1)}B`;
+  return `$${Math.round(millions)}M`;
+}
+
+function CompanySnapshot({ p }: { p: CompanyProfile }) {
+  const stat = (label: string, value: string) => (
+    <span className="whitespace-nowrap">
+      <span className="text-[#484f58]">{label} </span>
+      <span className="text-[#e6edf3]">{value}</span>
+    </span>
+  );
+  return (
+    <div className="mb-3 flex flex-wrap items-center gap-x-4 gap-y-1 border-b border-[#21262d] pb-3 font-mono text-xs text-[#8b949e]">
+      <span className="text-[#e6edf3]">{p.name}</span>
+      {p.industry && <span className="rounded border border-[#21262d] px-1.5 py-0.5 text-[10px] text-[#8b949e]">{p.industry}</span>}
+      {p.marketCap != null && stat("mkt cap", fmtCap(p.marketCap))}
+      {p.peTTM != null && stat("P/E", p.peTTM.toFixed(1))}
+      {p.eps != null && stat("EPS", `$${p.eps.toFixed(2)}`)}
+      {p.low52 != null && p.high52 != null && stat("52w", `$${p.low52.toFixed(0)}–$${p.high52.toFixed(0)}`)}
+      {p.divYield != null && p.divYield > 0 && stat("div", `${p.divYield.toFixed(2)}%`)}
+      {p.weburl && (
+        <a href={p.weburl} target="_blank" rel="noopener noreferrer" className="text-[#58a6ff] hover:underline">
+          site ↗
+        </a>
+      )}
+    </div>
   );
 }

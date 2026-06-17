@@ -39,6 +39,52 @@ export async function getFinnhubQuote(symbol: string): Promise<Quote> {
   };
 }
 
+export interface CompanyProfile {
+  name: string;
+  industry: string | null;
+  marketCap: number | null; // millions USD
+  exchange: string | null;
+  weburl: string | null;
+  peTTM: number | null;
+  high52: number | null;
+  low52: number | null;
+  divYield: number | null; // percent
+  eps: number | null;
+}
+
+// Fundamentals snapshot for an equity (free tier: profile2 + basic metrics).
+// Returns null for non-equities (crypto, unknown symbols) so the UI can hide it.
+export async function getCompanyProfile(symbol: string): Promise<CompanyProfile | null> {
+  const token = process.env.FINNHUB_API_KEY;
+  if (!token) return null;
+  const sym = toFinnhubSymbol(symbol);
+  try {
+    const [pRes, mRes] = await Promise.all([
+      fetch(`${BASE}/stock/profile2?symbol=${encodeURIComponent(sym)}&token=${token}`, { next: { revalidate: 86_400 } }),
+      fetch(`${BASE}/stock/metric?symbol=${encodeURIComponent(sym)}&metric=all&token=${token}`, {
+        next: { revalidate: 86_400 },
+      }),
+    ]);
+    const p = pRes.ok ? await pRes.json() : {};
+    if (!p || !p.name) return null; // no profile → not an equity we can describe
+    const m = (mRes.ok ? (await mRes.json())?.metric : {}) ?? {};
+    return {
+      name: p.name,
+      industry: p.finnhubIndustry || null,
+      marketCap: p.marketCapitalization ?? null,
+      exchange: p.exchange || null,
+      weburl: p.weburl || null,
+      peTTM: m.peTTM ?? null,
+      high52: m["52WeekHigh"] ?? null,
+      low52: m["52WeekLow"] ?? null,
+      divYield: m.dividendYieldIndicatedAnnual ?? null,
+      eps: m.epsTTM ?? null,
+    };
+  } catch {
+    return null;
+  }
+}
+
 // Strip corporate-form noise that breaks Finnhub's search ("ASML HLDG NV" → "ASML").
 function cleanCompanyName(name: string): string {
   return name
