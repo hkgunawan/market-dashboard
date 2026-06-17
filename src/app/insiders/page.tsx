@@ -214,6 +214,9 @@ export default function Insiders() {
           <Link href="/" className="hover:text-[#e6edf3]">
             ← markets
           </Link>
+          <Link href="/signals" className="text-[#3fb950] hover:text-[#e6edf3]">
+            signals →
+          </Link>
           <Link href="/smart-money" className="text-[#d29922] hover:text-[#e6edf3]">
             smart-money →
           </Link>
