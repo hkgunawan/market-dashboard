@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { sma, rsi, atr, supertrend, ema, macdCM, type OHLC } from "./indicators";
+import { sma, rsi, atr, supertrend, ema, macdCM, heikinAshi, type OHLC, type Bar } from "./indicators";
 
 // build OHLC bars from a close series (tight, ~1% range) for indicator tests
 const barsFrom = (closes: number[]): OHLC[] =>
@@ -130,5 +130,30 @@ describe("macdCM (Chris Moody Ultimate MACD)", () => {
     const closes = Array.from({ length: 60 }, (_, i) => 100 + i); // steadily rising
     const { macd } = macdCM(closes, 12, 26, 9);
     expect(macd.at(-1)!).toBeGreaterThan(0);
+  });
+});
+
+describe("heikinAshi", () => {
+  const bars: Bar[] = [
+    { time: 1, open: 10, high: 12, low: 9, close: 11 },
+    { time: 2, open: 11, high: 14, low: 10, close: 13 },
+    { time: 3, open: 13, high: 15, low: 12, close: 12 },
+  ];
+
+  it("computes haClose as the OHLC average and seeds haOpen from (open+close)/2", () => {
+    const ha = heikinAshi(bars);
+    expect(ha[0].close).toBeCloseTo((10 + 12 + 9 + 11) / 4, 6);
+    expect(ha[0].open).toBeCloseTo((10 + 11) / 2, 6);
+    // subsequent open = average of previous HA open & close
+    expect(ha[1].open).toBeCloseTo((ha[0].open + ha[0].close) / 2, 6);
+  });
+
+  it("keeps haHigh/haLow as the extremes including the HA open & close, and preserves time", () => {
+    const ha = heikinAshi(bars);
+    for (let i = 0; i < bars.length; i++) {
+      expect(ha[i].time).toBe(bars[i].time);
+      expect(ha[i].high).toBeGreaterThanOrEqual(Math.max(ha[i].open, ha[i].close));
+      expect(ha[i].low).toBeLessThanOrEqual(Math.min(ha[i].open, ha[i].close));
+    }
   });
 });

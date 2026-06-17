@@ -7,6 +7,35 @@ export interface OHLC {
   close: number;
 }
 
+export interface Bar {
+  time: number;
+  open: number;
+  high: number;
+  low: number;
+  close: number;
+}
+
+// Heikin Ashi: smoothed candles that filter noise and make trends easier to read.
+//   haClose = (O+H+L+C)/4
+//   haOpen  = (prev haOpen + prev haClose)/2   (seeded with (O+C)/2)
+//   haHigh/haLow include the HA open/close
+export function heikinAshi(bars: Bar[]): Bar[] {
+  const out: Bar[] = [];
+  let prevOpen = 0;
+  let prevClose = 0;
+  for (let i = 0; i < bars.length; i++) {
+    const b = bars[i];
+    const haClose = (b.open + b.high + b.low + b.close) / 4;
+    const haOpen = i === 0 ? (b.open + b.close) / 2 : (prevOpen + prevClose) / 2;
+    const haHigh = Math.max(b.high, haOpen, haClose);
+    const haLow = Math.min(b.low, haOpen, haClose);
+    out.push({ time: b.time, open: haOpen, high: haHigh, low: haLow, close: haClose });
+    prevOpen = haOpen;
+    prevClose = haClose;
+  }
+  return out;
+}
+
 // Average True Range (Wilder smoothing). null until `period` bars are in.
 export function atr(bars: OHLC[], period = 10): (number | null)[] {
   const out: (number | null)[] = new Array(bars.length).fill(null);

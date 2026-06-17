@@ -127,35 +127,33 @@ export default function PriceChart({ candles, supertrend, macd }: Props) {
       const histSeries = chart.addSeries(HistogramSeries, { priceLineVisible: false, lastValueVisible: false }, 1);
       histSeries.setData(hist);
 
-      // MACD line — Chris Moody colours it by whether MACD is ABOVE or BELOW the
-      // signal line (lime above, red below), NOT by slope. Two series with a
-      // one-bar overlap at each cross keep the line joined; gray dots mark crosses.
-      const mAbove: Pt[] = [];
-      const mBelow: Pt[] = [];
-      const crossMarkers: SeriesMarker<UTCTimestamp>[] = [];
-      let prevSide: 1 | -1 | null = null;
+      // MACD line — Chris Moody colours it by SLOPE: green while rising, red
+      // while falling. Two series with a one-bar overlap at each slope change
+      // keep the line joined.
+      const mUp: Pt[] = [];
+      const mDn: Pt[] = [];
+      let prevDir: 1 | -1 | null = null;
       macd.macd.forEach((m, i) => {
         const time = t(i);
-        const s = macd.signal[i];
-        if (m == null || s == null) {
-          mAbove.push({ time });
-          mBelow.push({ time });
-          prevSide = null;
+        const prevM = i > 0 ? macd.macd[i - 1] : null;
+        if (m == null || macd.signal[i] == null || prevM == null) {
+          mUp.push({ time });
+          mDn.push({ time });
+          prevDir = null;
           return;
         }
-        const side: 1 | -1 = m >= s ? 1 : -1;
-        const crossed = prevSide != null && prevSide !== side;
-        mAbove.push(side === 1 || crossed ? { time, value: m } : { time });
-        mBelow.push(side === -1 || crossed ? { time, value: m } : { time });
-        if (crossed) crossMarkers.push({ time, position: "inBar", shape: "circle", color: "#8b949e", size: 0.6 });
-        prevSide = side;
+        const dir: 1 | -1 = m >= prevM ? 1 : -1;
+        const flipped = prevDir != null && prevDir !== dir;
+        mUp.push(dir === 1 || flipped ? { time, value: m } : { time });
+        mDn.push(dir === -1 || flipped ? { time, value: m } : { time });
+        prevDir = dir;
       });
       chart
         .addSeries(LineSeries, { color: GREEN, lineWidth: 2, priceLineVisible: false, lastValueVisible: false }, 1)
-        .setData(mAbove);
+        .setData(mUp);
       chart
         .addSeries(LineSeries, { color: RED, lineWidth: 2, priceLineVisible: false, lastValueVisible: false }, 1)
-        .setData(mBelow);
+        .setData(mDn);
 
       const signal = macd.signal
         .map((s, i) => ({ time: t(i), value: s }))
@@ -173,7 +171,6 @@ export default function PriceChart({ candles, supertrend, macd }: Props) {
         lineStyle: LineStyle.Dashed,
         axisLabelVisible: false,
       });
-      if (crossMarkers.length) createSeriesMarkers(sigSeries, crossMarkers);
 
       const panes = chart.panes();
       if (panes.length > 1) {

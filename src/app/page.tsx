@@ -41,6 +41,7 @@ export default function Dashboard() {
   const [unavailable, setUnavailable] = useState<string[]>([]);
   const [selected, setSelected] = useState("PAXG-USD");
   const [range, setRange] = useState<Range>("6mo");
+  const [candleType, setCandleType] = useState<"candles" | "ha">("ha");
   const [history, setHistory] = useState<HistoryPayload | null>(null);
   const [historyError, setHistoryError] = useState<string | null>(null);
   const [newTicker, setNewTicker] = useState("");
@@ -106,7 +107,7 @@ export default function Dashboard() {
     setHistory(null);
     setHistoryError(null);
     /* eslint-enable react-hooks/set-state-in-effect */
-    fetch(`/api/history?symbol=${encodeURIComponent(selected)}&range=${range}`)
+    fetch(`/api/history?symbol=${encodeURIComponent(selected)}&range=${range}&type=${candleType}`)
       .then(async (res) => {
         const data = await res.json();
         if (cancelled) return;
@@ -117,7 +118,7 @@ export default function Dashboard() {
     return () => {
       cancelled = true;
     };
-  }, [selected, range]);
+  }, [selected, range, candleType]);
 
   // AI brief (section only renders if the server has an API key)
   useEffect(() => {
@@ -254,18 +255,37 @@ export default function Dashboard() {
             )}
             <span className="ml-3 text-xs text-[#484f58]">Supertrend(10,3) · Ultimate MACD(12,26,9)</span>
           </div>
-          <div className="flex gap-1">
-            {RANGES.map((r) => (
-              <button
-                key={r.value}
-                onClick={() => setRange(r.value)}
-                className={`rounded px-2 py-1 font-mono text-xs ${
-                  range === r.value ? "bg-[#21262d] text-[#e6edf3]" : "text-[#8b949e] hover:text-[#e6edf3]"
-                }`}
-              >
-                {r.label}
-              </button>
-            ))}
+          <div className="flex items-center gap-3">
+            <div className="flex gap-1 rounded border border-[#30363d] p-0.5">
+              {([
+                ["ha", "Heikin Ashi"],
+                ["candles", "Candles"],
+              ] as const).map(([val, label]) => (
+                <button
+                  key={val}
+                  onClick={() => setCandleType(val)}
+                  title={val === "ha" ? "Heikin Ashi (smoothed) — indicators recompute on HA" : "Standard candles"}
+                  className={`rounded px-2 py-1 font-mono text-xs ${
+                    candleType === val ? "bg-[#21262d] text-[#e6edf3]" : "text-[#8b949e] hover:text-[#e6edf3]"
+                  }`}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+            <div className="flex gap-1">
+              {RANGES.map((r) => (
+                <button
+                  key={r.value}
+                  onClick={() => setRange(r.value)}
+                  className={`rounded px-2 py-1 font-mono text-xs ${
+                    range === r.value ? "bg-[#21262d] text-[#e6edf3]" : "text-[#8b949e] hover:text-[#e6edf3]"
+                  }`}
+                >
+                  {r.label}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
         {historyError ? (
