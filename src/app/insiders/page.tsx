@@ -29,10 +29,12 @@ function BuyTable({
   rows,
   whoLabel,
   prices,
+  isCluster = false,
 }: {
   rows: InsiderBuy[];
   whoLabel: string;
   prices: Record<string, number>;
+  isCluster?: boolean;
 }) {
   const num = (s: string) => {
     const n = parseFloat(s.replace(/[^0-9.-]/g, ""));
@@ -96,13 +98,24 @@ function BuyTable({
             <td className="py-2 pr-3 font-mono text-xs text-[#8b949e]">{r.filingDate}</td>
             <td className="py-2 pr-3 font-mono text-sm">
               {r.ticker ? (
-                <Link
-                  href={`/?symbol=${encodeURIComponent(r.ticker)}`}
-                  className="text-[#58a6ff] hover:underline"
-                  title={`chart ${r.ticker}`}
-                >
-                  {r.ticker}
-                </Link>
+                <span className="inline-flex items-center gap-1">
+                  <Link
+                    href={`/?symbol=${encodeURIComponent(r.ticker)}`}
+                    className="text-[#58a6ff] hover:underline"
+                    title={`chart ${r.ticker}`}
+                  >
+                    {r.ticker}
+                  </Link>
+                  <a
+                    href={`http://openinsider.com/screener?s=${encodeURIComponent(r.ticker)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[10px] text-[#484f58] hover:text-[#58a6ff]"
+                    title="see the individual filers on openinsider"
+                  >
+                    ↗
+                  </a>
+                </span>
               ) : (
                 <span className="text-[#58a6ff]">{r.ticker}</span>
               )}
@@ -110,9 +123,25 @@ function BuyTable({
             <td className="max-w-[14rem] truncate py-2 pr-3 text-sm text-[#e6edf3]" title={r.company}>
               {r.company}
             </td>
-            <td className="max-w-[11rem] truncate py-2 pr-3 text-xs text-[#8b949e]" title={`${r.insiders} ${r.title}`}>
-              {r.insiders}
-              {r.title && <span className="text-[#484f58]"> · {r.title}</span>}
+            <td
+              className="max-w-[11rem] py-2 pr-3 text-xs text-[#8b949e]"
+              title={isCluster ? `${r.insiders} bought — open ↗ for their names · sector: ${r.title}` : `${r.insiders} ${r.title}`}
+            >
+              {isCluster ? (
+                <div className="flex flex-col items-start gap-0.5">
+                  <span>{r.insiders}</span>
+                  {r.title && (
+                    <span className="rounded border border-[#21262d] px-1 py-0.5 text-[10px] text-[#484f58]">
+                      {r.title}
+                    </span>
+                  )}
+                </div>
+              ) : (
+                <span className="truncate">
+                  {r.insiders}
+                  {r.title && <span className="text-[#484f58]"> · {r.title}</span>}
+                </span>
+              )}
             </td>
             <td className="py-2 pr-3 text-right font-mono text-xs text-[#e6edf3]">{r.price}</td>
             <td className="py-2 pr-3 text-right font-mono text-xs text-[#e6edf3]">
@@ -209,7 +238,7 @@ export default function Insiders() {
             <p className="mb-3 font-mono text-[11px] text-[#484f58]">
               the strongest insider signal: several people with inside knowledge independently reaching for their wallets
             </p>
-            <BuyTable rows={report.clusterBuys} whoLabel="Insiders" prices={prices} />
+            <BuyTable rows={report.clusterBuys} whoLabel="Insiders" prices={prices} isCluster />
           </section>
 
           <section className="mt-6 rounded-lg border border-[#30363d] bg-[#0d1117] p-4">
