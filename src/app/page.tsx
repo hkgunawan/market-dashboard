@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import type { Candle, Quote, Range } from "@/lib/yahoo";
+import type { Supertrend } from "@/lib/indicators";
 import PriceChart from "@/components/price-chart";
 import QuoteCard from "@/components/quote-card";
 
@@ -30,8 +31,7 @@ const STORAGE_KEY = "md.watchlist.v2";
 
 interface HistoryPayload {
   candles: Candle[];
-  sma50: (number | null)[];
-  sma200: (number | null)[];
+  supertrend: Supertrend;
   rsi14: (number | null)[];
 }
 
@@ -154,6 +154,7 @@ export default function Dashboard() {
 
   const selectedLabel = watchlist.find((w) => w.symbol === selected)?.label ?? selected;
   const lastRsi = history?.rsi14.filter((v): v is number => v != null).at(-1);
+  const lastTrend = history?.supertrend.direction.filter((v): v is 1 | -1 => v != null).at(-1);
 
   return (
     <main className="mx-auto max-w-5xl px-4 py-8">
@@ -234,6 +235,14 @@ export default function Dashboard() {
         <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
           <div className="font-mono text-sm text-[#e6edf3]">
             {selectedLabel} <span className="text-[#8b949e]">({selected})</span>
+            {lastTrend != null && (
+              <span className="ml-3 text-[#8b949e]">
+                Supertrend:{" "}
+                <span className={lastTrend === 1 ? "text-[#3fb950]" : "text-[#f85149]"}>
+                  {lastTrend === 1 ? "▲ up" : "▼ down"}
+                </span>
+              </span>
+            )}
             {lastRsi != null && (
               <span className="ml-3 text-[#8b949e]">
                 RSI(14):{" "}
@@ -242,9 +251,7 @@ export default function Dashboard() {
                 </span>
               </span>
             )}
-            <span className="ml-3 text-xs">
-              <span className="text-[#d29922]">— SMA50</span> <span className="ml-2 text-[#58a6ff]">— SMA200</span>
-            </span>
+            <span className="ml-3 text-xs text-[#484f58]">Supertrend(10,3) · RSI(14)</span>
           </div>
           <div className="flex gap-1">
             {RANGES.map((r) => (
@@ -263,7 +270,7 @@ export default function Dashboard() {
         {historyError ? (
           <p className="py-24 text-center font-mono text-sm text-[#f85149]">{historyError}</p>
         ) : history ? (
-          <PriceChart candles={history.candles} sma50={history.sma50} sma200={history.sma200} />
+          <PriceChart candles={history.candles} supertrend={history.supertrend} rsi14={history.rsi14} />
         ) : (
           <div className="h-[420px] animate-pulse rounded bg-[#161b22]" />
         )}

@@ -6,18 +6,25 @@ import {
   CandlestickSeries,
   LineSeries,
   ColorType,
+  LineStyle,
   type IChartApi,
   type UTCTimestamp,
+  type LineData,
+  type WhitespaceData,
 } from "lightweight-charts";
 import type { Candle } from "@/lib/yahoo";
+import type { Supertrend } from "@/lib/indicators";
 
 interface Props {
   candles: Candle[];
-  sma50: (number | null)[];
-  sma200: (number | null)[];
+  supertrend: Supertrend;
+  rsi14: (number | null)[];
 }
 
-export default function PriceChart({ candles, sma50, sma200 }: Props) {
+const GREEN = "#3fb950";
+const RED = "#f85149";
+
+export default function PriceChart({ candles, supertrend, rsi14 }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const chartRef = useRef<IChartApi | null>(null);
 
@@ -31,6 +38,7 @@ export default function PriceChart({ candles, sma50, sma200 }: Props) {
         background: { type: ColorType.Solid, color: "transparent" },
         textColor: "#8b949e",
         fontFamily: "var(--font-geist-mono), monospace",
+        panes: { separatorColor: "#30363d", separatorHoverColor: "#484f58" },
       },
       grid: {
         vertLines: { color: "#161b22" },
@@ -42,13 +50,14 @@ export default function PriceChart({ candles, sma50, sma200 }: Props) {
     });
     chartRef.current = chart;
 
+    // --- price pane (0): candles + supertrend ---------------------------------
     const candleSeries = chart.addSeries(CandlestickSeries, {
-      upColor: "#3fb950",
-      downColor: "#f85149",
-      borderUpColor: "#3fb950",
-      borderDownColor: "#f85149",
-      wickUpColor: "#3fb950",
-      wickDownColor: "#f85149",
+      upColor: GREEN,
+      downColor: RED,
+      borderUpColor: GREEN,
+      borderDownColor: RED,
+      wickUpColor: GREEN,
+      wickDownColor: RED,
     });
     candleSeries.setData(
       candles.map((c) => ({
@@ -60,22 +69,63 @@ export default function PriceChart({ candles, sma50, sma200 }: Props) {
       }))
     );
 
-    const lineData = (values: (number | null)[]) =>
-      candles
-        .map((c, i) => ({ time: c.time as UTCTimestamp, value: values[i] }))
-        .filter((p): p is { time: UTCTimestamp; value: number } => p.value != null);
-
-    const ma50 = lineData(sma50);
-    if (ma50.length > 0) {
+    // Supertrend is one line that flips colour with the trend. lightweight-charts
+    // colours a whole series uniformly, so we draw two series — uptrend (green)
+    // and downtrend (red) — using whitespace points to leave gaps where the
+    // other trend is active. A one-bar overlap at each flip keeps the line joined.
+    type Pt = LineData<UTCTimestamp> | WhitespaceData<UTCTimestamp>;
+    const up: Pt[] = [];
+    const down: Pt[] = [];
+    supertrend.value.forEach((v, i) => {
+      const time = candles[i].time as UTCTimestamp;
+      const dir = supertrend.direction[i];
+      if (v == null || dir == null) {
+        up.push({ time });
+        down.push({ time });
+        return;
+      }
+      const flipped = i > 0 && supertrend.direction[i - 1] != null && supertrend.direction[i - 1] !== dir;
+      up.push(dir === 1 || flipped ? { time, value: v } : { time });
+      down.push(dir === -1 || flipped ? { time, value: v } : { time });
+    });
+    if (up.some((p) => "value" in p)) {
       chart
-        .addSeries(LineSeries, { color: "#d29922", lineWidth: 1, priceLineVisible: false, lastValueVisible: false })
-        .setData(ma50);
+        .addSeries(LineSeries, { color: GREEN, lineWidth: 2, priceLineVisible: false, lastValueVisible: false })
+        .setData(up);
     }
-    const ma200 = lineData(sma200);
-    if (ma200.length > 0) {
+    if (down.some((p) => "value" in p)) {
       chart
-        .addSeries(LineSeries, { color: "#58a6ff", lineWidth: 1, priceLineVisible: false, lastValueVisible: false })
-        .setData(ma200);
+        .addSeries(LineSeries, { color: RED, lineWidth: 2, priceLineVisible: false, lastValueVisible: false })
+        .setData(down);
+    }
+
+    // --- RSI pane (1) ---------------------------------------------------------
+    const rsiData = candles
+      .map((c, i) => ({ time: c.time as UTCTimestamp, value: rsi14[i] }))
+      .filter((p): p is { time: UTCTimestamp; value: number } => p.value != null);
+    if (rsiData.length > 0) {
+      const rsiSeries = chart.addSeries(
+        LineSeries,
+        { color: "#a371f7", lineWidth: 1, priceLineVisible: false, lastValueVisible: true },
+        1 // paneIndex → separate pane below price
+      );
+      rsiSeries.setData(rsiData);
+      for (const level of [70, 30]) {
+        rsiSeries.createPriceLine({
+          price: level,
+          color: "#30363d",
+          lineWidth: 1,
+          lineStyle: LineStyle.Dashed,
+          axisLabelVisible: true,
+          title: String(level),
+        });
+      }
+      // keep the RSI pane compact relative to the price pane
+      const panes = chart.panes();
+      if (panes.length > 1) {
+        panes[0].setHeight(320);
+        panes[1].setHeight(120);
+      }
     }
 
     chart.timeScale().fitContent();
@@ -84,7 +134,7 @@ export default function PriceChart({ candles, sma50, sma200 }: Props) {
       chart.remove();
       chartRef.current = null;
     };
-  }, [candles, sma50, sma200]);
+  }, [candles, supertrend, rsi14]);
 
-  return <div ref={containerRef} className="h-[420px] w-full" />;
+  return <div ref={containerRef} className="h-[480px] w-full" />;
 }

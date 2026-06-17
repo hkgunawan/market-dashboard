@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getHistory, type Range } from "@/lib/market";
-import { rsi, sma } from "@/lib/indicators";
+import { rsi, supertrend } from "@/lib/indicators";
 
 const RANGES: Range[] = ["1d", "5d", "1mo", "6mo", "1y", "5y"];
 
@@ -15,8 +15,7 @@ export async function GET(req: NextRequest) {
     const closes = candles.map((c) => c.close);
     return NextResponse.json({
       candles,
-      sma50: sma(closes, 50),
-      sma200: sma(closes, 200),
+      supertrend: supertrend(candles, 10, 3),
       rsi14: rsi(closes, 14),
     });
   } catch (e) {
