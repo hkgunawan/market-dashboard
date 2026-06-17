@@ -42,6 +42,7 @@ export default function Dashboard() {
   const [selected, setSelected] = useState("PAXG-USD");
   const [range, setRange] = useState<Range>("6mo");
   const [candleType, setCandleType] = useState<"candles" | "ha">("ha");
+  const [showBuild, setShowBuild] = useState(false);
   const [history, setHistory] = useState<HistoryPayload | null>(null);
   const [historyError, setHistoryError] = useState<string | null>(null);
   const [newTicker, setNewTicker] = useState("");
@@ -176,6 +177,57 @@ export default function Dashboard() {
           <span>refresh 60s</span>
         </nav>
       </header>
+
+      <div className="-mt-3 mb-5">
+        <button
+          onClick={() => setShowBuild((s) => !s)}
+          className="font-mono text-xs text-[#8b949e] hover:text-[#e6edf3]"
+          aria-expanded={showBuild}
+        >
+          {showBuild ? "hide" : "how it's built"} ▾
+        </button>
+        {showBuild && (
+          <section className="mt-3 rounded-lg border border-[#30363d] bg-[#0d1117] p-4 font-mono text-xs leading-relaxed text-[#8b949e]">
+            <p className="mb-2 text-[#e6edf3]">How it&apos;s built</p>
+            <ul className="space-y-1.5">
+              <li>
+                <span className="text-[#3fb950]">Live data, resilient by design.</span> Quotes come from Finnhub with a
+                Twelve&nbsp;Data fallback; crypto falls back from Binance to Twelve&nbsp;Data (Binance blocks datacenter
+                IPs). A small in-memory TTL cache is rate-limit-aware and serves stale data on upstream errors, and bulk
+                price fetches use bounded concurrency with a retry so a dropped call never leaves a gap.
+              </li>
+              <li>
+                <span className="text-[#58a6ff]">Indicators are faithful community ports.</span> Supertrend
+                (Kıvanç&nbsp;Özbilgiç) and the Ultimate&nbsp;MACD (Chris&nbsp;Moody) are reimplemented from their
+                TradingView Pine scripts as pure, unit-tested functions, plus a Heikin&nbsp;Ashi transform — all computed
+                server-side and drawn with lightweight-charts v5 panes.
+              </li>
+              <li>
+                <span className="text-[#d29922]">Real regulatory data.</span> Insider buys are parsed from SEC Form 4
+                (via openinsider), and &ldquo;smart money&rdquo; from SEC&nbsp;EDGAR 13F filings — diffing consecutive
+                quarters per fund. Company CUSIPs resolve to tickers via OpenFIGI, with a Finnhub name-search fallback
+                for the ones it misses.
+              </li>
+              <li>
+                <span className="text-[#a371f7]">Stack.</span> Next.js&nbsp;16 (App Router) · React&nbsp;19 ·
+                TypeScript · Tailwind&nbsp;v4 · Vitest. Fully typed, tested, and deployed on Vercel with auto-deploy from
+                GitHub. Free-tier only.
+              </li>
+            </ul>
+            <p className="mt-3 text-[#484f58]">
+              Source:{" "}
+              <a
+                href="https://github.com/hkgunawan/market-dashboard"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#58a6ff] hover:underline"
+              >
+                github.com/hkgunawan/market-dashboard
+              </a>
+            </p>
+          </section>
+        )}
+      </div>
 
       <section className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
         {watchlist.map((item) => {
