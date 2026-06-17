@@ -100,6 +100,39 @@ export function sma(values: number[], period: number): (number | null)[] {
   return out;
 }
 
+// EMA seeded from the first value, matching TradingView's ta.ema (values from bar 0).
+export function ema(values: number[], period: number): number[] {
+  const out: number[] = new Array(values.length);
+  const alpha = 2 / (period + 1);
+  let prev = values[0] ?? 0;
+  for (let i = 0; i < values.length; i++) {
+    prev = i === 0 ? values[0] : alpha * values[i] + (1 - alpha) * prev;
+    out[i] = prev;
+  }
+  return out;
+}
+
+export interface MacdResult {
+  macd: (number | null)[];
+  signal: (number | null)[];
+  hist: (number | null)[];
+}
+
+// Chris Moody's "Ultimate MACD" (CM_Ult_MacD): EMA(fast) − EMA(slow) for the
+// MACD line, but an *SMA* of the MACD for the signal line (his distinguishing
+// choice), and histogram = macd − signal. (The MTF resampling of the original
+// is intentionally omitted — this runs on the chart's own timeframe.)
+export function macdCM(values: number[], fast = 12, slow = 26, signalLen = 9): MacdResult {
+  const n = values.length;
+  if (n === 0) return { macd: [], signal: [], hist: [] };
+  const ef = ema(values, fast);
+  const es = ema(values, slow);
+  const macd = ef.map((v, i) => v - es[i]);
+  const sig = sma(macd, signalLen);
+  const hist = macd.map((m, i) => (sig[i] == null ? null : m - sig[i]!));
+  return { macd, signal: sig, hist };
+}
+
 // Wilder's RSI
 export function rsi(values: number[], period = 14): (number | null)[] {
   const out: (number | null)[] = new Array(values.length).fill(null);

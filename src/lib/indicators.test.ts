@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { sma, rsi, atr, supertrend, type OHLC } from "./indicators";
+import { sma, rsi, atr, supertrend, ema, macdCM, type OHLC } from "./indicators";
 
 // build OHLC bars from a close series (tight, ~1% range) for indicator tests
 const barsFrom = (closes: number[]): OHLC[] =>
@@ -98,5 +98,37 @@ describe("supertrend", () => {
   it("warms up with nulls before ATR is available", () => {
     const { value } = supertrend(barsFrom(Array.from({ length: 20 }, (_, i) => 100 + i)), 10, 3);
     expect(value.slice(0, 10).every((v) => v === null)).toBe(true);
+  });
+});
+
+describe("ema", () => {
+  it("seeds from the first value and trends toward a constant series", () => {
+    expect(ema([5, 5, 5, 5], 3)).toEqual([5, 5, 5, 5]);
+    const out = ema([1, 2, 3, 4, 5], 3);
+    expect(out[0]).toBe(1);
+    expect(out.at(-1)!).toBeGreaterThan(out[0]);
+    expect(out.at(-1)!).toBeLessThan(5);
+  });
+});
+
+describe("macdCM (Chris Moody Ultimate MACD)", () => {
+  it("uses an SMA of the MACD for the signal line and macd−signal for the histogram", () => {
+    const closes = Array.from({ length: 60 }, (_, i) => 100 + Math.sin(i / 3) * 5 + i * 0.2);
+    const { macd, signal, hist } = macdCM(closes, 12, 26, 9);
+    expect(macd).toHaveLength(closes.length);
+    // signal is null until 9 MACD points exist, then defined
+    expect(signal[7]).toBeNull();
+    expect(signal[8]).not.toBeNull();
+    // signal equals the 9-period SMA of the macd; hist = macd − signal
+    const window = macd.slice(0, 9) as number[];
+    expect(signal[8]!).toBeCloseTo(window.reduce((a, b) => a + b, 0) / 9, 6);
+    expect(hist[8]!).toBeCloseTo(macd[8]! - signal[8]!, 6);
+    expect(hist[7]).toBeNull();
+  });
+
+  it("MACD line is positive when the fast EMA leads a rising series", () => {
+    const closes = Array.from({ length: 60 }, (_, i) => 100 + i); // steadily rising
+    const { macd } = macdCM(closes, 12, 26, 9);
+    expect(macd.at(-1)!).toBeGreaterThan(0);
   });
 });

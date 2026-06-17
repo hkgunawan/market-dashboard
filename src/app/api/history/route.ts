@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getHistory, type Range } from "@/lib/market";
-import { rsi, supertrend } from "@/lib/indicators";
+import { macdCM, supertrend } from "@/lib/indicators";
 
 const RANGES: Range[] = ["1d", "5d", "1mo", "6mo", "1y", "5y"];
 
@@ -16,7 +16,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({
       candles,
       supertrend: supertrend(candles, 10, 3),
-      rsi14: rsi(closes, 14),
+      macd: macdCM(closes, 12, 26, 9),
     });
   } catch (e) {
     return NextResponse.json({ error: (e as Error).message }, { status: 502 });
