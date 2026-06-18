@@ -31,13 +31,13 @@ function MoveChip({ m }: { m: FundMove }) {
   );
 }
 
-// Current price vs the quarter-end price level — "did it already run up since they filed?"
+// Current price vs the estimated accumulation price — "did it already run up since they bought?"
 function VsLevel({ held, now }: { held: number | null; now: number | undefined }) {
   if (held == null || now == null) return <span className="font-mono text-xs text-[#7d8590]">—</span>;
   const pct = ((now - held) / held) * 100;
   const color = pct <= 10 ? "text-[#3fb950]" : pct <= 40 ? "text-[#d29922]" : "text-[#f85149]";
   return (
-    <span className={`font-mono text-xs ${color}`} title={`held ~$${held.toFixed(2)}, now $${now.toFixed(2)}`}>
+    <span className={`font-mono text-xs ${color}`} title={`bought ~$${held.toFixed(2)}, now $${now.toFixed(2)}`}>
       {pct >= 0 ? "+" : ""}
       {pct.toFixed(0)}%
     </span>
@@ -81,11 +81,11 @@ export default function SmartMoney() {
       name: (s) => s.name,
       buyers: (s) => s.buyers.length,
       dollars: (s) => s.estDollarsAdded,
-      held: (s) => s.priceAtPeriod,
+      held: (s) => s.estBuyPrice,
       now: (s) => priceNow(s) ?? null,
       vs: (s) => {
         const p = priceNow(s);
-        return s.priceAtPeriod && p != null ? ((p - s.priceAtPeriod) / s.priceAtPeriod) * 100 : null;
+        return s.estBuyPrice && p != null ? ((p - s.estBuyPrice) / s.estBuyPrice) * 100 : null;
       },
     },
     { key: "buyers", dir: "desc" }
@@ -124,10 +124,11 @@ export default function SmartMoney() {
 
       {report && (
         <p className="mb-6 font-mono text-[11px] leading-relaxed text-[#7d8590]">
-          Column key — <span className="text-[#8b949e]">Held @</span>: the share price implied by their 13F at
-          quarter-end (a reference level, not actual cost) · <span className="text-[#8b949e]">Now</span>: current price ·{" "}
+          Column key — <span className="text-[#8b949e]">Bought ~@</span>: estimated accumulation price — midway between
+          last quarter&apos;s and this quarter&apos;s end price (13F has no actual cost basis, so this is an estimate of
+          where they were buying) · <span className="text-[#8b949e]">Now</span>: current price ·{" "}
           <span className="text-[#8b949e]">vs</span>: how far it&apos;s moved since — green means you&apos;d still buy
-          near where they held, red means it already ran up.
+          near where they accumulated, red means it already ran up.
         </p>
       )}
 
@@ -162,11 +163,11 @@ export default function SmartMoney() {
                       className="py-2 pr-4 text-right"
                     />
                     <SortTh
-                      label="Held @"
+                      label="Bought ~@"
                       sortKey="held"
                       sort={sort}
                       onSort={toggle}
-                      title="avg share price implied by the 13F (market value ÷ shares) at quarter-end — a reference level, not their actual cost"
+                      title="estimated accumulation price — midpoint of last quarter's and this quarter's end price. 13F has no cost basis, so this estimates where they were buying, not what they actually paid."
                       className="py-2 pr-4 text-right"
                     />
                     <SortTh
@@ -182,7 +183,7 @@ export default function SmartMoney() {
                       sortKey="vs"
                       sort={sort}
                       onSort={toggle}
-                      title="current price vs the quarter-end level — green = near/below where they held, red = it already ran up"
+                      title="current price vs the estimated accumulation price — green = near/below where they bought, red = it already ran up"
                       className="py-2 pr-4 text-right"
                     />
                     <th className="py-2">Moves</th>
@@ -216,13 +217,13 @@ export default function SmartMoney() {
                         {fmtM(s.estDollarsAdded)}
                       </td>
                       <td className="py-2.5 pr-4 text-right font-mono text-xs text-[#8b949e]">
-                        {s.priceAtPeriod != null ? `$${s.priceAtPeriod.toFixed(2)}` : "—"}
+                        {s.estBuyPrice != null ? `$${s.estBuyPrice.toFixed(2)}` : "—"}
                       </td>
                       <td className="py-2.5 pr-4 text-right font-mono text-xs text-[#e6edf3]">
                         {priceNow(s) != null ? `$${priceNow(s)?.toFixed(2)}` : "—"}
                       </td>
                       <td className="py-2.5 pr-4 text-right">
-                        <VsLevel held={s.priceAtPeriod} now={priceNow(s)} />
+                        <VsLevel held={s.estBuyPrice} now={priceNow(s)} />
                       </td>
                       <td className="py-2.5">
                         <div className="flex flex-wrap gap-1">

@@ -47,6 +47,7 @@ export interface IssuerSignal {
   cusip: string;
   ticker: string | null; // resolved from CUSIP via OpenFIGI; null if unresolved
   priceAtPeriod: number | null; // value-weighted 13F market price at quarter-end (value / shares)
+  estBuyPrice: number | null; // estimated accumulation price: midpoint of prior- and this-quarter-end price
   buyers: FundMove[];
   sellers: FundMove[];
   score: number;
@@ -223,6 +224,7 @@ async function resolveTickers(issuers: { cusip: string; name: string }[]): Promi
 async function buildReport(): Promise<SmartMoneyReport> {
   const issuers = new Map<string, IssuerSignal>();
   const qEnd = new Map<string, { value: number; shares: number }>(); // value-weighted quarter-end price per CUSIP
+  const qPrev = new Map<string, { value: number; shares: number }>(); // same, for the prior quarter — used to estimate where they accumulated
   const fundMeta: SmartMoneyReport["funds"] = [];
   let asOfPeriod = "";
   let comparedTo = "";
@@ -242,6 +244,15 @@ async function buildReport(): Promise<SmartMoneyReport> {
           qEnd.set(h.cusip, { value: h.value, shares: h.shares });
         }
       }
+      for (const h of prev.values()) {
+        const e = qPrev.get(h.cusip);
+        if (e) {
+          e.value += h.value;
+          e.shares += h.shares;
+        } else {
+          qPrev.set(h.cusip, { value: h.value, shares: h.shares });
+        }
+      }
       if (latest.period > asOfPeriod) {
         asOfPeriod = latest.period;
         comparedTo = previous.period;
@@ -252,7 +263,7 @@ async function buildReport(): Promise<SmartMoneyReport> {
         if (move.estDollarsMoved < MIN_DOLLARS) continue;
         let sig = issuers.get(cusip);
         if (!sig) {
-          sig = { name, cusip, ticker: null, priceAtPeriod: null, buyers: [], sellers: [], score: 0, estDollarsAdded: 0 };
+          sig = { name, cusip, ticker: null, priceAtPeriod: null, estBuyPrice: null, buyers: [], sellers: [], score: 0, estDollarsAdded: 0 };
           issuers.set(cusip, sig);
         }
         (move.type === "NEW" || move.type === "ADD" ? sig.buyers : sig.sellers).push(move);
@@ -278,7 +289,14 @@ async function buildReport(): Promise<SmartMoneyReport> {
   const shown = [...new Set([...topAccumulated, ...topNewPositions])];
   for (const s of shown) {
     const e = qEnd.get(s.cusip);
-    s.priceAtPeriod = e && e.shares > 0 ? e.value / e.shares : null;
+    const thisPx = e && e.shares > 0 ? e.value / e.shares : null;
+    s.priceAtPeriod = thisPx;
+    // Estimate where they accumulated: assume buying was spread across the quarter, so the
+    // average fill sits roughly midway between last quarter's and this quarter's end price.
+    // No prior-quarter holding (all brand-new) → fall back to the quarter-end level.
+    const p = qPrev.get(s.cusip);
+    const prevPx = p && p.shares > 0 ? p.value / p.shares : null;
+    s.estBuyPrice = thisPx != null ? (prevPx != null ? (prevPx + thisPx) / 2 : thisPx) : null;
   }
   const tickers = await resolveTickers(shown.map((s) => ({ cusip: s.cusip, name: s.name })));
   for (const s of shown) s.ticker = tickers.get(s.cusip) ?? null;
