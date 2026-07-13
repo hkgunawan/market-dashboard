@@ -7,6 +7,7 @@ import type { Candle, Quote, Range } from "@/lib/yahoo";
 import type { Supertrend, MacdResult } from "@/lib/indicators";
 import type { CompanyProfile } from "@/lib/finnhub";
 import QuoteCard from "@/components/quote-card";
+import SiteFooter from "@/components/site-footer";
 
 // lightweight-charts is the heaviest dependency and only renders client-side —
 // defer it out of the initial bundle so first paint (watchlist) is fast.
@@ -204,6 +205,11 @@ export default function Dashboard() {
         </nav>
       </header>
 
+      <p className="-mt-4 mb-5 font-mono text-xs text-[#8b949e]">
+        watchlist + charts with real Supertrend/MACD indicators, SEC insider buys, and 13F smart-money tracking —
+        free, personal-use market dashboard.
+      </p>
+
       <div className="-mt-3 mb-5">
         <button
           onClick={() => setShowBuild((s) => !s)}
@@ -394,9 +400,7 @@ export default function Dashboard() {
         </section>
       )}
 
-      <footer className="mt-8 text-center font-mono text-xs text-[#7d8590]">
-        unofficial market data (Binance · Twelve Data) · for personal use · not financial advice
-      </footer>
+      <SiteFooter>unofficial market data (Binance · Twelve Data) · for personal use · not financial advice</SiteFooter>
     </main>
   );
 }

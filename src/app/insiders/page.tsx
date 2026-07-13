@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import type { InsiderBuy, InsiderReport } from "@/lib/openinsider";
 import { useTableSort, SortTh } from "@/components/sortable";
+import SiteFooter from "@/components/site-footer";
 
 function parsePrice(s: string): number | null {
   const n = parseFloat(s.replace(/[^0-9.]/g, ""));
@@ -271,9 +272,7 @@ export default function Insiders() {
         </>
       )}
 
-      <footer className="mt-8 text-center font-mono text-xs text-[#7d8590]">
-        source: SEC Form 4 via openinsider.com · refreshed every 30 min · not financial advice
-      </footer>
+      <SiteFooter>source: SEC Form 4 via openinsider.com · refreshed every 30 min · not financial advice</SiteFooter>
     </main>
   );
 }

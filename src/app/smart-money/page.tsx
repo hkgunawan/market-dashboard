@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import type { FundMove, IssuerSignal, SmartMoneyReport } from "@/lib/edgar";
 import { useTableSort, SortTh } from "@/components/sortable";
+import SiteFooter from "@/components/site-footer";
 
 const fmtM = (n: number) =>
   Math.abs(n) >= 1_000_000_000 ? `$${(n / 1_000_000_000).toFixed(1)}B` : `$${Math.round(n / 1_000_000)}M`;
@@ -284,9 +285,7 @@ export default function SmartMoney() {
         </>
       )}
 
-      <footer className="mt-8 text-center font-mono text-xs text-[#7d8590]">
-        source: SEC EDGAR 13F-HR filings · quarterly, lagged data · not financial advice
-      </footer>
+      <SiteFooter>source: SEC EDGAR 13F-HR filings · quarterly, lagged data · not financial advice</SiteFooter>
     </main>
   );
 }

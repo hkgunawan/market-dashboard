@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import type { Quote } from "@/lib/yahoo";
 import type { Supertrend, MacdResult } from "@/lib/indicators";
+import SiteFooter from "@/components/site-footer";
 
 // One-glance synthesis of everything the dashboard tracks, per watchlist ticker:
 // trend (Supertrend) + momentum (MACD) + whether insiders / famous funds are
@@ -247,9 +248,7 @@ export default function Signals() {
         </table>
       </section>
 
-      <footer className="mt-8 text-center font-mono text-xs text-[#7d8590]">
-        synthesizes the chart indicators · insider-buys · smart-money · not financial advice
-      </footer>
+      <SiteFooter>synthesizes the chart indicators · insider-buys · smart-money · not financial advice</SiteFooter>
     </main>
   );
 }

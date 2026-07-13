@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import type { EarningsInfo } from "@/lib/finnhub";
+import SiteFooter from "@/components/site-footer";
 
 // Upcoming earnings dates for the watchlist's stocks, with each company's recent
 // beat/miss track record. Crypto and ETFs (no earnings) are omitted. Reuses the
@@ -230,9 +231,7 @@ export default function Earnings() {
         </section>
       )}
 
-      <footer className="mt-8 text-center font-mono text-xs text-[#7d8590]">
-        source: Finnhub earnings calendar · estimates are consensus · not financial advice
-      </footer>
+      <SiteFooter>source: Finnhub earnings calendar · estimates are consensus · not financial advice</SiteFooter>
     </main>
   );
 }
