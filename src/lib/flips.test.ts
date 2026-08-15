@@ -35,6 +35,10 @@ describe("findFlippedAt", () => {
     expect(findFlippedAt(d, times(40))).toBeNull();
   });
 
+  it("ignores the warmup transition even with no seed zone", () => {
+    expect(findFlippedAt(dir(10, Array<Trend>(30).fill(1)), times(40), 0)).toBeNull();
+  });
+
   it("ignores a flip inside the seed zone, where supertrend's trend=1 seed dominates", () => {
     const trends: Trend[] = [...Array<Trend>(5).fill(1), ...Array<Trend>(35).fill(-1)];
     const d = dir(0, trends); // flip at index 5, inside the 20-bar seed zone
@@ -147,7 +151,7 @@ describe("freshFlips", () => {
   });
 
   it("treats the window as inclusive at its edge", () => {
-    expect(freshFlips([mk("EDGE", "2026-01-24", 1)], now, 7).rows).toHaveLength(1);
+    expect(freshFlips([mk("EDGE", "2026-01-23", 1)], now, 7).rows).toHaveLength(1);
     expect(freshFlips([mk("PAST", "2026-01-22", 1)], now, 7).rows).toHaveLength(0);
   });
 });
