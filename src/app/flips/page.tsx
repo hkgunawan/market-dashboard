@@ -1,6 +1,6 @@
 import Link from "next/link";
 import signalsJson from "@/data/signals.json";
-import { freshFlips, linkSymbol, type SignalsFile } from "@/lib/flips";
+import { freshFlips, linkSymbol, tradingViewUrl, type SignalsFile } from "@/lib/flips";
 import SiteFooter from "@/components/site-footer";
 import FlipsTable from "./flips-table";
 
@@ -46,6 +46,15 @@ export default function Flips() {
               <Link href={`/?symbol=${encodeURIComponent(linkSymbol(r.symbol))}`} className="text-[#58a6ff] hover:underline">
                 {r.symbol}
               </Link>
+              <a
+                href={tradingViewUrl(r.symbol)}
+                target="_blank"
+                rel="noopener noreferrer"
+                title={`${r.symbol} on TradingView`}
+                className="-ml-2 text-[#7d8590] hover:text-[#e6edf3]"
+              >
+                tv&#8599;
+              </a>
               <span className="text-[#7d8590]">{r.name}</span>
               <span className={r.daily.trend === 1 ? "text-[#3fb950]" : "text-[#f85149]"}>
                 daily turned {r.daily.trend === 1 ? "up" : "down"}

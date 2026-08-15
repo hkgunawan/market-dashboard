@@ -5,6 +5,7 @@ import {
   alignmentOf,
   freshFlips,
   linkSymbol,
+  tradingViewUrl,
   SEED_ZONE_BARS,
   type SymbolSignal,
   type TimeframeSignal,
@@ -166,5 +167,18 @@ describe("linkSymbol", () => {
     expect(linkSymbol("AAPL")).toBe("AAPL");
     expect(linkSymbol("GLD")).toBe("GLD");
     expect(linkSymbol("BRK.B")).toBe("BRK.B");
+  });
+});
+
+describe("tradingViewUrl", () => {
+  it("drops the pair separator for crypto", () => {
+    expect(tradingViewUrl("BTC/USD")).toBe("https://www.tradingview.com/symbols/BTCUSD/");
+    expect(tradingViewUrl("ETH/USD")).toBe("https://www.tradingview.com/symbols/ETHUSD/");
+  });
+
+  it("passes equities and ETFs through, keeping share-class dots", () => {
+    expect(tradingViewUrl("AAPL")).toBe("https://www.tradingview.com/symbols/AAPL/");
+    expect(tradingViewUrl("GLD")).toBe("https://www.tradingview.com/symbols/GLD/");
+    expect(tradingViewUrl("BRK.B")).toBe("https://www.tradingview.com/symbols/BRK.B/");
   });
 });

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useTableSort, SortTh } from "@/components/sortable";
-import { linkSymbol, type SymbolSignal } from "@/lib/flips";
+import { linkSymbol, tradingViewUrl, type SymbolSignal } from "@/lib/flips";
 
 const trendLabel = (t: 1 | -1 | null) =>
   t === 1 ? <span className="text-[#3fb950]">up</span>
@@ -48,6 +48,15 @@ export default function FlipsTable({ rows, now }: { rows: SymbolSignal[]; now: n
                 <Link href={`/?symbol=${encodeURIComponent(linkSymbol(r.symbol))}`} className="text-[#58a6ff] hover:underline">
                   {r.symbol}
                 </Link>
+                <a
+                  href={tradingViewUrl(r.symbol)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title={`${r.symbol} on TradingView`}
+                  className="ml-1 text-[#7d8590] hover:text-[#e6edf3]"
+                >
+                  tv&#8599;
+                </a>
                 <span className="ml-2 text-[#7d8590]">{r.name}</span>
               </td>
               <td className="py-1.5 text-right text-[#e6edf3]">

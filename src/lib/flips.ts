@@ -118,3 +118,11 @@ export function freshFlips(
 export function linkSymbol(symbol: string): string {
   return symbol.replace(/\/USD$/, "-USD");
 }
+
+// A secondary, outbound chart link. The ticker itself still points at this site's
+// own chart — that page is the engineering on show — but TradingView is the better
+// tool for actually reading a chart, and following it costs no API quota at all.
+// TradingView slugs drop the pair separator: BTC/USD -> BTCUSD. Dots survive (BRK.B).
+export function tradingViewUrl(symbol: string): string {
+  return `https://www.tradingview.com/symbols/${encodeURIComponent(symbol.replace("/", ""))}/`;
+}

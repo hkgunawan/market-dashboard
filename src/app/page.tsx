@@ -91,6 +91,10 @@ export default function Dashboard() {
     if (!symbolsKey) return;
     let cancelled = false;
     const load = async () => {
+      // A tab left open in the background used to poll forever — the single
+      // biggest source of upstream quota burn, spent on quotes nobody is
+      // looking at. Skip while hidden; refresh on the way back.
+      if (document.hidden) return;
       const res = await fetch(`/api/quotes?symbols=${encodeURIComponent(symbolsKey)}`);
       if (!res.ok || cancelled) return;
       const data: { quotes: Quote[]; failed: string[] } = await res.json();
@@ -104,9 +108,14 @@ export default function Dashboard() {
     };
     load();
     const id = setInterval(load, 60_000);
+    const onVisibility = () => {
+      if (!document.hidden) load(); // catch up immediately rather than waiting out the interval
+    };
+    document.addEventListener("visibilitychange", onVisibility);
     return () => {
       cancelled = true;
       clearInterval(id);
+      document.removeEventListener("visibilitychange", onVisibility);
     };
   }, [symbolsKey]);
 
