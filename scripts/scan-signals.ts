@@ -34,11 +34,21 @@ const WEEKLY_BARS = 300; // ~5y
 const SPACING_MS = 9_500;
 const SUCCESS_FLOOR = 0.9;
 
-// A minute-quota rejection is transient — the next minute clears it. Treating it
+// A MINUTE-quota rejection is transient — the next minute clears it. Treating it
 // as a permanent symbol failure is what turned one burst into 29 lost symbols and
 // a run below the floor.
+//
+// The match must be narrow. Twelve Data phrases the daily-credit exhaustion the
+// same way ("run out of API credits"), and that one is NOT transient: retrying
+// every remaining symbol would sleep 130s each, ~3.8h total, blow the workflow's
+// timeout — and a timed-out job is CANCELLED, which skips `if: failure()` and
+// therefore skips the alert entirely. That would turn the loud failure this
+// pipeline is built around back into a silent one. Match the minute wording only.
 const RATE_LIMIT_WAIT_MS = 65_000;
-const isRateLimit = (err: unknown) => /run out of API credits/i.test((err as Error).message ?? "");
+const MAX_RATE_LIMIT_RETRIES = 12; // whole-run budget: ~13 min of backoff, worst case
+let rateLimitRetries = 0;
+
+const isMinuteRateLimit = (err: unknown) => /current minute/i.test((err as Error).message ?? "");
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
@@ -47,14 +57,24 @@ async function fetchSeries(symbol: string, interval: "1day" | "1week", size: num
   try {
     return await getTdSeries(symbol, interval, size, KEY);
   } catch (err) {
-    if (!isRateLimit(err)) throw err;
-    console.warn(`  ${symbol.padEnd(9)} rate-limited on ${interval}; waiting 65s and retrying once`);
+    if (!isMinuteRateLimit(err)) throw err;
+    if (rateLimitRetries >= MAX_RATE_LIMIT_RETRIES) {
+      throw new Error(
+        `minute rate-limited and the per-run retry budget (${MAX_RATE_LIMIT_RETRIES}) is spent — ` +
+          `pacing is too tight or the key is shared with another consumer`
+      );
+    }
+    rateLimitRetries++;
+    console.warn(
+      `  ${symbol.padEnd(9)} minute-rate-limited on ${interval}; waiting 65s ` +
+        `(retry ${rateLimitRetries}/${MAX_RATE_LIMIT_RETRIES})`
+    );
     await sleep(RATE_LIMIT_WAIT_MS);
     return await getTdSeries(symbol, interval, size, KEY);
   }
 }
 
-// One cheap probe before a ~27-minute loop, so an auth or quota problem is
+// One cheap probe before a ~33-minute loop, so an auth or quota problem is
 // named in seconds instead of failing deep into the run.
 async function preflight(needed: number) {
   let usage;
@@ -78,7 +98,7 @@ async function preflight(needed: number) {
 
 async function main() {
   const universe = liveUniverse();
-  await preflight(universe.length * 2);
+  await preflight(universe.length * 2 + MAX_RATE_LIMIT_RETRIES + 10); // + headroom: each retry is a billed credit the base figure does not reserve
 
   const now = new Date();
   const out: SymbolSignal[] = [];

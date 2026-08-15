@@ -90,21 +90,34 @@ export default function Dashboard() {
   useEffect(() => {
     if (!symbolsKey) return;
     let cancelled = false;
+    let lastLoadedAt = 0;
     const load = async () => {
       // A tab left open in the background used to poll forever — the single
       // biggest source of upstream quota burn, spent on quotes nobody is
       // looking at. Skip while hidden; refresh on the way back.
       if (document.hidden) return;
-      const res = await fetch(`/api/quotes?symbols=${encodeURIComponent(symbolsKey)}`);
-      if (!res.ok || cancelled) return;
-      const data: { quotes: Quote[]; failed: string[] } = await res.json();
-      if (cancelled) return;
-      setQuotes((prev) => {
-        const next = { ...prev };
-        for (const q of data.quotes) next[q.symbol] = q;
-        return next;
-      });
-      setUnavailable(data.failed ?? []);
+      // …but only if the data is actually stale. Without this, alt-tabbing ten
+      // times in a minute fires ten requests where the old code fired one, which
+      // would make this "optimisation" a regression.
+      if (Date.now() - lastLoadedAt < 60_000) return;
+      lastLoadedAt = Date.now();
+      try {
+        const res = await fetch(`/api/quotes?symbols=${encodeURIComponent(symbolsKey)}`);
+        if (!res.ok || cancelled) return;
+        const data: { quotes: Quote[]; failed: string[] } = await res.json();
+        if (cancelled) return;
+        setQuotes((prev) => {
+          const next = { ...prev };
+          for (const q of data.quotes) next[q.symbol] = q;
+          return next;
+        });
+        setUnavailable(data.failed ?? []);
+      } catch {
+        // Offline, or waking from sleep before the network is back. Keep showing
+        // the last known quotes and let the next tick retry — an unhandled
+        // rejection here would surface as a dev error overlay for nothing.
+        lastLoadedAt = 0; // allow an immediate retry rather than waiting out the window
+      }
     };
     load();
     const id = setInterval(load, 60_000);

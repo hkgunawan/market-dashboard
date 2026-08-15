@@ -17,7 +17,7 @@ permissions:
 jobs:
   scan:
     runs-on: ubuntu-latest
-    timeout-minutes: 120 # the scan paces at 7.6s/call and takes ~75 min in practice
+    timeout-minutes: 120 # scan paces at 9.5s/call: ~33 min, plus up to ~13 min of rate-limit backoff
     concurrency:
       group: scan-signals
       cancel-in-progress: false
@@ -51,7 +51,11 @@ jobs:
           fi
 
       - name: Raise an alert issue on failure
-        if: failure()
+        # `failure()` alone does NOT fire when a job is CANCELLED — and exceeding
+        # timeout-minutes cancels rather than fails. Without `cancelled()` a hung or
+        # over-running scan would die completely silently, which is the one outcome
+        # this whole pipeline exists to prevent.
+        if: failure() || cancelled()
         env:
           GH_TOKEN: ${{ github.token }}
           TITLE: "🔴 Daily signal scan is failing"

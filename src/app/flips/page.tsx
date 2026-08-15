@@ -51,7 +51,7 @@ export default function Flips() {
                 target="_blank"
                 rel="noopener noreferrer"
                 title={`${r.symbol} on TradingView`}
-                className="-ml-2 text-[#7d8590] hover:text-[#e6edf3]"
+                className="ml-1 text-[#7d8590] hover:text-[#e6edf3]"
               >
                 tv&#8599;
               </a>
