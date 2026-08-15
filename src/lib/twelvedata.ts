@@ -24,10 +24,10 @@ interface TdError {
   message?: string;
 }
 
-async function td<T>(path: string, params: Record<string, string>): Promise<T> {
-  const apikey = process.env.TWELVEDATA_API_KEY;
-  if (!apikey) throw new Error("TWELVEDATA_API_KEY not set");
-  const qs = new URLSearchParams({ ...params, apikey, timezone: "UTC" });
+async function td<T>(path: string, params: Record<string, string>, apiKey?: string): Promise<T> {
+  const key = apiKey ?? process.env.TWELVEDATA_API_KEY;
+  if (!key) throw new Error("TWELVEDATA_API_KEY not set");
+  const qs = new URLSearchParams({ ...params, apikey: key, timezone: "UTC" });
   const res = await fetch(`${BASE}${path}?${qs}`, { next: { revalidate: 45 } });
   const data = (await res.json()) as T & TdError;
   if (!res.ok || data.status === "error") {
@@ -74,4 +74,59 @@ export async function getTdHistory(symbol: string, range: Range): Promise<Candle
       close: parseFloat(v.close),
     }))
     .reverse(); // Twelve Data returns newest-first
+}
+
+export type TdInterval = "1day" | "1week";
+
+interface TdSeriesRow {
+  datetime: string;
+  open: string;
+  high: string;
+  low: string;
+  close: string;
+}
+
+// Like getTdHistory, but the caller picks the interval, the depth and the key.
+// The scanner needs 520 daily / 300 weekly bars, which RANGE_SERIES cannot express.
+export async function getTdSeries(
+  symbol: string,
+  interval: TdInterval,
+  outputsize: number,
+  apiKey?: string
+): Promise<Candle[]> {
+  const data = await td<{ values?: TdSeriesRow[] }>(
+    "/time_series",
+    { symbol, interval, outputsize: String(outputsize) },
+    apiKey
+  );
+  return (data.values ?? [])
+    .map((v) => ({
+      time: Math.floor(
+        Date.parse(v.datetime.includes(":") ? `${v.datetime}Z` : `${v.datetime}T00:00:00Z`) / 1000
+      ),
+      open: parseFloat(v.open),
+      high: parseFloat(v.high),
+      low: parseFloat(v.low),
+      close: parseFloat(v.close),
+    }))
+    .reverse(); // Twelve Data returns newest-first
+}
+
+export interface TdUsage {
+  currentUsage: number;
+  dailyUsage: number;
+  planDailyLimit: number;
+}
+
+export async function getTdUsage(apiKey?: string): Promise<TdUsage> {
+  const u = await td<{
+    current_usage: number;
+    daily_usage: number;
+    plan_daily_limit: number;
+  }>("/api_usage", {}, apiKey);
+  return {
+    currentUsage: u.current_usage,
+    dailyUsage: u.daily_usage,
+    planDailyLimit: u.plan_daily_limit,
+  };
 }

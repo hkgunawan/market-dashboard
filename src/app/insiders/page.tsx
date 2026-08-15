@@ -224,6 +224,9 @@ export default function Insiders() {
           <Link href="/earnings" className="text-[#a371f7] hover:text-[#e6edf3]">
             earnings →
           </Link>
+          <Link href="/flips" className="text-[#58a6ff] hover:text-[#e6edf3]">
+            flips →
+          </Link>
         </nav>
       </header>
 

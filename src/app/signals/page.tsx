@@ -146,6 +146,9 @@ export default function Signals() {
           <Link href="/" className="hover:text-[#e6edf3]">
             ← markets
           </Link>
+          <Link href="/flips" className="text-[#3fb950] hover:text-[#e6edf3]">
+            flips →
+          </Link>
           <Link href="/insiders" className="text-[#58a6ff] hover:text-[#e6edf3]">
             insider-buys →
           </Link>
