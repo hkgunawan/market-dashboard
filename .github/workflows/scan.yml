@@ -1,0 +1,84 @@
+name: Scan signals
+
+# Recomputes Supertrend/MACD across the universe daily and commits the dataset,
+# which triggers Vercel's auto-deploy. Runs at 23:30 UTC — after the US close
+# (21:00 UTC winter / 20:00 UTC summer), so the last daily bar is complete.
+# Daily rather than weekdays because crypto trades through the weekend.
+
+on:
+  schedule:
+    - cron: "30 23 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write # so a failed run can raise (and later close) an alert issue
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120 # the scan paces at 7.6s/call and takes ~75 min in practice
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+
+      - name: Scan the universe
+        env:
+          TWELVEDATA_SCAN_KEY: ${{ secrets.TWELVEDATA_SCAN_KEY }}
+        run: npm run scan
+
+      - name: Sanity-check the dataset
+        run: npm test
+
+      - name: Commit if the dataset changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet -- src/data/signals.json; then
+            echo "No changes — nothing to deploy."
+          else
+            git add src/data/signals.json
+            git commit -m "chore: daily signal scan"
+            git push
+          fi
+
+      - name: Raise an alert issue on failure
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TITLE: "🔴 Daily signal scan is failing"
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          # Exact title match over the open list, not `--search`: GitHub's search
+          # index lags by seconds-to-minutes and would let duplicates through.
+          existing=$(gh issue list --state open --limit 100 --json number,title \
+            --jq ".[] | select(.title == \"$TITLE\") | .number" | head -n1)
+          body="The scheduled \`scan.yml\` run failed, so \`src/data/signals.json\` is now stale and the live site is serving the last good dataset.
+
+          Failed run: $RUN_URL
+
+          Check the log for the \`Twelve Data preflight failed:\` or \`Not enough daily quota\` line — it names the cause.
+
+          This issue closes itself automatically once a run succeeds."
+          if [ -n "$existing" ]; then
+            gh issue comment "$existing" --body "Still failing — $RUN_URL"
+          else
+            gh issue create --title "$TITLE" --body "$body"
+          fi
+
+      - name: Close the alert issue once healthy again
+        if: success()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TITLE: "🔴 Daily signal scan is failing"
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          existing=$(gh issue list --state open --limit 100 --json number,title \
+            --jq ".[] | select(.title == \"$TITLE\") | .number" | head -n1)
+          if [ -n "$existing" ]; then
+            gh issue close "$existing" --comment "Recovered — scan succeeded in $RUN_URL"
+          fi
