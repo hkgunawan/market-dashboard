@@ -25,10 +25,34 @@ const OUT = join(ROOT, "src/data/signals.json");
 
 const DAILY_BARS = 520; // ~2y
 const WEEKLY_BARS = 300; // ~5y
-const SPACING_MS = 7_600; // free tier is 8 req/min; 7.6s keeps us just inside
+// Free tier is 8 requests per minute. 7.6s spacing computes to 7.9/min, which
+// looked fine locally only because each response took ~14s on a home connection
+// — the real pacing was ~2.7/min. On a GitHub runner the responses are fast, the
+// sleep becomes the only delay, and 7.9/min lands 9-13 calls inside some
+// wall-clock minutes (Twelve Data meters fixed minutes, not a rolling window).
+// The first unattended run lost 29 symbols to that. 9.5s = 6.3/min, ~21% margin.
+const SPACING_MS = 9_500;
 const SUCCESS_FLOOR = 0.9;
 
+// A minute-quota rejection is transient — the next minute clears it. Treating it
+// as a permanent symbol failure is what turned one burst into 29 lost symbols and
+// a run below the floor.
+const RATE_LIMIT_WAIT_MS = 65_000;
+const isRateLimit = (err: unknown) => /run out of API credits/i.test((err as Error).message ?? "");
+
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
+// Fetch a series, backing off once and retrying if we hit the per-minute cap.
+async function fetchSeries(symbol: string, interval: "1day" | "1week", size: number) {
+  try {
+    return await getTdSeries(symbol, interval, size, KEY);
+  } catch (err) {
+    if (!isRateLimit(err)) throw err;
+    console.warn(`  ${symbol.padEnd(9)} rate-limited on ${interval}; waiting 65s and retrying once`);
+    await sleep(RATE_LIMIT_WAIT_MS);
+    return await getTdSeries(symbol, interval, size, KEY);
+  }
+}
 
 // One cheap probe before a ~27-minute loop, so an auth or quota problem is
 // named in seconds instead of failing deep into the run.
@@ -64,10 +88,10 @@ async function main() {
   for (const entry of universe) {
     try {
       if (call++ > 0) await sleep(SPACING_MS);
-      const dailyRaw = await getTdSeries(entry.symbol, "1day", DAILY_BARS, KEY);
+      const dailyRaw = await fetchSeries(entry.symbol, "1day", DAILY_BARS);
       await sleep(SPACING_MS);
       call++;
-      const weeklyRaw = await getTdSeries(entry.symbol, "1week", WEEKLY_BARS, KEY);
+      const weeklyRaw = await fetchSeries(entry.symbol, "1week", WEEKLY_BARS);
 
       const daily = dropInProgressDaily(dailyRaw, entry.class, now);
       const weekly = dropInProgressWeekly(weeklyRaw, now);
