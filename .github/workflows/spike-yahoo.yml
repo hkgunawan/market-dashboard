@@ -1,0 +1,65 @@
+name: SPIKE — can Actions reach Yahoo?
+
+# THROWAWAY. Answers one question before the signal-flips scanner is designed:
+# will Yahoo Finance serve ~105 sequential requests from a GitHub Actions runner,
+# or does it rate-limit datacenter IPs the way it already blocks a home network?
+# Delete this file once the answer is recorded.
+
+on:
+  workflow_dispatch:
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Probe Yahoo from a runner IP
+        run: |
+          UA="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"
+          SYMBOLS="AAPL MSFT NVDA JPM XOM AMZN GOOGL META BRK-B UNH BTC-USD ETH-USD GC=F SI=F XAUUSD=X XAGUSD=X PAXG-USD"
+
+          echo "runner egress IP: $(curl -s --max-time 10 https://api.ipify.org || echo unknown)"
+          echo
+          ok=0; fail=0
+          for s in $SYMBOLS; do
+            enc=$(printf '%s' "$s" | sed 's/=/%3D/g')
+            code=$(curl -s -o /tmp/r.json -w '%{http_code}' --max-time 25 \
+              -H "User-Agent: $UA" \
+              "https://query1.finance.yahoo.com/v8/finance/chart/$enc?range=2y&interval=1d")
+            if [ "$code" = "200" ]; then
+              ok=$((ok+1))
+              SYM="$s" node -e '
+                const j=JSON.parse(require("fs").readFileSync("/tmp/r.json","utf8"));
+                const r=j.chart.result && j.chart.result[0];
+                const pad=(s,n)=>String(s).padEnd(n);
+                if(!r || !r.timestamp){ console.log(pad(process.env.SYM,11),"200  NO DATA"); process.exit(0); }
+                const t=r.timestamp, d=x=>new Date(x*1000).toISOString().slice(0,10);
+                const c=r.indicators.quote[0].close||[];
+                console.log(pad(process.env.SYM,11),"200 ",pad(t.length+" bars",11),
+                            d(t[0]),"->",d(t[t.length-1]),
+                            " nulls:"+c.filter(v=>v==null).length,
+                            " cur:"+(r.meta.currency||"?"));
+              '
+            else
+              fail=$((fail+1))
+              echo "$s  ->  HTTP $code   FAILED"
+            fi
+            sleep 0.6
+          done
+
+          echo
+          echo "SEQUENTIAL RESULT: $ok ok / $fail failed"
+
+          # The real scanner fires ~105 in a row, so check Yahoo doesn't only
+          # start throttling after sustained traffic.
+          echo
+          echo "burst of 30 rapid requests, no delay:"
+          burst_fail=0
+          for i in $(seq 1 30); do
+            c=$(curl -s -o /dev/null -w '%{http_code}' --max-time 15 -H "User-Agent: $UA" \
+              "https://query1.finance.yahoo.com/v8/finance/chart/AAPL?range=1mo&interval=1d")
+            if [ "$c" != "200" ]; then
+              burst_fail=$((burst_fail+1))
+              echo "  req $i -> $c"
+            fi
+          done
+          echo "BURST RESULT: $burst_fail failures / 30"
