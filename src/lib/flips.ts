@@ -100,7 +100,7 @@ export function freshFlips(
   days: number = FRESH_DAYS,
   cap: number = FRESH_CAP
 ): { rows: SymbolSignal[]; total: number } {
-  const cutoff = utcDate(new Date(now.getTime() - days * 86400_000));
+  const cutoff = utcDate(new Date(now.getTime() - (days - 1) * 86400_000));
   const matches = symbols.filter((s) => s.daily.flippedAt != null && s.daily.flippedAt >= cutoff);
 
   const confirmed = (s: SymbolSignal) => (s.daily.trend != null && s.weekly.trend === s.daily.trend ? 0 : 1);

@@ -110,4 +110,7 @@ async function main() {
   console.log(`wrote ${OUT}`);
 }
 
-main();
+main().catch((err) => {
+  console.error(`\nScan failed: ${(err as Error).message}`);
+  process.exit(1);
+});

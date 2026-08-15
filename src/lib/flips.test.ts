@@ -151,8 +151,8 @@ describe("freshFlips", () => {
   });
 
   it("treats the window as inclusive at its edge", () => {
-    expect(freshFlips([mk("EDGE", "2026-01-23", 1)], now, 7).rows).toHaveLength(1);
-    expect(freshFlips([mk("PAST", "2026-01-22", 1)], now, 7).rows).toHaveLength(0);
+    expect(freshFlips([mk("EDGE", "2026-01-24", 1)], now, 7).rows).toHaveLength(1);
+    expect(freshFlips([mk("PAST", "2026-01-23", 1)], now, 7).rows).toHaveLength(0);
   });
 });
 

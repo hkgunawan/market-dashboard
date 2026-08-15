@@ -50,7 +50,10 @@ export default function FlipsTable({ rows, now }: { rows: SymbolSignal[]; now: n
                 </Link>
                 <span className="ml-2 text-[#7d8590]">{r.name}</span>
               </td>
-              <td className="py-1.5 text-right text-[#e6edf3]">{r.close.toFixed(2)}</td>
+              <td className="py-1.5 text-right text-[#e6edf3]">
+                {r.close.toFixed(2)}
+                <span className="ml-2 text-[#7d8590]">{r.asOf}</span>
+              </td>
               <td className="py-1.5 text-right">{trendLabel(r.daily.trend)}</td>
               <td className="py-1.5 text-right">{trendLabel(r.weekly.trend)}</td>
               <td className="py-1.5 text-right text-[#8b949e]">

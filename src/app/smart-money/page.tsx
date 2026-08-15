@@ -111,6 +111,9 @@ export default function SmartMoney() {
           <Link href="/earnings" className="text-[#a371f7] hover:text-[#e6edf3]">
             earnings →
           </Link>
+          <Link href="/flips" className="text-[#f85149] hover:text-[#e6edf3]">
+            flips →
+          </Link>
         </nav>
       </header>
 

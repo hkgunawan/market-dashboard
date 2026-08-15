@@ -32,4 +32,17 @@ describe("signals.json", () => {
   it("has no duplicate symbols", () => {
     expect(new Set(data.symbols.map((s) => s.symbol)).size).toBe(data.symbols.length);
   });
+
+  it("is fresh — the newest bar is close to the generation time", () => {
+    const newest = data.symbols.map((s) => s.asOf).sort().at(-1)!;
+    const ageDays =
+      (Date.parse(data.generatedAt) - Date.parse(`${newest}T00:00:00Z`)) / 86400_000;
+    expect(ageDays).toBeLessThan(5); // weekend + a holiday is the realistic worst case
+  });
+
+  it("is not a frozen feed — most symbols share the newest bar date", () => {
+    const newest = data.symbols.map((s) => s.asOf).sort().at(-1)!;
+    const onNewest = data.symbols.filter((s) => s.asOf === newest).length;
+    expect(onNewest / data.symbols.length).toBeGreaterThanOrEqual(0.9);
+  });
 });

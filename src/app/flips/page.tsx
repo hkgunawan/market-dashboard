@@ -19,6 +19,7 @@ export default function Flips() {
           <Link href="/signals" className="text-[#3fb950] hover:text-[#e6edf3]">signals →</Link>
           <Link href="/insiders" className="text-[#58a6ff] hover:text-[#e6edf3]">insider-buys →</Link>
           <Link href="/smart-money" className="text-[#d29922] hover:text-[#e6edf3]">smart-money →</Link>
+          <Link href="/earnings" className="text-[#a371f7] hover:text-[#e6edf3]">earnings →</Link>
         </nav>
       </header>
 

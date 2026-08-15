@@ -18,6 +18,9 @@ jobs:
   scan:
     runs-on: ubuntu-latest
     timeout-minutes: 120 # the scan paces at 7.6s/call and takes ~75 min in practice
+    concurrency:
+      group: scan-signals
+      cancel-in-progress: false
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -43,6 +46,7 @@ jobs:
           else
             git add src/data/signals.json
             git commit -m "chore: daily signal scan"
+            git pull --rebase --autostash origin "${{ github.ref_name }}"
             git push
           fi
 
