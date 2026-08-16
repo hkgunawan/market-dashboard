@@ -18,16 +18,23 @@ export function isoWeekStartUtc(d: Date): string {
 // Crypto trades 24/7, so at scan time the current UTC day is always partial.
 // Equities and the metal ETFs are US-listed; the scan runs after the close, so
 // their final bar is a completed session.
+//
+// The comparison is `>=`, not `==`. The scan can outlive the clock it was
+// handed — it starts at 23:30 UTC and crypto is fetched ~35 minutes later, on
+// the far side of midnight — so a bar can be dated *after* `now`. Such a bar
+// is even less complete than today's, never more.
 export function dropInProgressDaily(bars: Candle[], cls: AssetClass, now: Date): Candle[] {
   if (cls !== "crypto" || bars.length === 0) return bars;
   const last = bars[bars.length - 1];
-  return utcDate(new Date(last.time * 1000)) === utcDate(now) ? bars.slice(0, -1) : bars;
+  return utcDate(new Date(last.time * 1000)) >= utcDate(now) ? bars.slice(0, -1) : bars;
 }
 
-// Twelve Data labels weekly bars by week start and includes the in-progress week.
+// Twelve Data labels weekly bars by week start and includes the in-progress
+// week. `>=` for the same reason as above: a Sunday run finishing on Monday
+// sees a week that has not begun by its own clock.
 export function dropInProgressWeekly(bars: Candle[], now: Date): Candle[] {
   if (bars.length === 0) return bars;
   const last = bars[bars.length - 1];
   const lastWeek = isoWeekStartUtc(new Date(last.time * 1000));
-  return lastWeek === isoWeekStartUtc(now) ? bars.slice(0, -1) : bars;
+  return lastWeek >= isoWeekStartUtc(now) ? bars.slice(0, -1) : bars;
 }

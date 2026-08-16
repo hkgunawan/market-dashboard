@@ -113,8 +113,12 @@ async function main() {
       call++;
       const weeklyRaw = await fetchSeries(entry.symbol, "1week", WEEKLY_BARS);
 
-      const daily = dropInProgressDaily(dailyRaw, entry.class, now);
-      const weekly = dropInProgressWeekly(weeklyRaw, now);
+      // Read the clock here, not at run start: the loop takes ~35 minutes and
+      // crosses UTC midnight, so `now` is the wrong day by the time the last
+      // symbols land. `now` stays the run's identity, used for generatedAt.
+      const trimAt = new Date();
+      const daily = dropInProgressDaily(dailyRaw, entry.class, trimAt);
+      const weekly = dropInProgressWeekly(weeklyRaw, trimAt);
       if (daily.length === 0) throw new Error("no daily bars after trimming");
 
       const d = timeframeSignal(daily);
