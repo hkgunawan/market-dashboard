@@ -33,16 +33,35 @@ describe("signals.json", () => {
     expect(new Set(data.symbols.map((s) => s.symbol)).size).toBe(data.symbols.length);
   });
 
-  it("is fresh — the newest bar is close to the generation time", () => {
-    const newest = data.symbols.map((s) => s.asOf).sort().at(-1)!;
-    const ageDays =
-      (Date.parse(data.generatedAt) - Date.parse(`${newest}T00:00:00Z`)) / 86400_000;
-    expect(ageDays).toBeLessThan(5); // weekend + a holiday is the realistic worst case
+  // Crypto and the US listings keep different calendars, so they must be
+  // checked apart. On a Sunday the newest complete crypto bar is Saturday's
+  // while the listed market's is still Friday's; pooled together, a perfectly
+  // good dataset looks 98% stale. Pooling also lets fresh crypto hide a
+  // frozen equity feed, which is the failure these checks exist to catch.
+  const calendars = {
+    crypto: data.symbols.filter((s) => s.class === "crypto"),
+    listed: data.symbols.filter((s) => s.class !== "crypto"), // equities + the metal ETFs
+  };
+  const newestIn = (rows: typeof data.symbols) => rows.map((s) => s.asOf).sort().at(-1)!;
+
+  it("is fresh — each calendar's newest bar is close to the generation time", () => {
+    const maxAgeDays = { crypto: 2, listed: 5 }; // listed: a long weekend plus a holiday
+    for (const [label, rows] of Object.entries(calendars)) {
+      if (rows.length === 0) continue;
+      const ageDays =
+        (Date.parse(data.generatedAt) - Date.parse(`${newestIn(rows)}T00:00:00Z`)) / 86400_000;
+      // A bar dated after the run that produced it is a bar that had barely
+      // opened — the in-progress guard should already have dropped it.
+      expect(ageDays, `${label} bar is dated after generatedAt`).toBeGreaterThanOrEqual(0);
+      expect(ageDays, label).toBeLessThan(maxAgeDays[label as keyof typeof maxAgeDays]);
+    }
   });
 
-  it("is not a frozen feed — most symbols share the newest bar date", () => {
-    const newest = data.symbols.map((s) => s.asOf).sort().at(-1)!;
-    const onNewest = data.symbols.filter((s) => s.asOf === newest).length;
-    expect(onNewest / data.symbols.length).toBeGreaterThanOrEqual(0.9);
+  it("is not a frozen feed — within each calendar, most symbols share the newest bar date", () => {
+    for (const [label, rows] of Object.entries(calendars)) {
+      if (rows.length === 0) continue;
+      const onNewest = rows.filter((s) => s.asOf === newestIn(rows)).length;
+      expect(onNewest / rows.length, label).toBeGreaterThanOrEqual(0.9);
+    }
   });
 });
