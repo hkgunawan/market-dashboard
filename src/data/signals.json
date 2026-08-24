@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-22T23:41:44.016Z",
+  "generatedAt": "2026-08-23T23:41:39.596Z",
   "symbols": [
     {
       "symbol": "AAPL",
@@ -1022,7 +1022,7 @@
       },
       "weekly": {
         "trend": 1,
-        "macdHist": 10.85999330266797,
+        "macdHist": 9.122725021472698,
         "flippedAt": "2026-08-10"
       },
       "alignment": "up"
@@ -1040,7 +1040,7 @@
       },
       "weekly": {
         "trend": -1,
-        "macdHist": 0.8154461384687899,
+        "macdHist": 1.0505834439523554,
         "flippedAt": "2026-03-09"
       },
       "alignment": "mixed"
@@ -1058,7 +1058,7 @@
       },
       "weekly": {
         "trend": 1,
-        "macdHist": 11.905262241535922,
+        "macdHist": 11.806871419794504,
         "flippedAt": "2026-07-27"
       },
       "alignment": "up"
@@ -1076,7 +1076,7 @@
       },
       "weekly": {
         "trend": -1,
-        "macdHist": 0.2981372124083279,
+        "macdHist": 0.6208806261165094,
         "flippedAt": "2026-04-20"
       },
       "alignment": "down"
@@ -1094,7 +1094,7 @@
       },
       "weekly": {
         "trend": 1,
-        "macdHist": 0.22998794969765868,
+        "macdHist": 0.37502797790153386,
         "flippedAt": "2026-02-09"
       },
       "alignment": "up"
@@ -1112,7 +1112,7 @@
       },
       "weekly": {
         "trend": 1,
-        "macdHist": 1.938299832540281,
+        "macdHist": 2.2238837026789877,
         "flippedAt": "2026-08-10"
       },
       "alignment": "up"
@@ -1130,7 +1130,7 @@
       },
       "weekly": {
         "trend": 1,
-        "macdHist": 1.4631647760705642,
+        "macdHist": 1.003016632111569,
         "flippedAt": "2026-05-18"
       },
       "alignment": "up"
@@ -1148,7 +1148,7 @@
       },
       "weekly": {
         "trend": -1,
-        "macdHist": 1.5031913129581973,
+        "macdHist": -1.6302751489087406,
         "flippedAt": "2025-10-27"
       },
       "alignment": "down"
@@ -1166,7 +1166,7 @@
       },
       "weekly": {
         "trend": 1,
-        "macdHist": 3.8966964369080586,
+        "macdHist": 3.5755627870767532,
         "flippedAt": "2026-07-20"
       },
       "alignment": "up"
@@ -1184,7 +1184,7 @@
       },
       "weekly": {
         "trend": 1,
-        "macdHist": -1.0512029663585136,
+        "macdHist": -1.2567756020666125,
         "flippedAt": "2026-02-02"
       },
       "alignment": "mixed"
@@ -1202,7 +1202,7 @@
       },
       "weekly": {
         "trend": 1,
-        "macdHist": 0.9418519743560587,
+        "macdHist": 2.1371424686681655,
         "flippedAt": "2025-11-10"
       },
       "alignment": "up"
@@ -1220,7 +1220,7 @@
       },
       "weekly": {
         "trend": 1,
-        "macdHist": -1.1984789084590872,
+        "macdHist": -1.5780272141573253,
         "flippedAt": "2026-05-04"
       },
       "alignment": "mixed"
@@ -1238,7 +1238,7 @@
       },
       "weekly": {
         "trend": 1,
-        "macdHist": 15.85474405474125,
+        "macdHist": 16.948516211083,
         "flippedAt": "2026-05-25"
       },
       "alignment": "up"
@@ -1256,7 +1256,7 @@
       },
       "weekly": {
         "trend": 1,
-        "macdHist": -0.6124273112315801,
+        "macdHist": -0.7738156093449962,
         "flippedAt": "2025-09-29"
       },
       "alignment": "mixed"
@@ -1274,7 +1274,7 @@
       },
       "weekly": {
         "trend": -1,
-        "macdHist": 0.03062568347977379,
+        "macdHist": 0.746901307569301,
         "flippedAt": "2026-06-15"
       },
       "alignment": "mixed"
@@ -1292,7 +1292,7 @@
       },
       "weekly": {
         "trend": -1,
-        "macdHist": 0.5086282199004355,
+        "macdHist": 0.4798270668639919,
         "flippedAt": "2025-11-03"
       },
       "alignment": "down"
@@ -1310,7 +1310,7 @@
       },
       "weekly": {
         "trend": 1,
-        "macdHist": 0.9220341333821755,
+        "macdHist": 0.9705395530397807,
         "flippedAt": "2025-06-23"
       },
       "alignment": "up"
@@ -1328,7 +1328,7 @@
       },
       "weekly": {
         "trend": -1,
-        "macdHist": -4.036018889329537,
+        "macdHist": -1.9724134748447604,
         "flippedAt": "2026-06-22"
       },
       "alignment": "mixed"
@@ -1346,7 +1346,7 @@
       },
       "weekly": {
         "trend": -1,
-        "macdHist": -0.5310735456468638,
+        "macdHist": 0.02581357381498295,
         "flippedAt": "2026-05-25"
       },
       "alignment": "down"
@@ -1364,7 +1364,7 @@
       },
       "weekly": {
         "trend": 1,
-        "macdHist": 0.15113856889909827,
+        "macdHist": 0.34115293491960663,
         "flippedAt": "2025-09-29"
       },
       "alignment": "up"
@@ -1382,7 +1382,7 @@
       },
       "weekly": {
         "trend": -1,
-        "macdHist": -0.22780807581427276,
+        "macdHist": -0.34327673859044383,
         "flippedAt": "2026-03-16"
       },
       "alignment": "down"
@@ -1400,7 +1400,7 @@
       },
       "weekly": {
         "trend": 1,
-        "macdHist": 5.808520964442532,
+        "macdHist": 7.854381783968528,
         "flippedAt": "2026-08-03"
       },
       "alignment": "up"
@@ -1418,7 +1418,7 @@
       },
       "weekly": {
         "trend": 1,
-        "macdHist": 0.9426651056126332,
+        "macdHist": 0.5289509293622627,
         "flippedAt": "2026-07-13"
       },
       "alignment": "up"
@@ -1436,7 +1436,7 @@
       },
       "weekly": {
         "trend": 1,
-        "macdHist": 3.0358206413457287,
+        "macdHist": 2.9796947697392446,
         "flippedAt": "2026-07-13"
       },
       "alignment": "up"
@@ -1454,7 +1454,7 @@
       },
       "weekly": {
         "trend": -1,
-        "macdHist": -8.489757425418414,
+        "macdHist": -7.694427120136709,
         "flippedAt": "2026-07-27"
       },
       "alignment": "down"
@@ -1472,7 +1472,7 @@
       },
       "weekly": {
         "trend": 1,
-        "macdHist": 5.11755075973902,
+        "macdHist": 4.022939858921912,
         "flippedAt": "2026-07-20"
       },
       "alignment": "mixed"
@@ -1490,7 +1490,7 @@
       },
       "weekly": {
         "trend": 1,
-        "macdHist": 0.08952079820521908,
+        "macdHist": 0.056603556469347005,
         "flippedAt": "2026-02-02"
       },
       "alignment": "up"
@@ -1508,7 +1508,7 @@
       },
       "weekly": {
         "trend": 1,
-        "macdHist": 2.6495842706775026,
+        "macdHist": 2.7066454319730875,
         "flippedAt": "2026-07-06"
       },
       "alignment": "up"
@@ -1526,7 +1526,7 @@
       },
       "weekly": {
         "trend": 1,
-        "macdHist": -0.325505290324857,
+        "macdHist": -0.7458121472294563,
         "flippedAt": "2026-02-09"
       },
       "alignment": "mixed"
@@ -1544,7 +1544,7 @@
       },
       "weekly": {
         "trend": 1,
-        "macdHist": 0.003914306425068403,
+        "macdHist": -0.9306194394175407,
         "flippedAt": "2025-08-25"
       },
       "alignment": "mixed"
@@ -1562,7 +1562,7 @@
       },
       "weekly": {
         "trend": -1,
-        "macdHist": 0.30732339928026065,
+        "macdHist": 0.4661790629884075,
         "flippedAt": "2026-05-11"
       },
       "alignment": "mixed"
@@ -1580,7 +1580,7 @@
       },
       "weekly": {
         "trend": 1,
-        "macdHist": 1.7537969557757593,
+        "macdHist": 2.7247489628786177,
         "flippedAt": "2026-01-05"
       },
       "alignment": "up"
@@ -1598,7 +1598,7 @@
       },
       "weekly": {
         "trend": 1,
-        "macdHist": 17.72517992323903,
+        "macdHist": 19.025849804131198,
         "flippedAt": "2026-07-20"
       },
       "alignment": "up"
@@ -1616,7 +1616,7 @@
       },
       "weekly": {
         "trend": -1,
-        "macdHist": 0.39681594473664017,
+        "macdHist": 0.7478966227279313,
         "flippedAt": "2026-06-01"
       },
       "alignment": "down"
@@ -1634,7 +1634,7 @@
       },
       "weekly": {
         "trend": -1,
-        "macdHist": -10.559658427981201,
+        "macdHist": -7.362244546611414,
         "flippedAt": "2026-03-16"
       },
       "alignment": "mixed"
@@ -1652,7 +1652,7 @@
       },
       "weekly": {
         "trend": 1,
-        "macdHist": -7.286433369287181,
+        "macdHist": -8.333289266269603,
         "flippedAt": "2026-01-05"
       },
       "alignment": "mixed"
@@ -1670,7 +1670,7 @@
       },
       "weekly": {
         "trend": 1,
-        "macdHist": -2.5219579638203022,
+        "macdHist": -5.1695543166689575,
         "flippedAt": "2026-04-20"
       },
       "alignment": "mixed"
@@ -1688,7 +1688,7 @@
       },
       "weekly": {
         "trend": 1,
-        "macdHist": 2.2179201176916727,
+        "macdHist": 2.3928726403696032,
         "flippedAt": "2026-06-01"
       },
       "alignment": "up"
@@ -1706,7 +1706,7 @@
       },
       "weekly": {
         "trend": 1,
-        "macdHist": -0.5399076071469944,
+        "macdHist": -1.0594572145315024,
         "flippedAt": "2026-07-13"
       },
       "alignment": "mixed"
@@ -1724,7 +1724,7 @@
       },
       "weekly": {
         "trend": 1,
-        "macdHist": 0.6649801527800339,
+        "macdHist": 0.32818752452438016,
         "flippedAt": "2026-06-22"
       },
       "alignment": "mixed"
@@ -1742,7 +1742,7 @@
       },
       "weekly": {
         "trend": 1,
-        "macdHist": 4.948316999030421,
+        "macdHist": 4.537190845751468,
         "flippedAt": "2026-06-29"
       },
       "alignment": "up"
@@ -1760,7 +1760,7 @@
       },
       "weekly": {
         "trend": 1,
-        "macdHist": 0.13077541635579276,
+        "macdHist": 0.38613809715824093,
         "flippedAt": "2026-01-12"
       },
       "alignment": "up"
@@ -1778,7 +1778,7 @@
       },
       "weekly": {
         "trend": -1,
-        "macdHist": 1.0498125022183602,
+        "macdHist": 0.5917703183736509,
         "flippedAt": "2026-02-23"
       },
       "alignment": "mixed"
@@ -1796,7 +1796,7 @@
       },
       "weekly": {
         "trend": -1,
-        "macdHist": -1.2086423073851003,
+        "macdHist": -1.5417382158200152,
         "flippedAt": "2026-06-29"
       },
       "alignment": "down"
@@ -1813,11 +1813,11 @@
         "flippedAt": "2026-07-16"
       },
       "weekly": {
-        "trend": -1,
-        "macdHist": 1.1550354619185947,
-        "flippedAt": "2026-06-15"
+        "trend": 1,
+        "macdHist": 1.9814243841603218,
+        "flippedAt": "2026-08-17"
       },
-      "alignment": "mixed"
+      "alignment": "up"
     },
     {
       "symbol": "GLD",
@@ -1832,7 +1832,7 @@
       },
       "weekly": {
         "trend": -1,
-        "macdHist": -0.34481279509188667,
+        "macdHist": 3.20873155183922,
         "flippedAt": "2026-06-01"
       },
       "alignment": "mixed"
@@ -1850,7 +1850,7 @@
       },
       "weekly": {
         "trend": -1,
-        "macdHist": -0.8282708431855268,
+        "macdHist": 0.059654683120902385,
         "flippedAt": "2026-03-16"
       },
       "alignment": "mixed"
@@ -1859,16 +1859,16 @@
       "symbol": "BTC/USD",
       "name": "Bitcoin",
       "class": "crypto",
-      "close": 77074.93,
-      "asOf": "2026-08-22",
+      "close": 77734,
+      "asOf": "2026-08-23",
       "daily": {
         "trend": 1,
-        "macdHist": 1947.4241626319426,
+        "macdHist": 2085.4962889685994,
         "flippedAt": "2026-07-21"
       },
       "weekly": {
         "trend": -1,
-        "macdHist": 566.4612749327871,
+        "macdHist": 1690.104014012898,
         "flippedAt": "2025-11-10"
       },
       "alignment": "mixed"
@@ -1877,19 +1877,19 @@
       "symbol": "ETH/USD",
       "name": "Ethereum",
       "class": "crypto",
-      "close": 2422.6,
-      "asOf": "2026-08-22",
+      "close": 2463.41,
+      "asOf": "2026-08-23",
       "daily": {
         "trend": 1,
-        "macdHist": 79.3422074091221,
+        "macdHist": 82.20875118489056,
         "flippedAt": "2026-07-12"
       },
       "weekly": {
-        "trend": -1,
-        "macdHist": 59.43651206936016,
-        "flippedAt": "2025-11-17"
+        "trend": 1,
+        "macdHist": 101.37682971465631,
+        "flippedAt": "2026-08-17"
       },
-      "alignment": "mixed"
+      "alignment": "up"
     }
   ]
 }
