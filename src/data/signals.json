@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-05T01:08:42.002Z",
+  "generatedAt": "2026-09-06T01:07:49.441Z",
   "symbols": [
     {
       "symbol": "AAPL",
@@ -185,11 +185,11 @@
       "symbol": "AVGO",
       "name": "Broadcom",
       "class": "equity",
-      "close": 357.89499,
+      "close": 357.89999,
       "asOf": "2026-09-04",
       "daily": {
         "trend": -1,
-        "macdHist": -0.2401418174735248,
+        "macdHist": -0.23978727489678597,
         "flippedAt": "2026-08-19"
       },
       "weekly": {
@@ -257,11 +257,11 @@
       "symbol": "BK",
       "name": "BNY Mellon",
       "class": "equity",
-      "close": 164.33,
-      "asOf": "2026-09-03",
+      "close": 164.84,
+      "asOf": "2026-09-04",
       "daily": {
         "trend": 1,
-        "macdHist": -0.19536080221263008,
+        "macdHist": -0.06110373232454602,
         "flippedAt": "2026-04-06"
       },
       "weekly": {
@@ -725,11 +725,11 @@
       "symbol": "GILD",
       "name": "Gilead Sciences",
       "class": "equity",
-      "close": 150.995,
+      "close": 151,
       "asOf": "2026-09-04",
       "daily": {
         "trend": 1,
-        "macdHist": 0.07383984057530135,
+        "macdHist": 0.07419438315206595,
         "flippedAt": "2026-07-07"
       },
       "weekly": {
@@ -1859,11 +1859,11 @@
       "symbol": "BTC/USD",
       "name": "Bitcoin",
       "class": "crypto",
-      "close": 79660.77,
-      "asOf": "2026-09-04",
+      "close": 79831.75,
+      "asOf": "2026-09-05",
       "daily": {
         "trend": 1,
-        "macdHist": -337.67899309553377,
+        "macdHist": -333.34613964637765,
         "flippedAt": "2026-07-21"
       },
       "weekly": {
@@ -1877,11 +1877,11 @@
       "symbol": "ETH/USD",
       "name": "Ethereum",
       "class": "crypto",
-      "close": 2455.85,
-      "asOf": "2026-09-04",
+      "close": 2480.34,
+      "asOf": "2026-09-05",
       "daily": {
         "trend": 1,
-        "macdHist": -23.347204951058472,
+        "macdHist": -22.00492393641926,
         "flippedAt": "2026-07-12"
       },
       "weekly": {
