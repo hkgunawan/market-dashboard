@@ -1,0 +1,92 @@
+name: Write insider brief
+
+# Regenerates the written summary on the insiders page once a day and commits
+# it, which triggers Vercel's auto-deploy. Runs at 00:15 UTC — after scan.yml
+# (23:30 UTC) so the two jobs never race on a push, and late enough that the
+# day's Form 4 filings are in.
+#
+# The brief is an enhancement, not the product: write-brief.ts exits 0 and
+# leaves the previous brief in place on any failure, so a bad LLM day never
+# turns the site red or blocks a deploy.
+
+on:
+  schedule:
+    - cron: "15 0 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write # so a persistent failure can raise (and later close) an alert
+
+jobs:
+  brief:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10 # one feed fetch plus one LLM call; anything longer is hung
+    concurrency:
+      group: write-brief
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+
+      - name: Generate the brief
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: npm run brief
+
+      - name: Sanity-check
+        run: npm test
+
+      - name: Commit if the brief changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet -- src/data/brief.json; then
+            echo "No change — nothing to deploy."
+          else
+            git add src/data/brief.json
+            git commit -m "chore: daily insider brief"
+            git pull --rebase --autostash origin "${{ github.ref_name }}"
+            git push
+          fi
+
+      - name: Raise an alert issue on failure
+        # `failure()` alone does NOT fire when a job is CANCELLED, and exceeding
+        # timeout-minutes cancels rather than fails — same trap as scan.yml.
+        if: failure() || cancelled()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TITLE: "🟠 Daily insider brief is failing"
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          existing=$(gh issue list --state open --limit 100 --json number,title \
+            --jq ".[] | select(.title == \"$TITLE\") | .number" | head -n1)
+          body="The scheduled \`brief.yml\` run failed. The insiders page keeps its previous brief, so nothing is broken for readers — but the paragraph is now stale.
+
+          Failed run: $RUN_URL
+
+          Note that \`write-brief.ts\` exits 0 on an LLM or feed failure by design, so reaching this alert means something structural broke instead: a bad \`GEMINI_API_KEY\` secret, \`npm ci\`, or the test step.
+
+          This issue closes itself automatically once a run succeeds."
+          if [ -n "$existing" ]; then
+            gh issue comment "$existing" --body "Still failing — $RUN_URL"
+          else
+            gh issue create --title "$TITLE" --body "$body"
+          fi
+
+      - name: Close the alert issue once healthy again
+        if: success()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TITLE: "🟠 Daily insider brief is failing"
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          existing=$(gh issue list --state open --limit 100 --json number,title \
+            --jq ".[] | select(.title == \"$TITLE\") | .number" | head -n1)
+          if [ -n "$existing" ]; then
+            gh issue close "$existing" --comment "Recovered — brief succeeded in $RUN_URL"
+          fi

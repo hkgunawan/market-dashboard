@@ -5,6 +5,8 @@ import Link from "next/link";
 import type { InsiderBuy, InsiderReport } from "@/lib/openinsider";
 import { useTableSort, SortTh } from "@/components/sortable";
 import SiteFooter from "@/components/site-footer";
+import BriefNote from "@/components/brief-note";
+import briefFile from "@/data/brief.json";
 
 function parsePrice(s: string): number | null {
   const n = parseFloat(s.replace(/[^0-9.]/g, ""));
@@ -245,6 +247,8 @@ export default function Insiders() {
         <span className="text-[#8b949e]">ΔOwn</span>: how much this trade changed their stake (e.g. +50% = grew their
         holding by half) · <span className="text-[#8b949e]">Value</span>: total dollars bought
       </p>
+
+      <BriefNote brief={briefFile.brief} />
 
       {error && <p className="py-12 text-center font-mono text-sm text-[#f85149]">{error}</p>}
       {!report && !error && (
