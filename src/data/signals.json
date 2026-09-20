@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-19T01:19:34.197Z",
+  "generatedAt": "2026-09-20T01:19:33.092Z",
   "symbols": [
     {
       "symbol": "AAPL",
@@ -1859,11 +1859,11 @@
       "symbol": "BTC/USD",
       "name": "Bitcoin",
       "class": "crypto",
-      "close": 80883.87,
-      "asOf": "2026-09-18",
+      "close": 81249.99,
+      "asOf": "2026-09-19",
       "daily": {
         "trend": 1,
-        "macdHist": -378.32889707824506,
+        "macdHist": -74.20770847702647,
         "flippedAt": "2026-07-21"
       },
       "weekly": {
@@ -1877,11 +1877,11 @@
       "symbol": "ETH/USD",
       "name": "Ethereum",
       "class": "crypto",
-      "close": 2612.14,
-      "asOf": "2026-09-18",
+      "close": 2632.69,
+      "asOf": "2026-09-19",
       "daily": {
         "trend": 1,
-        "macdHist": -13.260995709857752,
+        "macdHist": -3.189616645882907,
         "flippedAt": "2026-07-12"
       },
       "weekly": {
