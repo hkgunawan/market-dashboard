@@ -1,7 +1,7 @@
 {
   "brief": {
-    "text": "Real Estate Investment Trusts show concentrated interest across the data, with REITs ADC and RWT combining for over $5.38 million in total buys across six insiders. SBLK distinctly stands out among all cluster transactions, where an unusually high count of eight insiders accumulated $6.92 million worth of shares. Meanwhile, the largest single transaction across both tables belongs to 10% owner Nippon Life Insurance Co, which allocated $11.23 million to CRBG—more than double the next largest individual trade from Shen Ching Hang in CV at $5.0 million.",
-    "generatedAt": "2026-09-21T04:58:25.630Z",
+    "text": "GameStop Corp. (GME) recorded the largest total cluster value at $48.4 million across four insiders, while Bank Bradesco (BBD) showed an unusually high insider count with 21 buyers totaling $28.95 million. Closed-end funds appeared repeatedly across the cluster table with RWAY ($169,183) and GAM ($284,880), with RWAY also featuring in notable individual transactions via director Edward Goldthorpe's $67,450 trade. Among individual filings, TPVG CEO James Labe posted the largest officer transaction at $1.48 million, alongside a $4.58 million purchase in CRBG by 10% owner Nippon Life Insurance Co.",
+    "generatedAt": "2026-09-23T04:47:18.622Z",
     "model": "gemini-3.6-flash"
   }
 }
