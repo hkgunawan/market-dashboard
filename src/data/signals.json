@@ -1,20 +1,20 @@
 {
-  "generatedAt": "2026-10-26T01:24:16.265Z",
+  "generatedAt": "2026-10-27T02:11:53.375Z",
   "symbols": [
     {
       "symbol": "AAPL",
       "name": "Apple",
       "class": "equity",
-      "close": 347.73001,
-      "asOf": "2026-10-23",
+      "close": 343.91,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": 1,
-        "macdHist": 0.34003627710359297,
+        "macdHist": 0.0840928343759133,
         "flippedAt": "2026-09-03"
       },
       "weekly": {
         "trend": 1,
-        "macdHist": 1.3524106602135486,
+        "macdHist": 1.3524106604023576,
         "flippedAt": "2026-05-04"
       },
       "alignment": "up"
@@ -23,16 +23,16 @@
       "symbol": "ABBV",
       "name": "AbbVie",
       "class": "equity",
-      "close": 285.64001,
-      "asOf": "2026-10-23",
+      "close": 286.73999,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": 1,
-        "macdHist": 0.5625307924471299,
+        "macdHist": 0.27547869963430927,
         "flippedAt": "2026-08-19"
       },
       "weekly": {
         "trend": 1,
-        "macdHist": 2.395154420217624,
+        "macdHist": 2.3951544204633635,
         "flippedAt": "2026-06-22"
       },
       "alignment": "up"
@@ -41,16 +41,16 @@
       "symbol": "ABT",
       "name": "Abbott Laboratories",
       "class": "equity",
-      "close": 103.7,
-      "asOf": "2026-10-23",
+      "close": 104.88,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": 1,
-        "macdHist": 0.4129289134069928,
+        "macdHist": 0.4517868448069591,
         "flippedAt": "2026-10-15"
       },
       "weekly": {
         "trend": 1,
-        "macdHist": -0.48242789348783,
+        "macdHist": -0.4824278934705354,
         "flippedAt": "2026-07-20"
       },
       "alignment": "up"
@@ -59,16 +59,16 @@
       "symbol": "ACN",
       "name": "Accenture",
       "class": "equity",
-      "close": 249.37,
-      "asOf": "2026-10-23",
+      "close": 247.23,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": 1,
-        "macdHist": 4.50123630749388,
+        "macdHist": 3.6443044569781957,
         "flippedAt": "2026-07-24"
       },
       "weekly": {
         "trend": 1,
-        "macdHist": 10.988585708634783,
+        "macdHist": 10.988585709091597,
         "flippedAt": "2026-08-24"
       },
       "alignment": "up"
@@ -77,16 +77,16 @@
       "symbol": "ADBE",
       "name": "Adobe",
       "class": "equity",
-      "close": 263.82001,
-      "asOf": "2026-10-23",
+      "close": 258.62,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": 1,
-        "macdHist": 4.429382430538343,
+        "macdHist": 3.805752771546202,
         "flippedAt": "2026-10-20"
       },
       "weekly": {
         "trend": 1,
-        "macdHist": 0.18334317634579156,
+        "macdHist": 0.18334317765700803,
         "flippedAt": "2026-08-17"
       },
       "alignment": "up"
@@ -95,16 +95,16 @@
       "symbol": "AIG",
       "name": "American International Group",
       "class": "equity",
-      "close": 81.26,
-      "asOf": "2026-10-23",
+      "close": 81.13,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": 1,
-        "macdHist": 0.6420086053379288,
+        "macdHist": 0.47072041315729196,
         "flippedAt": "2026-10-12"
       },
       "weekly": {
         "trend": -1,
-        "macdHist": 0.5042668041022453,
+        "macdHist": 0.5042668042689592,
         "flippedAt": "2026-01-05"
       },
       "alignment": "mixed"
@@ -113,16 +113,16 @@
       "symbol": "AMD",
       "name": "Advanced Micro Devices",
       "class": "equity",
-      "close": 516.78998,
-      "asOf": "2026-10-23",
+      "close": 531.28003,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": -1,
-        "macdHist": -15.446338579894233,
+        "macdHist": -12.574363692720024,
         "flippedAt": "2026-10-14"
       },
       "weekly": {
         "trend": 1,
-        "macdHist": -4.120648303920667,
+        "macdHist": -4.120648303831786,
         "flippedAt": "2026-04-13"
       },
       "alignment": "mixed"
@@ -131,16 +131,16 @@
       "symbol": "AMGN",
       "name": "Amgen",
       "class": "equity",
-      "close": 439.26001,
-      "asOf": "2026-10-23",
+      "close": 444.63,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": 1,
-        "macdHist": 3.118384509319652,
+        "macdHist": 2.7858579344629106,
         "flippedAt": "2026-09-22"
       },
       "weekly": {
         "trend": 1,
-        "macdHist": 0.38419420760391887,
+        "macdHist": 0.38419420740295607,
         "flippedAt": "2025-11-03"
       },
       "alignment": "up"
@@ -149,16 +149,16 @@
       "symbol": "AMT",
       "name": "American Tower",
       "class": "equity",
-      "close": 188.97,
-      "asOf": "2026-10-23",
+      "close": 188.28,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": 1,
-        "macdHist": 1.1476844172676186,
+        "macdHist": 1.1726557568431701,
         "flippedAt": "2026-10-09"
       },
       "weekly": {
         "trend": -1,
-        "macdHist": 1.9966618157978833,
+        "macdHist": 1.9966618160192442,
         "flippedAt": "2025-09-01"
       },
       "alignment": "mixed"
@@ -167,16 +167,16 @@
       "symbol": "AMZN",
       "name": "Amazon",
       "class": "equity",
-      "close": 248,
-      "asOf": "2026-10-23",
+      "close": 249.089996,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": -1,
-        "macdHist": -0.6395770826852893,
+        "macdHist": -0.9999276523428698,
         "flippedAt": "2026-09-15"
       },
       "weekly": {
         "trend": 1,
-        "macdHist": -2.4128649406786753,
+        "macdHist": -2.412864940391718,
         "flippedAt": "2026-04-13"
       },
       "alignment": "mixed"
@@ -185,16 +185,16 @@
       "symbol": "AVGO",
       "name": "Broadcom",
       "class": "equity",
-      "close": 321.67999,
-      "asOf": "2026-10-23",
+      "close": 329.17001,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": -1,
-        "macdHist": -3.7816592121651844,
+        "macdHist": -2.984398582672914,
         "flippedAt": "2026-10-16"
       },
       "weekly": {
         "trend": -1,
-        "macdHist": -7.795867987962077,
+        "macdHist": -7.795867987901033,
         "flippedAt": "2026-10-12"
       },
       "alignment": "down"
@@ -203,16 +203,16 @@
       "symbol": "AXP",
       "name": "American Express",
       "class": "equity",
-      "close": 313.22,
-      "asOf": "2026-10-23",
+      "close": 315.049988,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": 1,
-        "macdHist": 2.347231853051154,
+        "macdHist": 1.7675221632642635,
         "flippedAt": "2026-10-20"
       },
       "weekly": {
         "trend": -1,
-        "macdHist": -3.359499176457948,
+        "macdHist": -3.3594991760640296,
         "flippedAt": "2026-09-28"
       },
       "alignment": "mixed"
@@ -221,16 +221,16 @@
       "symbol": "BA",
       "name": "Boeing",
       "class": "equity",
-      "close": 188.35001,
-      "asOf": "2026-10-23",
+      "close": 188.31,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": -1,
-        "macdHist": 1.0524514518155001,
+        "macdHist": 0.9334824991053257,
         "flippedAt": "2026-08-21"
       },
       "weekly": {
         "trend": -1,
-        "macdHist": -3.758804709476692,
+        "macdHist": -3.758804708936487,
         "flippedAt": "2026-03-09"
       },
       "alignment": "down"
@@ -239,16 +239,16 @@
       "symbol": "BAC",
       "name": "Bank of America",
       "class": "equity",
-      "close": 50.56,
-      "asOf": "2026-10-23",
+      "close": 50.52,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": -1,
-        "macdHist": -0.03411285928650987,
+        "macdHist": 0.032807551646995003,
         "flippedAt": "2026-08-27"
       },
       "weekly": {
         "trend": -1,
-        "macdHist": -2.0215319297561356,
+        "macdHist": -2.021531929649191,
         "flippedAt": "2026-09-28"
       },
       "alignment": "down"
@@ -257,34 +257,34 @@
       "symbol": "BK",
       "name": "BNY Mellon",
       "class": "equity",
-      "close": 145.27,
-      "asOf": "2026-10-23",
+      "close": 147.17999,
+      "asOf": "2026-10-26",
       "daily": {
-        "trend": -1,
-        "macdHist": 1.2096975657867497,
-        "flippedAt": "2026-09-15"
+        "trend": 1,
+        "macdHist": 1.3598925091832479,
+        "flippedAt": "2026-10-26"
       },
       "weekly": {
         "trend": -1,
-        "macdHist": -4.096732910462426,
+        "macdHist": -4.096732910375907,
         "flippedAt": "2026-10-05"
       },
-      "alignment": "down"
+      "alignment": "mixed"
     },
     {
       "symbol": "BKNG",
       "name": "Booking Holdings",
       "class": "equity",
-      "close": 155.83,
-      "asOf": "2026-10-23",
+      "close": 153.14,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": -1,
-        "macdHist": 0.9518169917143666,
+        "macdHist": 0.33972226222613866,
         "flippedAt": "2026-09-03"
       },
       "weekly": {
         "trend": -1,
-        "macdHist": -5.68040947438842,
+        "macdHist": -5.680409474149242,
         "flippedAt": "2026-09-21"
       },
       "alignment": "down"
@@ -293,16 +293,16 @@
       "symbol": "BLK",
       "name": "BlackRock",
       "class": "equity",
-      "close": 1118.25,
-      "asOf": "2026-10-23",
+      "close": 1127.66003,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": 1,
-        "macdHist": 8.100789596510165,
+        "macdHist": 6.239679933623494,
         "flippedAt": "2026-10-15"
       },
       "weekly": {
         "trend": 1,
-        "macdHist": -3.281869710063752,
+        "macdHist": -3.281869709078137,
         "flippedAt": "2026-08-10"
       },
       "alignment": "up"
@@ -311,16 +311,16 @@
       "symbol": "BMY",
       "name": "Bristol-Myers Squibb",
       "class": "equity",
-      "close": 61.48,
-      "asOf": "2026-10-23",
+      "close": 61.61,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": 1,
-        "macdHist": 0.6734255536474549,
+        "macdHist": 0.6294483343261782,
         "flippedAt": "2026-10-22"
       },
       "weekly": {
         "trend": 1,
-        "macdHist": -0.9897875136489813,
+        "macdHist": -0.9897875136690288,
         "flippedAt": "2025-12-01"
       },
       "alignment": "up"
@@ -329,16 +329,16 @@
       "symbol": "BRK.B",
       "name": "Berkshire Hathaway B",
       "class": "equity",
-      "close": 542.19,
-      "asOf": "2026-10-23",
+      "close": 548.56,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": 1,
-        "macdHist": 3.3873577293274417,
+        "macdHist": 3.2319676337263745,
         "flippedAt": "2026-10-12"
       },
       "weekly": {
         "trend": 1,
-        "macdHist": 3.4166829956424873,
+        "macdHist": 3.416682995929067,
         "flippedAt": "2026-08-03"
       },
       "alignment": "up"
@@ -347,16 +347,16 @@
       "symbol": "C",
       "name": "Citigroup",
       "class": "equity",
-      "close": 120.62,
-      "asOf": "2026-10-23",
+      "close": 121.040001,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": -1,
-        "macdHist": -0.35920630289942146,
+        "macdHist": -0.2702185915033559,
         "flippedAt": "2026-07-14"
       },
       "weekly": {
         "trend": 1,
-        "macdHist": -2.7336878796500437,
+        "macdHist": -2.733687879469585,
         "flippedAt": "2025-06-23"
       },
       "alignment": "mixed"
@@ -365,16 +365,16 @@
       "symbol": "CAT",
       "name": "Caterpillar",
       "class": "equity",
-      "close": 687,
-      "asOf": "2026-10-23",
+      "close": 692.13,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": -1,
-        "macdHist": -10.673344689782677,
+        "macdHist": -9.598772713160429,
         "flippedAt": "2026-10-13"
       },
       "weekly": {
         "trend": -1,
-        "macdHist": -23.51941134704417,
+        "macdHist": -23.519411346644723,
         "flippedAt": "2026-08-24"
       },
       "alignment": "down"
@@ -383,16 +383,16 @@
       "symbol": "CHTR",
       "name": "Charter Communications",
       "class": "equity",
-      "close": 108.61,
-      "asOf": "2026-10-23",
+      "close": 102.18,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": -1,
-        "macdHist": 1.930030431849401,
+        "macdHist": 1.3063844708326888,
         "flippedAt": "2026-09-09"
       },
       "weekly": {
         "trend": -1,
-        "macdHist": -2.396756104334429,
+        "macdHist": -2.3967561039377614,
         "flippedAt": "2026-04-20"
       },
       "alignment": "down"
@@ -401,16 +401,16 @@
       "symbol": "CL",
       "name": "Colgate-Palmolive",
       "class": "equity",
-      "close": 94.040001,
-      "asOf": "2026-10-23",
+      "close": 93.099998,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": 1,
-        "macdHist": 0.7641216091585947,
+        "macdHist": 0.4616150280878566,
         "flippedAt": "2026-10-12"
       },
       "weekly": {
         "trend": -1,
-        "macdHist": 0.14259941190364755,
+        "macdHist": 0.14259941197716824,
         "flippedAt": "2026-03-16"
       },
       "alignment": "mixed"
@@ -419,16 +419,16 @@
       "symbol": "CMCSA",
       "name": "Comcast",
       "class": "equity",
-      "close": 22.69,
-      "asOf": "2026-10-23",
+      "close": 22.049999,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": 1,
-        "macdHist": 0.3882293772287547,
+        "macdHist": 0.3252788475622653,
         "flippedAt": "2026-10-22"
       },
       "weekly": {
         "trend": -1,
-        "macdHist": -0.36444087755070087,
+        "macdHist": -0.36444087749395215,
         "flippedAt": "2026-05-04"
       },
       "alignment": "mixed"
@@ -437,16 +437,16 @@
       "symbol": "COF",
       "name": "Capital One",
       "class": "equity",
-      "close": 201.34,
-      "asOf": "2026-10-23",
+      "close": 202.35001,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": 1,
-        "macdHist": 1.3256404271216,
+        "macdHist": 1.187700763943408,
         "flippedAt": "2026-10-21"
       },
       "weekly": {
         "trend": 1,
-        "macdHist": -2.316183250130229,
+        "macdHist": -2.316183249728441,
         "flippedAt": "2026-08-03"
       },
       "alignment": "up"
@@ -455,16 +455,16 @@
       "symbol": "COP",
       "name": "ConocoPhillips",
       "class": "equity",
-      "close": 150.8,
-      "asOf": "2026-10-23",
+      "close": 151.37,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": 1,
-        "macdHist": 1.3558118141708473,
+        "macdHist": 1.2941726088124028,
         "flippedAt": "2026-10-12"
       },
       "weekly": {
         "trend": 1,
-        "macdHist": 1.8562184019973733,
+        "macdHist": 1.8562184021699757,
         "flippedAt": "2026-08-17"
       },
       "alignment": "up"
@@ -473,16 +473,16 @@
       "symbol": "COST",
       "name": "Costco",
       "class": "equity",
-      "close": 1003.32001,
-      "asOf": "2026-10-23",
+      "close": 1005.15997,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": 1,
-        "macdHist": 6.093894732139461,
+        "macdHist": 4.633700347236715,
         "flippedAt": "2026-10-06"
       },
       "weekly": {
         "trend": -1,
-        "macdHist": 9.0501497605312,
+        "macdHist": 9.05014976063871,
         "flippedAt": "2026-07-06"
       },
       "alignment": "mixed"
@@ -491,16 +491,16 @@
       "symbol": "CRM",
       "name": "Salesforce",
       "class": "equity",
-      "close": 248.57001,
-      "asOf": "2026-10-23",
+      "close": 247.61,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": 1,
-        "macdHist": 1.7500838228231714,
+        "macdHist": 1.5258591399443353,
         "flippedAt": "2026-10-22"
       },
       "weekly": {
         "trend": 1,
-        "macdHist": 3.3484787387213633,
+        "macdHist": 3.3484787392454596,
         "flippedAt": "2026-08-17"
       },
       "alignment": "up"
@@ -509,16 +509,16 @@
       "symbol": "CSCO",
       "name": "Cisco",
       "class": "equity",
-      "close": 106.5,
-      "asOf": "2026-10-23",
+      "close": 110.24,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": -1,
-        "macdHist": -1.2857899974005278,
+        "macdHist": -0.8154179755426093,
         "flippedAt": "2026-10-16"
       },
       "weekly": {
         "trend": 1,
-        "macdHist": -1.8683907582793076,
+        "macdHist": -1.8683907581416896,
         "flippedAt": "2025-06-02"
       },
       "alignment": "mixed"
@@ -527,16 +527,16 @@
       "symbol": "CVS",
       "name": "CVS Health",
       "class": "equity",
-      "close": 93.47,
-      "asOf": "2026-10-23",
+      "close": 92.53,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": 1,
-        "macdHist": 1.067991079541784,
+        "macdHist": 0.7896258178167683,
         "flippedAt": "2026-10-15"
       },
       "weekly": {
         "trend": -1,
-        "macdHist": -1.6051501900534393,
+        "macdHist": -1.6051501900326,
         "flippedAt": "2026-09-14"
       },
       "alignment": "mixed"
@@ -545,16 +545,16 @@
       "symbol": "CVX",
       "name": "Chevron",
       "class": "equity",
-      "close": 233.21001,
-      "asOf": "2026-10-23",
+      "close": 232.0099945,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": 1,
-        "macdHist": 1.767497542778683,
+        "macdHist": 1.6264727550317177,
         "flippedAt": "2026-07-13"
       },
       "weekly": {
         "trend": 1,
-        "macdHist": 2.731048627709378,
+        "macdHist": 2.731048627868976,
         "flippedAt": "2026-08-10"
       },
       "alignment": "up"
@@ -563,16 +563,16 @@
       "symbol": "DE",
       "name": "Deere",
       "class": "equity",
-      "close": 646.15002,
-      "asOf": "2026-10-23",
+      "close": 641.25,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": -1,
-        "macdHist": -0.7315711378681096,
+        "macdHist": -0.19100651114798772,
         "flippedAt": "2026-10-07"
       },
       "weekly": {
         "trend": 1,
-        "macdHist": -4.093128751310854,
+        "macdHist": -4.093128750507212,
         "flippedAt": "2024-09-16"
       },
       "alignment": "mixed"
@@ -581,16 +581,16 @@
       "symbol": "DHR",
       "name": "Danaher",
       "class": "equity",
-      "close": 230.5,
-      "asOf": "2026-10-23",
+      "close": 232.97,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": 1,
-        "macdHist": 0.6016424617981215,
+        "macdHist": 0.6065705405077577,
         "flippedAt": "2026-07-27"
       },
       "weekly": {
         "trend": 1,
-        "macdHist": 2.9405903092673658,
+        "macdHist": 2.9405903091889307,
         "flippedAt": "2026-07-13"
       },
       "alignment": "up"
@@ -599,16 +599,16 @@
       "symbol": "DIS",
       "name": "Walt Disney",
       "class": "equity",
-      "close": 112.52,
-      "asOf": "2026-10-23",
+      "close": 110.4,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": 1,
-        "macdHist": 0.6106978227625051,
+        "macdHist": 0.3541625655496117,
         "flippedAt": "2026-10-12"
       },
       "weekly": {
         "trend": 1,
-        "macdHist": 1.026611258758038,
+        "macdHist": 1.0266112592687746,
         "flippedAt": "2026-10-19"
       },
       "alignment": "up"
@@ -617,16 +617,16 @@
       "symbol": "DUK",
       "name": "Duke Energy",
       "class": "equity",
-      "close": 124.98,
-      "asOf": "2026-10-23",
+      "close": 124.44,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": 1,
-        "macdHist": 1.127708820211036,
+        "macdHist": 1.0599043542629767,
         "flippedAt": "2026-10-13"
       },
       "weekly": {
         "trend": -1,
-        "macdHist": 0.08471100361681128,
+        "macdHist": 0.08471100364590245,
         "flippedAt": "2026-09-14"
       },
       "alignment": "mixed"
@@ -635,16 +635,16 @@
       "symbol": "EMR",
       "name": "Emerson Electric",
       "class": "equity",
-      "close": 161.59,
-      "asOf": "2026-10-23",
+      "close": 161.7,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": 1,
-        "macdHist": -0.41737145006860343,
+        "macdHist": -0.39335069525605126,
         "flippedAt": "2026-09-28"
       },
       "weekly": {
         "trend": 1,
-        "macdHist": 0.5958585263365546,
+        "macdHist": 0.595858526602342,
         "flippedAt": "2026-08-03"
       },
       "alignment": "up"
@@ -653,16 +653,16 @@
       "symbol": "F",
       "name": "Ford",
       "class": "equity",
-      "close": 11.6,
-      "asOf": "2026-10-23",
+      "close": 11.58,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": -1,
-        "macdHist": 0.016590519907690615,
+        "macdHist": -0.006937984786178353,
         "flippedAt": "2026-08-05"
       },
       "weekly": {
         "trend": -1,
-        "macdHist": -0.3890599245541545,
+        "macdHist": -0.38905992451562554,
         "flippedAt": "2026-10-19"
       },
       "alignment": "down"
@@ -671,16 +671,16 @@
       "symbol": "FDX",
       "name": "FedEx",
       "class": "equity",
-      "close": 298.72,
-      "asOf": "2026-10-23",
+      "close": 300.57999,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": -1,
-        "macdHist": 2.3988525437348347,
+        "macdHist": 2.2596228854979596,
         "flippedAt": "2026-09-08"
       },
       "weekly": {
         "trend": 1,
-        "macdHist": -6.124266582964683,
+        "macdHist": -6.124266582341527,
         "flippedAt": "2025-11-10"
       },
       "alignment": "mixed"
@@ -689,16 +689,16 @@
       "symbol": "GD",
       "name": "General Dynamics",
       "class": "equity",
-      "close": 349.35999,
-      "asOf": "2026-10-23",
+      "close": 357.040009,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": 1,
-        "macdHist": 3.7477992888700618,
+        "macdHist": 4.055844038722051,
         "flippedAt": "2026-10-22"
       },
       "weekly": {
         "trend": -1,
-        "macdHist": -6.139826777468462,
+        "macdHist": -6.139826776991192,
         "flippedAt": "2026-09-21"
       },
       "alignment": "mixed"
@@ -707,16 +707,16 @@
       "symbol": "GE",
       "name": "GE Aerospace",
       "class": "equity",
-      "close": 285.64001,
-      "asOf": "2026-10-23",
+      "close": 288.42999,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": -1,
-        "macdHist": -1.5304432017006713,
+        "macdHist": -1.9035619776065573,
         "flippedAt": "2026-08-20"
       },
       "weekly": {
         "trend": -1,
-        "macdHist": -9.253973696468258,
+        "macdHist": -9.253973696327211,
         "flippedAt": "2026-10-19"
       },
       "alignment": "down"
@@ -725,16 +725,16 @@
       "symbol": "GILD",
       "name": "Gilead Sciences",
       "class": "equity",
-      "close": 156.039993,
-      "asOf": "2026-10-23",
+      "close": 158.69,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": 1,
-        "macdHist": 0.5964129466326067,
+        "macdHist": 0.6002317570619038,
         "flippedAt": "2026-07-07"
       },
       "weekly": {
         "trend": 1,
-        "macdHist": 1.554825785392672,
+        "macdHist": 1.5548257855050984,
         "flippedAt": "2026-08-31"
       },
       "alignment": "up"
@@ -743,16 +743,16 @@
       "symbol": "GM",
       "name": "General Motors",
       "class": "equity",
-      "close": 75.92,
-      "asOf": "2026-10-23",
+      "close": 76.31,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": -1,
-        "macdHist": -0.8142415175144211,
+        "macdHist": -0.8579633892074396,
         "flippedAt": "2026-09-24"
       },
       "weekly": {
         "trend": 1,
-        "macdHist": -1.373227580952761,
+        "macdHist": -1.3732275808061019,
         "flippedAt": "2025-08-18"
       },
       "alignment": "mixed"
@@ -761,16 +761,16 @@
       "symbol": "GOOG",
       "name": "Alphabet C",
       "class": "equity",
-      "close": 317.28,
-      "asOf": "2026-10-23",
+      "close": 314.19,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": -1,
-        "macdHist": -3.747092783947374,
+        "macdHist": -4.273241697402865,
         "flippedAt": "2026-10-22"
       },
       "weekly": {
         "trend": -1,
-        "macdHist": -3.5138635869736023,
+        "macdHist": -3.513863586457995,
         "flippedAt": "2026-07-20"
       },
       "alignment": "down"
@@ -779,16 +779,16 @@
       "symbol": "GOOGL",
       "name": "Alphabet A",
       "class": "equity",
-      "close": 320.20999,
-      "asOf": "2026-10-23",
+      "close": 316.79999,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": -1,
-        "macdHist": -3.852748191507683,
+        "macdHist": -4.446141808089654,
         "flippedAt": "2026-10-22"
       },
       "weekly": {
         "trend": -1,
-        "macdHist": -3.4929844514056,
+        "macdHist": -3.492984450891602,
         "flippedAt": "2026-07-20"
       },
       "alignment": "down"
@@ -797,16 +797,16 @@
       "symbol": "GS",
       "name": "Goldman Sachs",
       "class": "equity",
-      "close": 875.67999,
-      "asOf": "2026-10-23",
+      "close": 893.28003,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": -1,
-        "macdHist": 4.667247376105266,
+        "macdHist": 5.262511226853274,
         "flippedAt": "2026-07-29"
       },
       "weekly": {
         "trend": -1,
-        "macdHist": -29.88904254363961,
+        "macdHist": -29.889042542761786,
         "flippedAt": "2026-09-28"
       },
       "alignment": "down"
@@ -815,16 +815,16 @@
       "symbol": "HD",
       "name": "Home Depot",
       "class": "equity",
-      "close": 319.82999,
-      "asOf": "2026-10-23",
+      "close": 319.38,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": 1,
-        "macdHist": 5.215009854121515,
+        "macdHist": 4.535468565963495,
         "flippedAt": "2026-10-15"
       },
       "weekly": {
         "trend": -1,
-        "macdHist": -1.9076481468606588,
+        "macdHist": -1.9076481465445205,
         "flippedAt": "2025-11-03"
       },
       "alignment": "mixed"
@@ -833,16 +833,16 @@
       "symbol": "HON",
       "name": "Honeywell",
       "class": "equity",
-      "close": 221.14999,
-      "asOf": "2026-10-23",
+      "close": 219.28,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": 1,
-        "macdHist": 1.7115828541930305,
+        "macdHist": 1.7665327717473929,
         "flippedAt": "2026-10-01"
       },
       "weekly": {
         "trend": 1,
-        "macdHist": -1.116821707451777,
+        "macdHist": -1.1168217071719906,
         "flippedAt": "2026-08-03"
       },
       "alignment": "up"
@@ -851,16 +851,16 @@
       "symbol": "IBM",
       "name": "IBM",
       "class": "equity",
-      "close": 253.56,
-      "asOf": "2026-10-23",
+      "close": 253.44,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": 1,
-        "macdHist": 4.05330372047078,
+        "macdHist": 3.9440210873130406,
         "flippedAt": "2026-10-20"
       },
       "weekly": {
         "trend": -1,
-        "macdHist": 1.9187129824335116,
+        "macdHist": 1.9187129825342506,
         "flippedAt": "2026-07-13"
       },
       "alignment": "mixed"
@@ -869,16 +869,16 @@
       "symbol": "INTC",
       "name": "Intel",
       "class": "equity",
-      "close": 86.96,
-      "asOf": "2026-10-23",
+      "close": 90.47,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": -1,
-        "macdHist": -2.5218626020373325,
+        "macdHist": -1.866101709170776,
         "flippedAt": "2026-10-09"
       },
       "weekly": {
         "trend": 1,
-        "macdHist": -2.788577854459202,
+        "macdHist": -2.7885778543542337,
         "flippedAt": "2025-09-15"
       },
       "alignment": "mixed"
@@ -887,16 +887,16 @@
       "symbol": "INTU",
       "name": "Intuit",
       "class": "equity",
-      "close": 343.39001,
-      "asOf": "2026-10-23",
+      "close": 339.89001,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": 1,
-        "macdHist": 6.986623648547044,
+        "macdHist": 5.741695253173443,
         "flippedAt": "2026-10-12"
       },
       "weekly": {
         "trend": -1,
-        "macdHist": 7.503315200897273,
+        "macdHist": 7.503315202004021,
         "flippedAt": "2025-08-18"
       },
       "alignment": "mixed"
@@ -905,16 +905,16 @@
       "symbol": "JNJ",
       "name": "Johnson & Johnson",
       "class": "equity",
-      "close": 263.81,
-      "asOf": "2026-10-23",
+      "close": 266.29999,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": -1,
-        "macdHist": 1.624121288210353,
+        "macdHist": 1.9600543876275967,
         "flippedAt": "2026-10-01"
       },
       "weekly": {
         "trend": 1,
-        "macdHist": -2.7394533753598367,
+        "macdHist": -2.7394533753079475,
         "flippedAt": "2025-02-17"
       },
       "alignment": "mixed"
@@ -923,16 +923,16 @@
       "symbol": "JPM",
       "name": "JPMorgan Chase",
       "class": "equity",
-      "close": 331.57999,
-      "asOf": "2026-10-23",
+      "close": 334.040009,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": -1,
-        "macdHist": 0.9019108072199944,
+        "macdHist": 0.7532882786504222,
         "flippedAt": "2026-09-22"
       },
       "weekly": {
         "trend": 1,
-        "macdHist": -5.158256439445104,
+        "macdHist": -5.158256439079102,
         "flippedAt": "2026-06-29"
       },
       "alignment": "mixed"
@@ -941,16 +941,16 @@
       "symbol": "KHC",
       "name": "Kraft Heinz",
       "class": "equity",
-      "close": 24.8,
-      "asOf": "2026-10-23",
+      "close": 24.73,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": 1,
-        "macdHist": 0.4128413822372505,
+        "macdHist": 0.4007620179227077,
         "flippedAt": "2026-10-20"
       },
       "weekly": {
         "trend": 1,
-        "macdHist": -0.2532205505433447,
+        "macdHist": -0.2532205505319417,
         "flippedAt": "2026-07-13"
       },
       "alignment": "up"
@@ -959,16 +959,16 @@
       "symbol": "KO",
       "name": "Coca-Cola",
       "class": "equity",
-      "close": 92.71,
-      "asOf": "2026-10-23",
+      "close": 92.7,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": 1,
-        "macdHist": 0.5484792604858042,
+        "macdHist": 0.3324312652093322,
         "flippedAt": "2026-10-12"
       },
       "weekly": {
         "trend": 1,
-        "macdHist": 0.06174048565164192,
+        "macdHist": 0.061740485710620074,
         "flippedAt": "2025-02-10"
       },
       "alignment": "up"
@@ -977,16 +977,16 @@
       "symbol": "LIN",
       "name": "Linde",
       "class": "equity",
-      "close": 508.82999,
-      "asOf": "2026-10-23",
+      "close": 507.56,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": 1,
-        "macdHist": 2.4584750619345392,
+        "macdHist": 2.0713257056391967,
         "flippedAt": "2026-10-05"
       },
       "weekly": {
         "trend": -1,
-        "macdHist": 1.3787421966486715,
+        "macdHist": 1.3787421971193101,
         "flippedAt": "2026-09-14"
       },
       "alignment": "mixed"
@@ -995,16 +995,16 @@
       "symbol": "LLY",
       "name": "Eli Lilly",
       "class": "equity",
-      "close": 1273.45996,
-      "asOf": "2026-10-23",
+      "close": 1279.14001,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": 1,
-        "macdHist": 13.06934555973137,
+        "macdHist": 10.389388968435771,
         "flippedAt": "2026-10-15"
       },
       "weekly": {
         "trend": 1,
-        "macdHist": 1.100420591043708,
+        "macdHist": 1.1004205907999633,
         "flippedAt": "2026-06-01"
       },
       "alignment": "up"
@@ -1013,16 +1013,16 @@
       "symbol": "LMT",
       "name": "Lockheed Martin",
       "class": "equity",
-      "close": 604.17999,
-      "asOf": "2026-10-23",
+      "close": 635.20001,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": 1,
-        "macdHist": 12.36434048346,
+        "macdHist": 15.101135597748275,
         "flippedAt": "2026-10-16"
       },
       "weekly": {
         "trend": 1,
-        "macdHist": 1.6505193967148748,
+        "macdHist": 1.65051939731336,
         "flippedAt": "2026-08-10"
       },
       "alignment": "up"
@@ -1031,16 +1031,16 @@
       "symbol": "LOW",
       "name": "Lowe's",
       "class": "equity",
-      "close": 198.67999,
-      "asOf": "2026-10-23",
+      "close": 198.22,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": 1,
-        "macdHist": 2.5331386813314953,
+        "macdHist": 2.082172442120976,
         "flippedAt": "2026-10-15"
       },
       "weekly": {
         "trend": -1,
-        "macdHist": -0.5297039987071255,
+        "macdHist": -0.5297039983854983,
         "flippedAt": "2026-03-09"
       },
       "alignment": "mixed"
@@ -1049,16 +1049,16 @@
       "symbol": "MA",
       "name": "Mastercard",
       "class": "equity",
-      "close": 623.59998,
-      "asOf": "2026-10-23",
+      "close": 613.5,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": 1,
-        "macdHist": 4.195587537944537,
+        "macdHist": 2.2710104381666643,
         "flippedAt": "2026-10-09"
       },
       "weekly": {
         "trend": 1,
-        "macdHist": 4.592768821396286,
+        "macdHist": 4.592768822279291,
         "flippedAt": "2026-07-27"
       },
       "alignment": "up"
@@ -1067,16 +1067,16 @@
       "symbol": "MCD",
       "name": "McDonald's",
       "class": "equity",
-      "close": 248.46001,
-      "asOf": "2026-10-23",
+      "close": 250.83,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": 1,
-        "macdHist": 2.923358009049369,
+        "macdHist": 2.7709498347091173,
         "flippedAt": "2026-10-20"
       },
       "weekly": {
         "trend": -1,
-        "macdHist": -1.2888355157473939,
+        "macdHist": -1.2888355155609794,
         "flippedAt": "2026-04-20"
       },
       "alignment": "mixed"
@@ -1085,16 +1085,16 @@
       "symbol": "MDLZ",
       "name": "Mondelez",
       "class": "equity",
-      "close": 63.8,
-      "asOf": "2026-10-23",
+      "close": 62.97,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": 1,
-        "macdHist": 0.4551520068760624,
+        "macdHist": 0.28597151840733104,
         "flippedAt": "2026-10-12"
       },
       "weekly": {
         "trend": 1,
-        "macdHist": -0.02857119226746596,
+        "macdHist": -0.02857119223719451,
         "flippedAt": "2026-02-09"
       },
       "alignment": "up"
@@ -1103,16 +1103,16 @@
       "symbol": "MDT",
       "name": "Medtronic",
       "class": "equity",
-      "close": 95.41,
-      "asOf": "2026-10-23",
+      "close": 94.79,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": 1,
-        "macdHist": 0.6225764218896614,
+        "macdHist": 0.44803645871376174,
         "flippedAt": "2026-10-13"
       },
       "weekly": {
         "trend": 1,
-        "macdHist": 0.6007032562385414,
+        "macdHist": 0.6007032565165074,
         "flippedAt": "2026-08-10"
       },
       "alignment": "up"
@@ -1121,16 +1121,16 @@
       "symbol": "MET",
       "name": "MetLife",
       "class": "equity",
-      "close": 98.82,
-      "asOf": "2026-10-23",
+      "close": 100.040001,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": 1,
-        "macdHist": 0.186962406940258,
+        "macdHist": 0.03872620226699208,
         "flippedAt": "2026-04-08"
       },
       "weekly": {
         "trend": 1,
-        "macdHist": -0.37512497124578825,
+        "macdHist": -0.3751249710716218,
         "flippedAt": "2026-05-18"
       },
       "alignment": "up"
@@ -1139,16 +1139,16 @@
       "symbol": "META",
       "name": "Meta Platforms",
       "class": "equity",
-      "close": 642.62,
-      "asOf": "2026-10-23",
+      "close": 630.56,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": -1,
-        "macdHist": -16.64643513156448,
+        "macdHist": -18.125135709795295,
         "flippedAt": "2026-10-22"
       },
       "weekly": {
         "trend": 1,
-        "macdHist": 13.8822049153735,
+        "macdHist": 13.882204915757528,
         "flippedAt": "2026-09-21"
       },
       "alignment": "mixed"
@@ -1157,16 +1157,16 @@
       "symbol": "MMM",
       "name": "3M",
       "class": "equity",
-      "close": 173.46001,
-      "asOf": "2026-10-23",
+      "close": 172.78999,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": 1,
-        "macdHist": 2.025613449634079,
+        "macdHist": 1.8631153634664297,
         "flippedAt": "2026-10-20"
       },
       "weekly": {
         "trend": 1,
-        "macdHist": -1.4469760982878674,
+        "macdHist": -1.4469760981777204,
         "flippedAt": "2026-07-20"
       },
       "alignment": "up"
@@ -1175,16 +1175,16 @@
       "symbol": "MO",
       "name": "Altria",
       "class": "equity",
-      "close": 74.31,
-      "asOf": "2026-10-23",
+      "close": 73.62,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": 1,
-        "macdHist": 0.36192607675737865,
+        "macdHist": 0.16225101136026554,
         "flippedAt": "2026-09-14"
       },
       "weekly": {
         "trend": 1,
-        "macdHist": 0.5633375782062997,
+        "macdHist": 0.5633375782609468,
         "flippedAt": "2026-02-02"
       },
       "alignment": "up"
@@ -1193,16 +1193,16 @@
       "symbol": "MRK",
       "name": "Merck",
       "class": "equity",
-      "close": 145.27,
-      "asOf": "2026-10-23",
+      "close": 140.61,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": -1,
-        "macdHist": 0.37209775308141957,
+        "macdHist": -0.14614094378017245,
         "flippedAt": "2026-10-05"
       },
       "weekly": {
         "trend": 1,
-        "macdHist": -0.7950579835483413,
+        "macdHist": -0.7950579835959957,
         "flippedAt": "2025-11-10"
       },
       "alignment": "mixed"
@@ -1211,16 +1211,16 @@
       "symbol": "MS",
       "name": "Morgan Stanley",
       "class": "equity",
-      "close": 179.49001,
-      "asOf": "2026-10-23",
+      "close": 183.49001,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": -1,
-        "macdHist": 0.4144341840467911,
+        "macdHist": 0.7214116038997656,
         "flippedAt": "2026-07-29"
       },
       "weekly": {
         "trend": -1,
-        "macdHist": -6.721911086528369,
+        "macdHist": -6.721911086285786,
         "flippedAt": "2026-10-12"
       },
       "alignment": "down"
@@ -1229,16 +1229,16 @@
       "symbol": "MSFT",
       "name": "Microsoft",
       "class": "equity",
-      "close": 524.51001,
-      "asOf": "2026-10-23",
+      "close": 532.59998,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": 1,
-        "macdHist": -3.229346597731933,
+        "macdHist": -2.8240657434675107,
         "flippedAt": "2026-07-15"
       },
       "weekly": {
         "trend": 1,
-        "macdHist": 5.458069764448979,
+        "macdHist": 5.458069764851537,
         "flippedAt": "2026-05-25"
       },
       "alignment": "up"
@@ -1247,16 +1247,16 @@
       "symbol": "NEE",
       "name": "NextEra Energy",
       "class": "equity",
-      "close": 82.099998,
-      "asOf": "2026-10-23",
+      "close": 82.040001,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": 1,
-        "macdHist": 0.708259884231053,
+        "macdHist": 0.746637711677762,
         "flippedAt": "2026-10-16"
       },
       "weekly": {
         "trend": -1,
-        "macdHist": -0.47116459347765427,
+        "macdHist": -0.47116459337031347,
         "flippedAt": "2026-08-24"
       },
       "alignment": "mixed"
@@ -1265,16 +1265,16 @@
       "symbol": "NFLX",
       "name": "Netflix",
       "class": "equity",
-      "close": 65.85,
-      "asOf": "2026-10-23",
+      "close": 63.9,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": -1,
-        "macdHist": -0.3372453635305388,
+        "macdHist": -0.5442276218479141,
         "flippedAt": "2026-10-21"
       },
       "weekly": {
         "trend": -1,
-        "macdHist": -0.44712072538135494,
+        "macdHist": -0.4471207253089977,
         "flippedAt": "2026-06-15"
       },
       "alignment": "down"
@@ -1283,16 +1283,16 @@
       "symbol": "NKE",
       "name": "Nike",
       "class": "equity",
-      "close": 37.3,
-      "asOf": "2026-10-23",
+      "close": 37.91,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": 1,
-        "macdHist": 0.49083483286490076,
+        "macdHist": 0.4342814186893804,
         "flippedAt": "2026-10-15"
       },
       "weekly": {
         "trend": -1,
-        "macdHist": 0.2612756842490995,
+        "macdHist": 0.26127568470203144,
         "flippedAt": "2025-11-03"
       },
       "alignment": "mixed"
@@ -1301,16 +1301,16 @@
       "symbol": "NVDA",
       "name": "NVIDIA",
       "class": "equity",
-      "close": 210.96001,
-      "asOf": "2026-10-23",
+      "close": 216,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": -1,
-        "macdHist": -2.3800293692019605,
+        "macdHist": -1.8320651680504279,
         "flippedAt": "2026-10-14"
       },
       "weekly": {
         "trend": 1,
-        "macdHist": -1.5667253559837047,
+        "macdHist": -1.566725355960065,
         "flippedAt": "2025-06-23"
       },
       "alignment": "mixed"
@@ -1319,16 +1319,16 @@
       "symbol": "ORCL",
       "name": "Oracle",
       "class": "equity",
-      "close": 126.16,
-      "asOf": "2026-10-23",
+      "close": 126.059998,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": -1,
-        "macdHist": -1.2252613791872795,
+        "macdHist": -1.0176476947982867,
         "flippedAt": "2026-09-15"
       },
       "weekly": {
         "trend": -1,
-        "macdHist": -0.8441905134683694,
+        "macdHist": -0.844190513343726,
         "flippedAt": "2026-06-22"
       },
       "alignment": "down"
@@ -1337,16 +1337,16 @@
       "symbol": "PEP",
       "name": "PepsiCo",
       "class": "equity",
-      "close": 135.77,
-      "asOf": "2026-10-23",
+      "close": 135.46001,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": 1,
-        "macdHist": 1.7925938133873969,
+        "macdHist": 1.572167569084832,
         "flippedAt": "2026-10-19"
       },
       "weekly": {
         "trend": -1,
-        "macdHist": -0.4160565324685024,
+        "macdHist": -0.41605653229589734,
         "flippedAt": "2026-05-25"
       },
       "alignment": "mixed"
@@ -1355,16 +1355,16 @@
       "symbol": "PFE",
       "name": "Pfizer",
       "class": "equity",
-      "close": 30.030001,
-      "asOf": "2026-10-23",
+      "close": 29.79,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": 1,
-        "macdHist": 0.1987105220864862,
+        "macdHist": 0.13553385379484895,
         "flippedAt": "2026-08-05"
       },
       "weekly": {
         "trend": 1,
-        "macdHist": 0.32006399711152866,
+        "macdHist": 0.3200639970729995,
         "flippedAt": "2025-09-29"
       },
       "alignment": "up"
@@ -1373,16 +1373,16 @@
       "symbol": "PG",
       "name": "Procter & Gamble",
       "class": "equity",
-      "close": 161.020004,
-      "asOf": "2026-10-23",
+      "close": 159.92,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": 1,
-        "macdHist": 1.0504908265864463,
+        "macdHist": 0.7238871902640494,
         "flippedAt": "2026-10-08"
       },
       "weekly": {
         "trend": -1,
-        "macdHist": 2.042512167165872,
+        "macdHist": 2.0425121672193267,
         "flippedAt": "2026-03-16"
       },
       "alignment": "mixed"
@@ -1391,16 +1391,16 @@
       "symbol": "PLTR",
       "name": "Palantir",
       "class": "equity",
-      "close": 196.75,
-      "asOf": "2026-10-23",
+      "close": 198.84,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": -1,
-        "macdHist": -1.7920962778783132,
+        "macdHist": -1.4421919347469254,
         "flippedAt": "2026-10-16"
       },
       "weekly": {
         "trend": 1,
-        "macdHist": 3.889344230663669,
+        "macdHist": 3.8893442306192902,
         "flippedAt": "2026-08-03"
       },
       "alignment": "mixed"
@@ -1409,16 +1409,16 @@
       "symbol": "PM",
       "name": "Philip Morris International",
       "class": "equity",
-      "close": 199.47,
-      "asOf": "2026-10-23",
+      "close": 201.87,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": 1,
-        "macdHist": -0.3626437773481097,
+        "macdHist": -0.38125658070977897,
         "flippedAt": "2026-10-08"
       },
       "weekly": {
         "trend": 1,
-        "macdHist": 0.9022920339342404,
+        "macdHist": 0.9022920341162877,
         "flippedAt": "2026-07-13"
       },
       "alignment": "up"
@@ -1427,16 +1427,16 @@
       "symbol": "PYPL",
       "name": "PayPal",
       "class": "equity",
-      "close": 57.02,
-      "asOf": "2026-10-23",
+      "close": 54.99,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": 1,
-        "macdHist": 0.21896262285046775,
+        "macdHist": 0.0058908428562270965,
         "flippedAt": "2026-10-15"
       },
       "weekly": {
         "trend": 1,
-        "macdHist": -0.02542529196556287,
+        "macdHist": -0.02542529058439502,
         "flippedAt": "2026-07-13"
       },
       "alignment": "up"
@@ -1445,16 +1445,16 @@
       "symbol": "QCOM",
       "name": "Qualcomm",
       "class": "equity",
-      "close": 175.91,
-      "asOf": "2026-10-23",
+      "close": 179.60001,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": -1,
-        "macdHist": -0.27585711679719793,
+        "macdHist": 0.18324824189356392,
         "flippedAt": "2026-10-14"
       },
       "weekly": {
         "trend": -1,
-        "macdHist": 0.3773693248915859,
+        "macdHist": 0.37736932448112903,
         "flippedAt": "2026-07-27"
       },
       "alignment": "down"
@@ -1463,16 +1463,16 @@
       "symbol": "RTX",
       "name": "RTX",
       "class": "equity",
-      "close": 191.0099945,
-      "asOf": "2026-10-23",
+      "close": 197.48,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": 1,
-        "macdHist": 1.803062087945316,
+        "macdHist": 1.9265674392569723,
         "flippedAt": "2026-10-16"
       },
       "weekly": {
         "trend": -1,
-        "macdHist": -3.5479014325274787,
+        "macdHist": -3.547901432307318,
         "flippedAt": "2026-09-21"
       },
       "alignment": "mixed"
@@ -1481,16 +1481,16 @@
       "symbol": "SBUX",
       "name": "Starbucks",
       "class": "equity",
-      "close": 100.8,
-      "asOf": "2026-10-23",
+      "close": 102.69,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": 1,
-        "macdHist": 1.4426810308366447,
+        "macdHist": 1.4554929533232897,
         "flippedAt": "2026-10-20"
       },
       "weekly": {
         "trend": 1,
-        "macdHist": -1.4892003943919607,
+        "macdHist": -1.489200394011784,
         "flippedAt": "2026-02-02"
       },
       "alignment": "up"
@@ -1499,16 +1499,16 @@
       "symbol": "SCHW",
       "name": "Charles Schwab",
       "class": "equity",
-      "close": 90.58,
-      "asOf": "2026-10-23",
+      "close": 89.73,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": -1,
-        "macdHist": -0.2816561197852061,
+        "macdHist": -0.24944959223854024,
         "flippedAt": "2026-09-08"
       },
       "weekly": {
         "trend": -1,
-        "macdHist": -2.853567017885978,
+        "macdHist": -2.8535670177208496,
         "flippedAt": "2026-10-12"
       },
       "alignment": "down"
@@ -1517,16 +1517,16 @@
       "symbol": "SO",
       "name": "Southern Company",
       "class": "equity",
-      "close": 92.89,
-      "asOf": "2026-10-23",
+      "close": 92.57,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": 1,
-        "macdHist": 0.8745089561625892,
+        "macdHist": 0.7615416467818584,
         "flippedAt": "2026-10-12"
       },
       "weekly": {
         "trend": -1,
-        "macdHist": 0.14546339442567868,
+        "macdHist": 0.14546339450273482,
         "flippedAt": "2026-09-14"
       },
       "alignment": "mixed"
@@ -1535,16 +1535,16 @@
       "symbol": "SPG",
       "name": "Simon Property Group",
       "class": "equity",
-      "close": 211.63,
-      "asOf": "2026-10-23",
+      "close": 212.69,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": 1,
-        "macdHist": 1.9636710030383489,
+        "macdHist": 2.066972421678691,
         "flippedAt": "2026-10-22"
       },
       "weekly": {
         "trend": -1,
-        "macdHist": -2.574789794700946,
+        "macdHist": -2.57478979455075,
         "flippedAt": "2026-09-28"
       },
       "alignment": "mixed"
@@ -1553,16 +1553,16 @@
       "symbol": "T",
       "name": "AT&T",
       "class": "equity",
-      "close": 20.93,
-      "asOf": "2026-10-23",
+      "close": 20.85,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": -1,
-        "macdHist": -0.15874257348691811,
+        "macdHist": -0.23280033537861933,
         "flippedAt": "2026-09-28"
       },
       "weekly": {
         "trend": -1,
-        "macdHist": -0.3371813919298946,
+        "macdHist": -0.33718139192098523,
         "flippedAt": "2026-10-19"
       },
       "alignment": "down"
@@ -1571,16 +1571,16 @@
       "symbol": "TGT",
       "name": "Target",
       "class": "equity",
-      "close": 152.75999,
-      "asOf": "2026-10-23",
+      "close": 148.53,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": -1,
-        "macdHist": 0.1647932625354448,
+        "macdHist": -0.269799723966211,
         "flippedAt": "2026-10-07"
       },
       "weekly": {
         "trend": 1,
-        "macdHist": -2.127948071745502,
+        "macdHist": -2.127948071443175,
         "flippedAt": "2026-01-05"
       },
       "alignment": "mixed"
@@ -1589,16 +1589,16 @@
       "symbol": "TMO",
       "name": "Thermo Fisher Scientific",
       "class": "equity",
-      "close": 673.82001,
-      "asOf": "2026-10-23",
+      "close": 684.89001,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": 1,
-        "macdHist": -0.7691651460584001,
+        "macdHist": -1.092123703703301,
         "flippedAt": "2026-05-28"
       },
       "weekly": {
         "trend": 1,
-        "macdHist": 7.559532843078031,
+        "macdHist": 7.559532842404174,
         "flippedAt": "2026-07-20"
       },
       "alignment": "up"
@@ -1607,16 +1607,16 @@
       "symbol": "TMUS",
       "name": "T-Mobile US",
       "class": "equity",
-      "close": 146.53999,
-      "asOf": "2026-10-23",
+      "close": 146.92999,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": -1,
-        "macdHist": -0.036214467978535225,
+        "macdHist": -0.4525224347516934,
         "flippedAt": "2026-07-23"
       },
       "weekly": {
         "trend": -1,
-        "macdHist": -3.14938763016335,
+        "macdHist": -3.1493876301947967,
         "flippedAt": "2026-06-01"
       },
       "alignment": "down"
@@ -1625,16 +1625,16 @@
       "symbol": "TSLA",
       "name": "Tesla",
       "class": "equity",
-      "close": 372.22,
-      "asOf": "2026-10-23",
+      "close": 391.62,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": 1,
-        "macdHist": -0.08898159801761585,
+        "macdHist": 1.3608256872534779,
         "flippedAt": "2026-08-21"
       },
       "weekly": {
         "trend": -1,
-        "macdHist": 4.542282702406794,
+        "macdHist": 4.542282703176076,
         "flippedAt": "2026-03-16"
       },
       "alignment": "mixed"
@@ -1643,16 +1643,16 @@
       "symbol": "TXN",
       "name": "Texas Instruments",
       "class": "equity",
-      "close": 284.69,
-      "asOf": "2026-10-23",
+      "close": 298.12,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": 1,
-        "macdHist": -1.0328707466805125,
+        "macdHist": 0.3830995489983531,
         "flippedAt": "2026-09-25"
       },
       "weekly": {
         "trend": 1,
-        "macdHist": -0.9627623295579824,
+        "macdHist": -0.9627623293912801,
         "flippedAt": "2026-01-05"
       },
       "alignment": "up"
@@ -1661,16 +1661,16 @@
       "symbol": "UNH",
       "name": "UnitedHealth",
       "class": "equity",
-      "close": 418.089996,
-      "asOf": "2026-10-23",
+      "close": 410.70001,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": 1,
-        "macdHist": 5.814612047075254,
+        "macdHist": 4.222403421031844,
         "flippedAt": "2026-10-14"
       },
       "weekly": {
         "trend": 1,
-        "macdHist": -2.396793752527369,
+        "macdHist": -2.396793752883987,
         "flippedAt": "2026-04-20"
       },
       "alignment": "up"
@@ -1679,16 +1679,16 @@
       "symbol": "UNP",
       "name": "Union Pacific",
       "class": "equity",
-      "close": 292.87,
-      "asOf": "2026-10-23",
+      "close": 296.97,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": 1,
-        "macdHist": 2.115742002413564,
+        "macdHist": 2.1110570130101234,
         "flippedAt": "2026-10-14"
       },
       "weekly": {
         "trend": 1,
-        "macdHist": -3.1380474496532624,
+        "macdHist": -3.138047449388587,
         "flippedAt": "2026-06-01"
       },
       "alignment": "up"
@@ -1697,16 +1697,16 @@
       "symbol": "UPS",
       "name": "United Parcel Service",
       "class": "equity",
-      "close": 101.059998,
-      "asOf": "2026-10-23",
+      "close": 100.32,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": 1,
-        "macdHist": 1.1879905737267995,
+        "macdHist": 1.0578331772676757,
         "flippedAt": "2026-10-20"
       },
       "weekly": {
         "trend": -1,
-        "macdHist": -1.0151979732834364,
+        "macdHist": -1.0151979729146505,
         "flippedAt": "2026-09-21"
       },
       "alignment": "mixed"
@@ -1715,16 +1715,16 @@
       "symbol": "USB",
       "name": "U.S. Bancorp",
       "class": "equity",
-      "close": 59.58,
-      "asOf": "2026-10-23",
+      "close": 59.7,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": 1,
-        "macdHist": 0.591584674270969,
+        "macdHist": 0.5759401362671149,
         "flippedAt": "2026-10-22"
       },
       "weekly": {
         "trend": 1,
-        "macdHist": -1.0461528390011674,
+        "macdHist": -1.0461528388635573,
         "flippedAt": "2026-06-22"
       },
       "alignment": "up"
@@ -1733,16 +1733,16 @@
       "symbol": "V",
       "name": "Visa",
       "class": "equity",
-      "close": 407.92001,
-      "asOf": "2026-10-23",
+      "close": 404.16,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": 1,
-        "macdHist": 2.7921966472239514,
+        "macdHist": 1.7547586624063012,
         "flippedAt": "2026-10-09"
       },
       "weekly": {
         "trend": 1,
-        "macdHist": 2.892208120538733,
+        "macdHist": 2.8922081211489274,
         "flippedAt": "2026-06-29"
       },
       "alignment": "up"
@@ -1751,16 +1751,16 @@
       "symbol": "VZ",
       "name": "Verizon",
       "class": "equity",
-      "close": 44.66,
-      "asOf": "2026-10-23",
+      "close": 43.099998,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": -1,
-        "macdHist": 0.2517589638951776,
+        "macdHist": 0.14661697205271107,
         "flippedAt": "2026-09-17"
       },
       "weekly": {
         "trend": -1,
-        "macdHist": -0.7616762062925031,
+        "macdHist": -0.7616762062700941,
         "flippedAt": "2026-10-05"
       },
       "alignment": "down"
@@ -1769,16 +1769,16 @@
       "symbol": "WFC",
       "name": "Wells Fargo",
       "class": "equity",
-      "close": 82.39,
-      "asOf": "2026-10-23",
+      "close": 82.65,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": -1,
-        "macdHist": 0.3237619788294981,
+        "macdHist": 0.3024284372099354,
         "flippedAt": "2026-09-22"
       },
       "weekly": {
         "trend": 1,
-        "macdHist": -0.8321019020602054,
+        "macdHist": -0.8321019019548509,
         "flippedAt": "2026-08-31"
       },
       "alignment": "mixed"
@@ -1787,16 +1787,16 @@
       "symbol": "WMT",
       "name": "Walmart",
       "class": "equity",
-      "close": 119.89,
-      "asOf": "2026-10-23",
+      "close": 120.29,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": 1,
-        "macdHist": 0.9273850576025335,
+        "macdHist": 0.7252776191747126,
         "flippedAt": "2026-10-08"
       },
       "weekly": {
         "trend": -1,
-        "macdHist": 1.7663057038368049,
+        "macdHist": 1.7663057038875203,
         "flippedAt": "2026-06-29"
       },
       "alignment": "mixed"
@@ -1805,16 +1805,16 @@
       "symbol": "XOM",
       "name": "Exxon Mobil",
       "class": "equity",
-      "close": 183.21001,
-      "asOf": "2026-10-23",
+      "close": 184.53999,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": 1,
-        "macdHist": 0.9088017624362976,
+        "macdHist": 0.9593599844226146,
         "flippedAt": "2026-07-16"
       },
       "weekly": {
         "trend": 1,
-        "macdHist": 2.2527399628637976,
+        "macdHist": 2.252739963064708,
         "flippedAt": "2026-08-17"
       },
       "alignment": "up"
@@ -1823,16 +1823,16 @@
       "symbol": "GLD",
       "name": "Gold (SPDR Gold Shares)",
       "class": "metal",
-      "close": 366.60999,
-      "asOf": "2026-10-23",
+      "close": 367.82001,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": -1,
-        "macdHist": -0.7592883017996366,
+        "macdHist": -1.0084945664587952,
         "flippedAt": "2026-09-01"
       },
       "weekly": {
         "trend": -1,
-        "macdHist": -3.073454552288455,
+        "macdHist": -3.073454552398516,
         "flippedAt": "2026-06-01"
       },
       "alignment": "down"
@@ -1841,16 +1841,16 @@
       "symbol": "SLV",
       "name": "Silver (iShares Silver Trust)",
       "class": "metal",
-      "close": 48.72,
-      "asOf": "2026-10-23",
+      "close": 48.66,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": -1,
-        "macdHist": -0.2981321924375051,
+        "macdHist": -0.31810213480532457,
         "flippedAt": "2026-09-14"
       },
       "weekly": {
         "trend": -1,
-        "macdHist": -0.8732313020761977,
+        "macdHist": -0.8732313020777727,
         "flippedAt": "2026-03-16"
       },
       "alignment": "down"
@@ -1859,11 +1859,11 @@
       "symbol": "BTC/USD",
       "name": "Bitcoin",
       "class": "crypto",
-      "close": 80154.09,
-      "asOf": "2026-10-25",
+      "close": 80150.56,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": 1,
-        "macdHist": -302.5699034181501,
+        "macdHist": -354.45995263316826,
         "flippedAt": "2026-07-21"
       },
       "weekly": {
@@ -1877,11 +1877,11 @@
       "symbol": "ETH/USD",
       "name": "Ethereum",
       "class": "crypto",
-      "close": 2329.87,
-      "asOf": "2026-10-25",
+      "close": 2324.55,
+      "asOf": "2026-10-26",
       "daily": {
         "trend": -1,
-        "macdHist": -7.590975873767924,
+        "macdHist": -9.127169025265452,
         "flippedAt": "2026-10-08"
       },
       "weekly": {
