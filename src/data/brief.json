@@ -1,7 +1,7 @@
 {
   "brief": {
-    "text": "Closed-End Funds saw notable concentration in cluster activity across BPRE, NXG, and CRAFX, though drilling firm BORR generated the single largest total dollar value at $57,144,458 across three insiders. FUL recorded the highest breadth of internal participation with eight distinct insiders purchasing shares totaling $1,123,318, closely followed by RAPP with six buyers. Among notable individual transactions, institutional 10% owners accounted for the largest additions, led by Nippon Life Insurance Co’s $6,390,299 purchase in CRBG and Tether Global Investments Fund's $3,927,258 allocation to GOLD.",
-    "generatedAt": "2026-10-29T05:50:35.917Z",
+    "text": "Closed-End Funds feature heavily in the cluster data, with BPRE, NXG, and CRAFX drawing multiple buyers for a combined total exceeding $43.4 million. BORR recorded the largest single cluster total at $57,144,458 across three insiders, far outpacing every other ticker, while FUL stands out for breadth with an unusual eight separate insiders purchasing a total of $1,123,318. In notable individual purchases, a 10% owner accounted for the largest trade with $6,259,186 in CRBG, accompanied by a $1,108,000 purchase from the CEO at DINO.",
+    "generatedAt": "2026-10-30T05:51:31.983Z",
     "model": "gemini-3.6-flash"
   }
 }
