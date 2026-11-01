@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-31T02:33:48.686Z",
+  "generatedAt": "2026-11-01T02:23:04.795Z",
   "symbols": [
     {
       "symbol": "AAPL",
@@ -257,11 +257,11 @@
       "symbol": "BK",
       "name": "BNY Mellon",
       "class": "equity",
-      "close": 148.59,
-      "asOf": "2026-10-28",
+      "close": 147.11,
+      "asOf": "2026-10-30",
       "daily": {
         "trend": 1,
-        "macdHist": 1.4488365012757862,
+        "macdHist": 1.2559575360876163,
         "flippedAt": "2026-10-26"
       },
       "weekly": {
@@ -1859,11 +1859,11 @@
       "symbol": "BTC/USD",
       "name": "Bitcoin",
       "class": "crypto",
-      "close": 77368.77,
-      "asOf": "2026-10-30",
+      "close": 77582.02,
+      "asOf": "2026-10-31",
       "daily": {
         "trend": -1,
-        "macdHist": -527.984078672252,
+        "macdHist": -560.5178271085201,
         "flippedAt": "2026-10-29"
       },
       "weekly": {
@@ -1877,11 +1877,11 @@
       "symbol": "ETH/USD",
       "name": "Ethereum",
       "class": "crypto",
-      "close": 2245.54,
-      "asOf": "2026-10-30",
+      "close": 2255.66,
+      "asOf": "2026-10-31",
       "daily": {
         "trend": -1,
-        "macdHist": -12.240810274051078,
+        "macdHist": -11.858137514853723,
         "flippedAt": "2026-10-08"
       },
       "weekly": {
