@@ -1,7 +1,7 @@
 {
   "brief": {
-    "text": "Closed-End Funds feature heavily in the cluster data, with BPRE, NXG, and CRAFX each drawing three distinct buyers, while H.B. Fuller (FUL) stands out for insider breadth with eight individual buyers totaling $1.12 million. Borr Drilling (BORR) posted the largest cluster commitment by far at $57.14 million across three insiders. Rapport Therapeutics (RAPP) also highlights significant scale, gathering $22.02 million across seven insiders—a total overwhelmingly driven by a single $20.36 million purchase from director James Healy.",
-    "generatedAt": "2026-10-31T05:45:02.114Z",
+    "text": "Closed-End Funds represent a shared industry across the cluster listings, with BPRE, NXG, and CRAFX each recording purchases from three separate insiders. BORR generated the largest overall transaction total in the data at $57.1 million, whereas FUL drew the highest breadth of participant activity with eight distinct insiders buying shares. Rapport Therapeutics (RAPP) logged the second-largest cluster total at $22.0 million across seven insiders, a figure dominated by director James Healy, who individually accounted for $20.4 million of that total.",
+    "generatedAt": "2026-11-01T06:09:00.620Z",
     "model": "gemini-3.6-flash"
   }
 }
