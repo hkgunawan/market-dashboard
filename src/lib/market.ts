@@ -1,7 +1,10 @@
 // Provider facade with graceful degradation:
 //   crypto (X-USD)  -> Binance (no key)
 //   everything else -> Twelve Data when TWELVEDATA_API_KEY is set, else Yahoo
-//   Yahoo is also the fallback if Twelve Data errors (quota, unknown symbol).
+//   Yahoo is the keyless local-dev path only. It is NOT a fallback when Twelve
+//   Data errors: Yahoo blanket-429s datacenter IPs (Vercel, GitHub Actions), so
+//   in production that fallback never succeeded — it only added up to ~2s of
+//   retry backoff to every request that was already failing.
 // All results go through the TTL cache so UI polling never bursts the upstreams.
 
 import { cached } from "./cache";
@@ -36,17 +39,7 @@ export async function getQuote(symbol: string): Promise<Quote> {
         throw e;
       }
     }
-    if (hasTwelveData()) {
-      try {
-        return await getTdQuote(symbol);
-      } catch (e) {
-        try {
-          return await yahooQuote(symbol);
-        } catch {
-          throw e; // surface the Twelve Data error (e.g. rate limit), not Yahoo's 429
-        }
-      }
-    }
+    if (hasTwelveData()) return getTdQuote(symbol);
     return yahooQuote(symbol);
   });
 }
@@ -65,17 +58,7 @@ export async function getHistory(symbol: string, range: Range): Promise<Candle[]
         throw e;
       }
     }
-    if (hasTwelveData()) {
-      try {
-        return await getTdHistory(symbol, range);
-      } catch (e) {
-        try {
-          return await yahooHistory(symbol, range);
-        } catch {
-          throw e; // surface the Twelve Data error (e.g. rate limit), not Yahoo's 429
-        }
-      }
-    }
+    if (hasTwelveData()) return getTdHistory(symbol, range);
     return yahooHistory(symbol, range);
   });
 }
