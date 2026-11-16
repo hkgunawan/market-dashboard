@@ -8,6 +8,8 @@ import type { Supertrend, MacdResult } from "@/lib/indicators";
 import type { CompanyProfile } from "@/lib/finnhub";
 import QuoteCard from "@/components/quote-card";
 import SiteFooter from "@/components/site-footer";
+import TvLink from "@/components/tv-link";
+import { isValidSymbol } from "@/lib/symbols";
 
 // lightweight-charts is the heaviest dependency and only renders client-side —
 // defer it out of the initial bundle so first paint (watchlist) is fast.
@@ -57,7 +59,6 @@ export default function Dashboard() {
   const [historyError, setHistoryError] = useState<string | null>(null);
   const [newTicker, setNewTicker] = useState("");
   const [addError, setAddError] = useState<string | null>(null);
-  const [brief, setBrief] = useState<{ available: boolean; brief?: string } | null>(null);
 
   // localStorage and the URL are client-only, so hydrate after mount (SSR renders the defaults first).
   // Honors a ?symbol= deep-link, e.g. a ticker clicked on the insider-buys page.
@@ -65,11 +66,21 @@ export default function Dashboard() {
     let items: WatchItem[] = DEFAULT_WATCHLIST;
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
-      if (raw) items = JSON.parse(raw);
+      if (raw) {
+        // stored data is untrusted: an old or hand-edited value must not crash the page
+        const parsed: unknown = JSON.parse(raw);
+        if (Array.isArray(parsed)) {
+          const clean = parsed.filter(
+            (w): w is WatchItem => typeof w?.symbol === "string" && isValidSymbol(w.symbol)
+          );
+          if (clean.length) items = clean;
+        }
+      }
     } catch {
       /* keep defaults */
     }
-    const param = new URLSearchParams(window.location.search).get("symbol")?.trim().toUpperCase();
+    const rawParam = new URLSearchParams(window.location.search).get("symbol")?.trim().toUpperCase();
+    const param = rawParam && isValidSymbol(rawParam) ? rawParam : undefined;
     if (param && !items.some((w) => w.symbol === param)) items = [...items, { symbol: param }];
 
     /* eslint-disable react-hooks/set-state-in-effect */
@@ -167,19 +178,14 @@ export default function Dashboard() {
     };
   }, [selected]);
 
-  // AI brief (section only renders if the server has an API key)
-  useEffect(() => {
-    if (!symbolsKey) return;
-    fetch(`/api/brief?symbols=${encodeURIComponent(symbolsKey)}`)
-      .then((res) => res.json())
-      .then(setBrief)
-      .catch(() => setBrief(null));
-  }, [symbolsKey]);
-
   const addTicker = async () => {
     const symbol = newTicker.trim().toUpperCase();
     if (!symbol) return;
     setAddError(null);
+    if (!isValidSymbol(symbol)) {
+      setAddError("that doesn't look like a ticker — try AAPL or ETH-USD");
+      return;
+    }
     if (watchlist.some((w) => w.symbol === symbol)) {
       setAddError("already on the watchlist");
       return;
@@ -348,6 +354,7 @@ export default function Dashboard() {
         <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
           <div className="font-mono text-sm text-[#e6edf3]">
             {selectedLabel} <span className="text-[#8b949e]">({selected})</span>
+            <TvLink symbol={selected} label="TradingView ↗" className="ml-2" />
             {lastTrend != null && (
               <span className="ml-3 text-[#8b949e]">
                 Supertrend:{" "}
@@ -410,20 +417,19 @@ export default function Dashboard() {
         </div>
         {profile && <CompanySnapshot p={profile} />}
         {historyError ? (
-          <p className="py-24 text-center font-mono text-sm text-[#f85149]">{historyError}</p>
+          <div className="py-24 text-center font-mono text-sm">
+            <p className="text-[#f85149]">{historyError}</p>
+            <p className="mt-3 text-xs text-[#8b949e]">
+              free-tier data quota may be used up for the moment —{" "}
+              <TvLink symbol={selected} label={`open ${selected} on TradingView ↗`} className="!text-[#58a6ff] hover:underline" />
+            </p>
+          </div>
         ) : history ? (
           <PriceChart candles={history.candles} supertrend={history.supertrend} macd={history.macd} />
         ) : (
           <div className="h-[420px] animate-pulse rounded bg-[#161b22]" />
         )}
       </section>
-
-      {brief?.available && brief.brief && (
-        <section className="mt-6 rounded-lg border border-[#30363d] bg-[#0d1117] p-4">
-          <h2 className="mb-2 font-mono text-xs uppercase tracking-wider text-[#8b949e]">AI daily brief</h2>
-          <p className="text-sm leading-relaxed text-[#e6edf3]">{brief.brief}</p>
-        </section>
-      )}
 
       <SiteFooter>unofficial market data (Binance · Twelve Data) · for personal use · not financial advice</SiteFooter>
     </main>

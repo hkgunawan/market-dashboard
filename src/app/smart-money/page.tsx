@@ -5,6 +5,7 @@ import Link from "next/link";
 import type { FundMove, IssuerSignal, SmartMoneyReport } from "@/lib/edgar";
 import { useTableSort, SortTh } from "@/components/sortable";
 import SiteFooter from "@/components/site-footer";
+import TvLink from "@/components/tv-link";
 
 const fmtM = (n: number) =>
   Math.abs(n) >= 1_000_000_000 ? `$${(n / 1_000_000_000).toFixed(1)}B` : `$${Math.round(n / 1_000_000)}M`;
@@ -208,6 +209,7 @@ export default function SmartMoney() {
                             {s.ticker}
                           </Link>
                         )}
+                        {s.ticker && <TvLink symbol={s.ticker} className="ml-1.5" />}
                       </td>
                       <td className="py-2.5 pr-4 font-mono text-sm text-[#3fb950]">
                         {s.buyers.length}

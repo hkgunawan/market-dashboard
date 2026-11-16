@@ -5,6 +5,7 @@ import Link from "next/link";
 import type { InsiderBuy, InsiderReport } from "@/lib/openinsider";
 import { useTableSort, SortTh } from "@/components/sortable";
 import SiteFooter from "@/components/site-footer";
+import TvLink from "@/components/tv-link";
 import BriefNote from "@/components/brief-note";
 import briefFile from "@/data/brief.json";
 
@@ -119,6 +120,7 @@ function BuyTable({
                   >
                     ↗
                   </a>
+                  <TvLink symbol={r.ticker} />
                 </span>
               ) : (
                 <span className="text-[#58a6ff]">{r.ticker}</span>

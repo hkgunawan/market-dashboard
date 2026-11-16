@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import type { EarningsInfo } from "@/lib/finnhub";
 import SiteFooter from "@/components/site-footer";
+import TvLink from "@/components/tv-link";
 
 // Upcoming earnings dates for the watchlist's stocks, with each company's recent
 // beat/miss track record. Crypto and ETFs (no earnings) are omitted. Reuses the
@@ -162,6 +163,7 @@ export default function Earnings() {
                       >
                         {e.symbol}
                       </Link>
+                      <TvLink symbol={e.symbol} className="ml-1.5" />
                     </td>
                     <td className="py-2.5 pr-3 font-mono text-xs">
                       {e.nextDate ? (

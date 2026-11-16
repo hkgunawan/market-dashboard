@@ -5,6 +5,7 @@ import Link from "next/link";
 import type { Quote } from "@/lib/yahoo";
 import type { Supertrend, MacdResult } from "@/lib/indicators";
 import SiteFooter from "@/components/site-footer";
+import TvLink from "@/components/tv-link";
 
 // One-glance synthesis of everything the dashboard tracks, per watchlist ticker:
 // trend (Supertrend) + momentum (MACD) + whether insiders / famous funds are
@@ -200,6 +201,7 @@ export default function Signals() {
                     <Link href={`/?symbol=${encodeURIComponent(r.symbol)}`} className="font-mono text-sm text-[#58a6ff] hover:underline">
                       {r.symbol}
                     </Link>
+                    <TvLink symbol={r.symbol} className="ml-1.5" />
                     <div className="font-mono text-[10px] text-[#7d8590]">{r.label}</div>
                   </td>
                   <td className="py-2.5 pr-3 text-right font-mono text-xs text-[#e6edf3]">

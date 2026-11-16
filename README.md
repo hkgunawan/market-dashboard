@@ -31,17 +31,20 @@ Browser ──> /api/quotes      ┐
         ──> /api/history      ┤
         ──> /api/smart-money  ┼─> lib/market.ts   facade + TTL cache
         ──> /api/insider-buys ┤        ├─ lib/binance.ts      crypto  (X-USD → XUSDT, incl. PAXG gold)
-        ──> /api/brief        ┘        ├─ lib/twelvedata.ts   stocks / ETFs / XAU-USD (key-gated)
-                                       └─ lib/yahoo.ts        fallback
+        ──> /api/prices       ┤        ├─ lib/twelvedata.ts   stocks / ETFs / XAU-USD (key-gated)
+        ──> /api/earnings     ┘        ├─ lib/finnhub.ts      bulk prices, fundamentals, earnings (key-gated)
+                                       └─ lib/yahoo.ts        keyless local-dev fallback
+                              lib/symbols.ts      ticker validation + CDN cache headers + TradingView links
                               lib/edgar.ts        SEC EDGAR 13F-HR + OpenFIGI CUSIP→ticker (smart money)
                               lib/openinsider.ts  SEC Form 4        (insider buys)
-                              lib/indicators.ts   SMA / RSI math
+                              lib/indicators.ts   Supertrend / MACD / Heikin Ashi math
 ```
 
 Design notes:
-- **Graceful degradation** — crypto + gold work with zero keys (Binance); stocks light up when a free Twelve Data key is added; the AI brief when an Anthropic key is added.
+- **Graceful degradation** — crypto + gold work with zero keys (Binance); stocks light up when a free Twelve Data key is added.
+- **Quota-aware** — every ticker is validated at the API boundary (a comma-joined "symbol" would be billed as a batch upstream), responses carry `s-maxage` so Vercel's CDN absorbs repeat views, and every ticker links out to TradingView so reading a chart never has to cost a metered call.
 - **Resilience** — TTL cache with stale-on-error fallback, 429 backoff, and sequential fan-out to respect upstream rate limits.
-- **Indicator math server-side** — SMA/RSI computed on the server, not shipped to the client.
+- **Indicator math server-side** — Supertrend/MACD computed on the server, not shipped to the client.
 - **Tested** — the indicator math, the 13F conviction-scoring/diff, and the filing parsers are covered by unit tests (Vitest), run on every push via GitHub Actions.
 
 ## Tech stack
@@ -60,7 +63,7 @@ Works out of the box (crypto + gold via Binance; smart-money + insider data via 
 
 ```
 TWELVEDATA_API_KEY=...   # free at twelvedata.com — enables stocks, ETFs (e.g. QQQ) and spot gold XAU/USD
-ANTHROPIC_API_KEY=...    # enables the AI daily brief
+FINNHUB_API_KEY=...      # free at finnhub.io — enables bulk prices, fundamentals and earnings
 ```
 
 ## Disclaimers
