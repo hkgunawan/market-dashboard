@@ -19,6 +19,8 @@ All checks are deterministic code, not a second LLM grading the first, so a resu
 
 - **19 Nov 2026, first eval (prompt v1, 10 calls on the 19 Nov feed):** 3 calls failed on Gemini 503s or dropped connections. Of the 7 that returned, all were complete, the right length and mentioned the largest purchase, but **only 4/7 were grounded**. All three failures wrote **"$19.8 million"**, a figure in no row. It equals two rows added together (e.g. STWD $18.73M + FBRT $1.15M). The model was computing totals on its own. → **Prompt v2:** quote each figure from a single row, never add rows. The run was also cancelled by the job timeout before saving, so the eval now saves after every sample and retries a 503 once.
 
+- **19 Nov 2026, second eval (prompt v2, same feed, 10 calls):** **5/5 returned briefs were grounded**, complete, the right length, and mentioned the largest purchase. No computed totals appeared. The other 5 calls failed at the provider (Gemini 503 "high demand", then 429 quota), not on quality. **v1 → v2: grounded 4/7 → 5/5.** That's a small sample on a single day's feed, so it's encouraging, not proof. Re-run as fixtures accumulate.
+
 ## Limits (stated plainly)
 
 - The check verifies **facts**, not insight. A grounded brief can still be dull.

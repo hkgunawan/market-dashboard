@@ -121,11 +121,18 @@ const RESULT_FILE = join(
   FIXTURES, "..", "results", `${new Date().toISOString().slice(0, 16).replace(":", "")}.json`,
 );
 
-function save(scores: Score[], final = false) {
+function save(all: Score[], final = false) {
+  // Quality is scored only on calls that returned text. A 503 or 429 is the
+  // provider's outage, not the prompt's failure, so it's counted separately
+  // instead of dragging the pass rate down.
+  const scores = all.filter((s) => s.text !== "");
+  const failedCalls = all.length - scores.length;
   const n = scores.length;
   const rate = (k: keyof Score) => scores.filter((s) => s[k] === true).length;
   const passAll = scores.filter((s) => s.complete && s.length && s.grounded).length;
   const summary = {
+    calls: all.length,
+    failedCalls,
     samples: n,
     complete: rate("complete"),
     length: rate("length"),
@@ -137,11 +144,12 @@ function save(scores: Score[], final = false) {
   mkdirSync(dirname(RESULT_FILE), { recursive: true });
   writeFileSync(
     RESULT_FILE,
-    `${JSON.stringify({ ranAt: new Date().toISOString(), prompt: PROMPT_VERSION, summary, scores }, null, 2)}\n`,
+    `${JSON.stringify({ ranAt: new Date().toISOString(), prompt: PROMPT_VERSION, summary, scores: all }, null, 2)}\n`,
   );
   if (!final) return;
 
-  console.log(`\n── summary (${n} samples, prompt ${PROMPT_VERSION}) ──`);
+  console.log(`\n── summary (prompt ${PROMPT_VERSION}) ──`);
+  console.log(`calls         ${all.length}  (${failedCalls} failed at the provider, excluded below)`);
   console.log(`complete      ${summary.complete}/${n}`);
   console.log(`length        ${summary.length}/${n}`);
   console.log(`grounded      ${summary.grounded}/${n}`);
