@@ -17,6 +17,8 @@ All checks are deterministic code, not a second LLM grading the first, so a resu
 - **19 Nov 2026, first run against real data:** the model wrote `$30.66 million` for $30,666,320. It **truncated** instead of rounding. That's imprecise, not invented, so the tolerance was widened from half a unit to one unit of the last written digit. A test pins this case.
 - The same run flagged `$3.22 million`. It turned out to be real (Kamfar, $3,224,289) but had slid from row 12 to row 17 as newer filings arrived after the brief was written. That's why the daily job checks against the feed **at generation time** and saves that exact feed as a fixture, instead of re-fetching later.
 
+- **19 Nov 2026, first eval (prompt v1, 10 calls on the 19 Nov feed):** 3 calls failed on Gemini 503s or dropped connections. Of the 7 that returned, all were complete, the right length and mentioned the largest purchase, but **only 4/7 were grounded**. All three failures wrote **"$19.8 million"**, a figure in no row. It equals two rows added together (e.g. STWD $18.73M + FBRT $1.15M). The model was computing totals on its own. → **Prompt v2:** quote each figure from a single row, never add rows. The run was also cancelled by the job timeout before saving, so the eval now saves after every sample and retries a 503 once.
+
 ## Limits (stated plainly)
 
 - The check verifies **facts**, not insight. A grounded brief can still be dull.

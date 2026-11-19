@@ -132,6 +132,10 @@ describe("buildPrompt", () => {
     expect(prompt).toMatch(/no motives, forecasts/i);
   });
 
+  it("forbids computed totals — the eval caught the model adding rows (v2)", () => {
+    expect(prompt).toMatch(/never add rows together or compute totals/i);
+  });
+
   it("asks for a bare paragraph, since the page renders it as prose", () => {
     expect(prompt).toMatch(/no heading, label, or markdown/i);
   });

@@ -25,6 +25,16 @@ export interface BriefFile {
 }
 
 const MODEL = "gemini-3.6-flash";
+
+/**
+ * Bump when the prompt changes, so eval results (evals/results/*.json) can be
+ * compared before vs after.
+ *   v1 — original prompt
+ *   v2 — quote figures exactly, never add rows together (eval, 19 Nov 2026:
+ *        3 of 7 samples wrote "$19.8 million", a total of two rows the model
+ *        computed itself; LLM arithmetic isn't trustworthy on a finance page)
+ */
+export const PROMPT_VERSION = "v2";
 const ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent`;
 
 // Hard ceiling on the reply. The prompt asks for ~90 words (~130 tokens), but
@@ -76,7 +86,7 @@ Write one paragraph of 2-3 sentences (roughly 90 words) describing what stands o
 Example of the tone and shape wanted:
 "Pharmaceutical names dominate this week's cluster activity, with CYBN, RLMD and QNRX all drawing multiple independent buyers. The largest single commitment came from LILA at $47.8 million across six insiders, roughly double the next biggest. ANGX stands out for size relative to existing holdings, where three insiders grew their stake by 314%."
 
-Describe only what the rows show — no motives, forecasts, or buy/sell language. Return the paragraph alone, with no heading, label, or markdown.`;
+Describe only what the rows show — no motives, forecasts, or buy/sell language. Quote every dollar figure exactly as it appears in a single row (you may shorten it, e.g. $18.73 million); never add rows together or compute totals of your own. Return the paragraph alone, with no heading, label, or markdown.`;
 }
 
 /** Thrown when the API responds but the payload isn't usable. */

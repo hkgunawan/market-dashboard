@@ -21,7 +21,7 @@ permissions:
 jobs:
   eval:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 40 # slow reasoning model + retries; results save per sample anyway
     concurrency:
       group: write-brief # shares the push lane with brief.yml so they never race
       cancel-in-progress: false
@@ -39,6 +39,7 @@ jobs:
         run: npm run eval -- --calls "${{ inputs.calls }}"
 
       - name: Commit results
+        if: always() # keep partial results from a timed-out or failed run
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"

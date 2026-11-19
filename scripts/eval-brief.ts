@@ -11,8 +11,8 @@
 // Results print as a table and are saved to evals/results/<date>.json so a
 // prompt change can be compared before vs after with real numbers.
 import { mkdirSync, writeFileSync } from "node:fs";
-import { join } from "node:path";
-import { writeBrief, looksComplete, shownRows } from "../src/lib/brief";
+import { dirname, join } from "node:path";
+import { writeBrief, looksComplete, shownRows, PROMPT_VERSION } from "../src/lib/brief";
 import { checkBrief, parseValue } from "../src/lib/brief-check";
 import type { InsiderBuy } from "../src/lib/openinsider";
 import { FIXTURES, loadSnapshots } from "./lib/snapshot";
@@ -48,6 +48,21 @@ function topTicker(rows: InsiderBuy[]): string | null {
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
+// The free tier returns 503 "overloaded" and drops connections at busy times
+// (3 of 10 calls on the first run). One retry after a pause separates a
+// transient outage from a real failure without burning the quota.
+async function generate(report: { clusterBuys: InsiderBuy[]; bigBuys: InsiderBuy[] }) {
+  try {
+    return await writeBrief(report.clusterBuys, report.bigBuys, KEY!);
+  } catch (err) {
+    const msg = (err as Error).message;
+    if (!/503|fetch failed|ECONNRESET|timeout/i.test(msg)) throw err;
+    console.log(`    transient (${msg.slice(0, 40)}), retrying once in 15s`);
+    await sleep(15_000);
+    return writeBrief(report.clusterBuys, report.bigBuys, KEY!);
+  }
+}
+
 async function main() {
   // Most recent feeds first: they reflect the current data shape.
   const fixtures = loadSnapshots().reverse();
@@ -67,7 +82,7 @@ async function main() {
     for (let i = 0; i < perFixture; i++) {
       if (scores.length > 0) await sleep(GAP_MS);
       try {
-        const { text } = await writeBrief(report.clusterBuys, report.bigBuys, KEY!);
+        const { text } = await generate(report);
         const check = checkBrief(text, rows);
         scores.push({
           fixture: name,
@@ -90,11 +105,23 @@ async function main() {
       console.log(
         `${name} #${i + 1}  complete ${mark(s.complete)}  length ${mark(s.length)}  ` +
           `grounded ${mark(s.grounded)}  top ${mark(s.mentionsTop)}` +
-          (s.problems.length ? `\n    ${s.problems.join("\n    ")}` : ""),
+          (s.problems.length ? `\n    ${s.problems.join("\n    ")}` : "") +
+          // Print the text of a grounding failure: the problem list says
+          // *what* was wrong, the sentence shows *why* the model did it.
+          (!s.grounded && s.text ? `\n    text: ${s.text}` : ""),
       );
+      // Save after every sample, so a timeout or cancel keeps what was learned.
+      save(scores);
     }
   }
+  save(scores, true);
+}
 
+const RESULT_FILE = join(
+  FIXTURES, "..", "results", `${new Date().toISOString().slice(0, 16).replace(":", "")}.json`,
+);
+
+function save(scores: Score[], final = false) {
   const n = scores.length;
   const rate = (k: keyof Score) => scores.filter((s) => s[k] === true).length;
   const passAll = scores.filter((s) => s.complete && s.length && s.grounded).length;
@@ -107,18 +134,20 @@ async function main() {
     passedAllGates: passAll,
   };
 
-  console.log(`\n── summary (${n} samples) ──`);
+  mkdirSync(dirname(RESULT_FILE), { recursive: true });
+  writeFileSync(
+    RESULT_FILE,
+    `${JSON.stringify({ ranAt: new Date().toISOString(), prompt: PROMPT_VERSION, summary, scores }, null, 2)}\n`,
+  );
+  if (!final) return;
+
+  console.log(`\n── summary (${n} samples, prompt ${PROMPT_VERSION}) ──`);
   console.log(`complete      ${summary.complete}/${n}`);
   console.log(`length        ${summary.length}/${n}`);
   console.log(`grounded      ${summary.grounded}/${n}`);
   console.log(`mentions top  ${summary.mentionsTop}/${n}`);
   console.log(`would publish ${passAll}/${n}  (complete + length + grounded)`);
-
-  const dir = join(FIXTURES, "..", "results");
-  mkdirSync(dir, { recursive: true });
-  const out = join(dir, `${new Date().toISOString().slice(0, 16).replace(":", "")}.json`);
-  writeFileSync(out, `${JSON.stringify({ ranAt: new Date().toISOString(), summary, scores }, null, 2)}\n`);
-  console.log(`\nsaved ${out}`);
+  console.log(`\nsaved ${RESULT_FILE}`);
 }
 
 main();
