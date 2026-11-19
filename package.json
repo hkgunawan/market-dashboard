@@ -10,7 +10,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "scan": "tsx scripts/scan-signals.ts",
-    "brief": "tsx scripts/write-brief.ts"
+    "brief": "tsx scripts/write-brief.ts",
+    "eval": "tsx scripts/eval-brief.ts"
   },
   "dependencies": {
     "lightweight-charts": "^5.2.0",

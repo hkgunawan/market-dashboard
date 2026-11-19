@@ -45,10 +45,11 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          if git diff --quiet -- src/data/brief.json; then
+          git add -N evals/fixtures 2>/dev/null || true
+          if git diff --quiet -- src/data/brief.json evals/fixtures; then
             echo "No change — nothing to deploy."
           else
-            git add src/data/brief.json
+            git add src/data/brief.json evals/fixtures
             git commit -m "chore: daily insider brief"
             git pull --rebase --autostash origin "${{ github.ref_name }}"
             git push

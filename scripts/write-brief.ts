@@ -9,7 +9,9 @@ import { writeFileSync, existsSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import { getInsiderReport } from "../src/lib/openinsider";
-import { writeBrief, looksComplete, type BriefFile } from "../src/lib/brief";
+import { writeBrief, looksComplete, shownRows, type BriefFile } from "../src/lib/brief";
+import { checkBrief } from "../src/lib/brief-check";
+import { saveSnapshot } from "./lib/snapshot";
 
 const KEY = process.env.GEMINI_API_KEY;
 if (!KEY) {
@@ -40,6 +42,11 @@ async function main() {
   const rows = report.clusterBuys.length + report.bigBuys.length;
   console.log(`feed: ${report.clusterBuys.length} cluster, ${report.bigBuys.length} notable`);
 
+  // Keep a copy of every real feed the brief is written from. These become the
+  // eval set (npm run eval), so the checks are measured on real days, not
+  // hand-made examples, and the set grows by one day at a time.
+  saveSnapshot(report);
+
   if (rows < MIN_ROWS) keepExisting(`Only ${rows} rows — too thin to summarise.`);
 
   const brief = await writeBrief(report.clusterBuys, report.bigBuys, KEY!);
@@ -48,6 +55,11 @@ async function main() {
   // A truncated or degenerate generation must never replace a good brief.
   if (brief.text.length < 80) keepExisting(`Generated text is only ${brief.text.length} chars.`);
   if (!looksComplete(brief.text)) keepExisting("Generated text ends mid-sentence (truncated).");
+
+  // A brief that names a ticker or figure not in the data is worse than a
+  // stale one: it's wrong in a way readers can't see.
+  const check = checkBrief(brief.text, shownRows(report.clusterBuys, report.bigBuys));
+  if (!check.ok) keepExisting(`Grounding check failed:\n  - ${check.problems.join("\n  - ")}`);
 
   const file: BriefFile = { brief };
   writeFileSync(OUT, `${JSON.stringify(file, null, 2)}\n`);

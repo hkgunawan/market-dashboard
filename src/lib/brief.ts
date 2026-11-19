@@ -40,6 +40,14 @@ const CLUSTER_ROWS = 12;
 const BIG_ROWS = 12;
 
 /**
+ * The exact rows the model is shown. The grounding check validates against
+ * these, not the whole feed: anything outside them can only be invented.
+ */
+export function shownRows(clusterBuys: InsiderBuy[], bigBuys: InsiderBuy[]): InsiderBuy[] {
+  return [...clusterBuys.slice(0, CLUSTER_ROWS), ...bigBuys.slice(0, BIG_ROWS)];
+}
+
+/**
  * Compact the feed into the few fields the model needs.
  * Sending whole objects wastes tokens on keys the brief will never mention.
  */

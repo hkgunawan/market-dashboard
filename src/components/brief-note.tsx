@@ -29,6 +29,11 @@ export default function BriefNote({ brief }: { brief: Brief | null }) {
         )}
       </div>
       <p className="font-mono text-xs leading-relaxed text-[#8b949e]">{brief.text}</p>
+      {/* Says what the automated check guarantees, and no more: it verifies
+          facts against the rows, not whether the observation is insightful. */}
+      <p className="mt-2 font-mono text-[11px] text-[#7d8590]">
+        checked before publishing: every ticker and dollar figure must match the filings below, and no buy/sell language
+      </p>
     </aside>
   );
 }

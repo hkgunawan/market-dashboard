@@ -1,0 +1,52 @@
+name: Evaluate insider brief
+
+# Manual run: generates the brief several times over the saved real feeds in
+# evals/fixtures/ and scores each output (complete, length, grounded, mentions
+# the largest purchase). Results are committed to evals/results/ so prompt
+# changes can be compared before vs after.
+#
+# Runs here rather than locally because GEMINI_API_KEY lives in repo secrets.
+# ~15 calls per run, inside the free tier.
+
+on:
+  workflow_dispatch:
+    inputs:
+      calls:
+        description: "Number of LLM calls (free tier: keep it small)"
+        default: "15"
+
+permissions:
+  contents: write
+
+jobs:
+  eval:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    concurrency:
+      group: write-brief # shares the push lane with brief.yml so they never race
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+
+      - name: Run eval
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: npm run eval -- --calls "${{ inputs.calls }}"
+
+      - name: Commit results
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add evals/results
+          if git diff --cached --quiet; then
+            echo "No results to commit."
+          else
+            git commit -m "chore: brief eval results [skip ci]"
+            git pull --rebase --autostash origin "${{ github.ref_name }}"
+            git push
+          fi
