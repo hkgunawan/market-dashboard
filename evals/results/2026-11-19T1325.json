@@ -1,0 +1,114 @@
+{
+  "ranAt": "2026-11-19T13:44:22.311Z",
+  "prompt": "v2",
+  "summary": {
+    "samples": 10,
+    "complete": 5,
+    "length": 5,
+    "grounded": 5,
+    "mentionsTop": 5,
+    "passedAllGates": 5
+  },
+  "scores": [
+    {
+      "fixture": "2026-11-19.json",
+      "complete": true,
+      "length": true,
+      "grounded": true,
+      "mentionsTop": true,
+      "problems": [],
+      "text": "Electric utility PAM recorded the day's largest cluster activity at $60.89 million across three insiders, outpacing BPRE at $40.39 million and amusement operator FUN at $30.67 million. RMIX drew the broadest insider participation with four buyers totaling $1.07 million, heavily supported by a single director transaction of $731,173. Real Estate Investment Trusts saw multiple cluster filings from FBRT and STWD at $18.73 million, while USAR registered the largest individual board transaction at $2.99 million."
+    },
+    {
+      "fixture": "2026-11-19.json",
+      "complete": true,
+      "length": true,
+      "grounded": true,
+      "mentionsTop": true,
+      "problems": [],
+      "text": "Electric services provider PAM recorded the largest overall cluster total at $60,892,779 across three insiders, significantly outpacing BPRE's $40,392,939 group purchase. Real Estate Investment Trusts emerged as a recurring industry theme among cluster activity, with FBRT bringing in $1,146,000 from two insiders and STWD drawing $18,734,234 across three. RMIX stood out for having the highest concentration of buyers at four insiders totaling $1,074,337, while USAR director Michael Blitzer recorded the largest standalone transaction in the individual table at $2,996,645."
+    },
+    {
+      "fixture": "2026-11-19.json",
+      "complete": true,
+      "length": true,
+      "grounded": true,
+      "mentionsTop": true,
+      "problems": [],
+      "text": "PAM led all cluster transactions with $60,892,779 across three insiders, followed by BPRE at $40,392,939 and FUN at $30,666,320. Real Estate Investment Trusts formed a noticeable industry grouping through cluster activity in both FBRT at $1,146,000 and STWD at $18,734,234, while RMIX drew the highest buyer breadth with four separate insiders purchasing $1,074,337. Among individual transactions, USAR far outpaced the rest as director Michael Blitzer disclosed a $2,996,645 purchase, whereas RMIX director David Rees-Jones accounted for $731,173 of his company's cluster total."
+    },
+    {
+      "fixture": "2026-11-19.json",
+      "complete": true,
+      "length": true,
+      "grounded": true,
+      "mentionsTop": true,
+      "problems": [],
+      "text": "PAM registered the largest cluster commitment by a wide margin at $60.89 million across three insiders, comfortably surpassing sizeable filings from BPRE at $40.39 million and FUN at $30.66 million. RMIX saw the broadest participation among cluster buys, with four separate insiders acquiring $1,074,337, while REITs emerged as a recurring theme through FBRT and STWD. Individual filings were led by USAR, where Director Michael Blitzer disclosed a $2.99 million purchase that far exceeded every other solo transaction on the list."
+    },
+    {
+      "fixture": "2026-11-19.json",
+      "complete": false,
+      "length": false,
+      "grounded": false,
+      "mentionsTop": false,
+      "problems": [
+        "call failed: gemini 503: {\n  \"error\": {\n    \"code\": 503,\n    \"message\": \"This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.\",\n    \"status\": \"UNAVAILABLE\"\n  }\n}\n"
+      ],
+      "text": ""
+    },
+    {
+      "fixture": "2026-11-19.json",
+      "complete": false,
+      "length": false,
+      "grounded": false,
+      "mentionsTop": false,
+      "problems": [
+        "call failed: gemini 503: {\n  \"error\": {\n    \"code\": 503,\n    \"message\": \"This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.\",\n    \"status\": \"UNAVAILABLE\"\n  }\n}\n"
+      ],
+      "text": ""
+    },
+    {
+      "fixture": "2026-11-19.json",
+      "complete": true,
+      "length": true,
+      "grounded": true,
+      "mentionsTop": true,
+      "problems": [],
+      "text": "PAM recorded the largest cluster total of the day at $60.89 million across three insiders, leading significant multi-buyer filings in BPRE ($40.39 million) and FUN ($30.67 million). RMIX drew the highest insider count with four individuals filing transactions worth $1,074,337, while Real Estate Investment Trusts emerged as a shared industry with cluster activity at both FBRT ($1,146,000) and STWD ($18.73 million). In the individual table, USAR director Michael Blitzer submitted a $2,996,645 row that far exceeded every other single-insider filing."
+    },
+    {
+      "fixture": "2026-11-19.json",
+      "complete": false,
+      "length": false,
+      "grounded": false,
+      "mentionsTop": false,
+      "problems": [
+        "call failed: gemini 429: rate limited / quota exhausted"
+      ],
+      "text": ""
+    },
+    {
+      "fixture": "2026-11-19.json",
+      "complete": false,
+      "length": false,
+      "grounded": false,
+      "mentionsTop": false,
+      "problems": [
+        "call failed: gemini 429: rate limited / quota exhausted"
+      ],
+      "text": ""
+    },
+    {
+      "fixture": "2026-11-19.json",
+      "complete": false,
+      "length": false,
+      "grounded": false,
+      "mentionsTop": false,
+      "problems": [
+        "call failed: gemini 429: rate limited / quota exhausted"
+      ],
+      "text": ""
+    }
+  ]
+}
