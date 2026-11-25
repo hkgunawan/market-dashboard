@@ -1,7 +1,7 @@
 {
   "brief": {
-    "text": "Closed-End Funds feature prominently across both tables, led by BPRE with the day's largest cluster total at $41.6 million, alongside activity in CCAP and three individual filings by Saba Capital Management in ECF ($542,390), DSM ($161,554), and MXF ($970,639). Six Flags Entertainment (FUN) accounts for the next largest cluster total at $34.9 million across three insiders, which includes a single $4.28 million entry from Director Rehan Jaffer. Meanwhile, breadth of activity peaks at Enovis Corp (ENOV) and Suncrete, Inc. (RMIX), where an unusual group of five separate insiders recorded filings at each company.",
-    "generatedAt": "2026-11-24T09:56:29.117Z",
+    "text": "Medical and surgical equipment providers feature prominently across today's cluster filings, with CTSO, NPCE, and ENOV all drawing purchases from multiple buyers. Director Peter Thiel’s $122.25 million purchase in PLTR represents by far the largest single transaction in the dataset, vastly exceeding the highest cluster total of $34.95 million registered by three insiders at FUN. Finally, RMIX joins ENOV in showing the broadest insider participation on the board, with an unusual cluster of five distinct insiders making purchases at each firm.",
+    "generatedAt": "2026-11-25T08:37:51.730Z",
     "model": "gemini-3.6-flash"
   }
 }
